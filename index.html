@@ -3,14 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="A focused JEE Main and Advanced preparation dashboard for tracking chapters, study sessions, mock tests, mistakes, and revision notes.">
+<meta name="description" content="A complete JEE Main and Advanced study companion for planning, focused study, spaced revision, syllabus tracking, mock tests, and performance analysis.">
 <meta name="theme-color" content="#070a11">
 <meta name="color-scheme" content="dark">
+<meta name="application-name" content="StudyMeter">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="manifest.webmanifest">
 <meta property="og:title" content="StudyMeter">
-<meta property="og:description" content="Track your complete JEE Main and Advanced preparation in one focused dashboard.">
+<meta property="og:description" content="Plan, focus, revise, and track your complete JEE Main and Advanced preparation.">
 <meta property="og:type" content="website">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x2='1' y2='1'%3E%3Cstop stop-color='%235b9ef9'/%3E%3Cstop offset='1' stop-color='%23a78bfa'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='16' fill='%230f1420'/%3E%3Cpath d='M13 20c0-6 5-10 13-10 5 0 9 1 12 4l-5 7c-2-2-5-3-8-3-2 0-4 1-4 3 0 5 18 2 18 15 0 7-6 11-15 11-6 0-12-2-15-6l6-7c3 3 6 5 10 5 3 0 5-1 5-3 0-5-17-2-17-16Zm30-9h10l5 13 5-13h10v36h-9V27l-6 15-6-15v20h-9V11Z' transform='scale(.78)' fill='url(%23g)'/%3E%3C/svg%3E">
-<title>StudyMeter | Main & Advanced Tracker</title>
+<title>StudyMeter | JEE Study Companion</title>
 <style>
   :root {
     --bg: #080b12;
@@ -1377,6 +1381,125 @@
     .toast { min-width: 0; max-width: none; }
   }
 
+  /* Planner, focus and revision */
+  .nav-badge {
+    margin-left: auto; min-width: 21px; height: 21px; padding: 0 6px;
+    border-radius: 999px; display: inline-flex; align-items: center; justify-content: center;
+    background: rgba(167,139,250,.14); color: var(--accent); font-size: 10px; font-weight: 700;
+  }
+  .dashboard-intelligence {
+    display: grid; grid-template-columns: 1.25fr .75fr; gap: 16px; margin: 22px 0 24px;
+  }
+  .focus-now-card {
+    position: relative; overflow: hidden; min-height: 180px; padding: 24px;
+    border: 1px solid rgba(91,158,249,.18); border-radius: var(--radius-lg);
+    background: radial-gradient(circle at 90% 20%, rgba(91,158,249,.16), transparent 35%),
+      linear-gradient(135deg, rgba(17,28,48,.94), rgba(15,18,25,.94));
+  }
+  .focus-now-card::after {
+    content: ''; position: absolute; width: 180px; height: 180px; right: -70px; bottom: -100px;
+    border: 24px solid rgba(167,139,250,.07); border-radius: 50%;
+  }
+  .focus-now-title { font-size: 19px; font-weight: 700; letter-spacing: -.35px; margin-bottom: 5px; }
+  .focus-now-copy { color: var(--text2); font-size: 13px; max-width: 560px; }
+  .focus-now-actions { display: flex; gap: 9px; flex-wrap: wrap; margin-top: 20px; position: relative; z-index: 1; }
+  .insight-list { display: grid; gap: 10px; }
+  .insight-item {
+    display: grid; grid-template-columns: 34px 1fr; gap: 11px; align-items: start; padding: 11px;
+    border-radius: 11px; background: rgba(255,255,255,.025); border: 1px solid var(--border);
+  }
+  .insight-icon {
+    width: 34px; height: 34px; display: grid; place-items: center; border-radius: 10px;
+    background: rgba(167,139,250,.12); color: var(--accent); font-weight: 800;
+  }
+  .insight-title { font-size: 12px; font-weight: 650; }
+  .insight-copy { color: var(--text3); font-size: 11px; line-height: 1.45; margin-top: 2px; }
+  .planner-layout { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 20px; align-items: start; }
+  .planner-filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+  .filter-pill {
+    border: 1px solid var(--border); background: var(--bg3); color: var(--text2); border-radius: 999px;
+    padding: 7px 12px; font: inherit; font-size: 12px; cursor: pointer;
+  }
+  .filter-pill.active { color: #fff; border-color: rgba(167,139,250,.4); background: rgba(124,58,237,.25); }
+  .task-list { display: grid; gap: 9px; }
+  .task-card {
+    display: grid; grid-template-columns: auto minmax(0,1fr) auto; gap: 12px; align-items: center;
+    padding: 15px 16px; border-radius: 13px; background: var(--bg2); border: 1px solid var(--border);
+    transition: .18s ease;
+  }
+  .task-card:hover { border-color: var(--border2); transform: translateY(-1px); }
+  .task-card.done { opacity: .62; }
+  .task-card.done .task-title { text-decoration: line-through; }
+  .task-check {
+    width: 23px; height: 23px; border-radius: 7px; border: 1px solid var(--border2);
+    background: var(--bg3); color: #fff; cursor: pointer;
+  }
+  .task-check.checked { border-color: var(--success); background: var(--success); }
+  .task-title { font-weight: 600; font-size: 13px; }
+  .task-meta { display: flex; gap: 7px; flex-wrap: wrap; margin-top: 5px; color: var(--text3); font-size: 10px; }
+  .task-tag { padding: 2px 7px; border-radius: 999px; background: var(--bg4); }
+  .task-overdue, .priority-high { color: var(--danger); }
+  .priority-medium { color: var(--warn); }
+  .priority-low { color: var(--success); }
+  .goal-card { padding: 18px; border-radius: var(--radius-lg); border: 1px solid var(--border); background: var(--bg2); }
+  .goal-row { margin-bottom: 18px; }
+  .goal-row:last-child { margin-bottom: 0; }
+  .goal-head { display: flex; justify-content: space-between; gap: 10px; font-size: 12px; margin-bottom: 7px; }
+  .goal-value { color: var(--text2); }
+  .goal-input {
+    width: 76px; background: var(--bg4); border: 1px solid var(--border); border-radius: 8px;
+    color: var(--text); padding: 6px 8px; font: inherit; text-align: right;
+  }
+  .revision-list { display: grid; gap: 9px; }
+  .revision-item {
+    display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 13px;
+    border-radius: 11px; border: 1px solid var(--border); background: rgba(255,255,255,.02);
+  }
+  .revision-name { font-size: 12px; font-weight: 600; }
+  .revision-reason { color: var(--text3); font-size: 10px; margin-top: 2px; }
+  .timer-shell { max-width: 760px; margin: 0 auto; text-align: center; }
+  .timer-card {
+    padding: clamp(24px, 5vw, 48px); border-radius: 28px; border: 1px solid rgba(167,139,250,.2);
+    background: radial-gradient(circle at 50% 25%, rgba(167,139,250,.16), transparent 38%), var(--bg2);
+    box-shadow: 0 30px 80px rgba(0,0,0,.28);
+  }
+  .timer-mode { color: var(--accent); text-transform: uppercase; letter-spacing: 1.5px; font-size: 11px; font-weight: 700; }
+  .timer-display {
+    font-size: clamp(68px, 14vw, 118px); line-height: 1; letter-spacing: -6px; font-weight: 760;
+    margin: 22px 0 26px; font-variant-numeric: tabular-nums;
+  }
+  .timer-controls, .timer-presets { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+  .timer-presets { margin: 18px 0 24px; }
+  .timer-task { max-width: 420px; margin: 0 auto 20px; }
+  .timer-task select {
+    width: 100%; background: var(--bg3); color: var(--text); border: 1px solid var(--border);
+    border-radius: 10px; padding: 10px; font: inherit;
+  }
+  .session-history { margin-top: 20px; text-align: left; }
+  .empty-state {
+    color: var(--text3); font-size: 13px; text-align: center; padding: 34px 18px;
+    border: 1px dashed var(--border2); border-radius: 14px;
+  }
+  .empty-icon { font-size: 24px; margin-bottom: 7px; }
+  .quick-capture { display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 8px; margin-bottom: 14px; }
+  .quick-capture input {
+    width: 100%; background: var(--bg3); border: 1px solid var(--border); border-radius: 10px;
+    color: var(--text); padding: 10px 12px; font: inherit; outline: none;
+  }
+  .quick-capture input:focus { border-color: var(--accent); }
+  @media (max-width: 980px) {
+    .dashboard-intelligence, .planner-layout { grid-template-columns: 1fr; }
+    .planner-layout > aside { order: -1; }
+  }
+  @media (max-width: 620px) {
+    .dashboard-intelligence { gap: 10px; margin-top: 14px; }
+    .focus-now-card { padding: 19px; min-height: 0; }
+    .task-card { grid-template-columns: auto minmax(0,1fr); }
+    .task-card > .btn-sm { grid-column: 2; justify-self: start; }
+    .timer-display { letter-spacing: -3px; }
+    .quick-capture { grid-template-columns: 1fr; }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
   }
@@ -1445,6 +1568,13 @@
   </a>
   <a class="nav-item" onclick="showPage('study-log')">
     <span class="nav-dot" style="background:var(--accent)"></span> Study Log
+  </a>
+  <a class="nav-item" onclick="showPage('planner')">
+    <span class="nav-dot" style="background:var(--success)"></span> Planner
+    <span class="nav-badge" id="planner-nav-count">0</span>
+  </a>
+  <a class="nav-item" onclick="showPage('focus')">
+    <span class="nav-dot" style="background:var(--phy)"></span> Focus Timer
   </a>
   <a class="nav-item" onclick="showPage('formula-bank')">
     <span class="nav-dot" style="background:var(--text3)"></span> Formula Bank
@@ -1518,6 +1648,23 @@
             <div class="progress-ring-label">Syllabus complete</div>
           </div>
         </div>
+      </div>
+    </section>
+
+    <section class="dashboard-intelligence">
+      <div class="focus-now-card">
+        <div class="hero-eyebrow">Next best action</div>
+        <div class="focus-now-title" id="next-action-title">Plan one meaningful study block</div>
+        <div class="focus-now-copy" id="next-action-copy">Choose a priority task, start a focus session, and make the next hour count.</div>
+        <div class="focus-now-actions">
+          <button class="btn-primary" onclick="startSuggestedFocus()">Start focus</button>
+          <button class="btn-sm" onclick="showPage('planner')">Open planner</button>
+          <button class="btn-sm" onclick="openTaskModal()">+ Add task</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="section-title" style="margin-top:0">Smart Insights <span class="section-line"></span></div>
+        <div class="insight-list" id="dashboard-insights"></div>
       </div>
     </section>
 
@@ -1823,6 +1970,88 @@
     <div id="test-log-list" class="chapter-list"></div>
   </div>
 
+  <!-- Planner -->
+  <div class="page" id="page-planner">
+    <div class="page-header">
+      <div>
+        <div class="page-title">Study Planner</div>
+        <div class="page-subtitle">Turn goals into a realistic daily plan and never lose track of revision.</div>
+      </div>
+      <button class="btn-primary" onclick="openTaskModal()">+ Add Task</button>
+    </div>
+    <div class="planner-layout">
+      <section>
+        <div class="quick-capture">
+          <input id="quick-task-input" type="text" maxlength="120" placeholder="Quick add: what needs to get done?" onkeydown="if(event.key==='Enter') quickAddTask()">
+          <button class="btn-primary" onclick="quickAddTask()">Add to today</button>
+        </div>
+        <div class="planner-filters" id="planner-filters">
+          <button class="filter-pill active" data-filter="open" onclick="setTaskFilter('open',this)">Open</button>
+          <button class="filter-pill" data-filter="today" onclick="setTaskFilter('today',this)">Today</button>
+          <button class="filter-pill" data-filter="overdue" onclick="setTaskFilter('overdue',this)">Overdue</button>
+          <button class="filter-pill" data-filter="done" onclick="setTaskFilter('done',this)">Completed</button>
+          <button class="filter-pill" data-filter="all" onclick="setTaskFilter('all',this)">All</button>
+        </div>
+        <div class="task-list" id="task-list"></div>
+      </section>
+      <aside>
+        <div class="goal-card">
+          <div class="section-title" style="margin-top:0">Daily Targets <span class="section-line"></span></div>
+          <div class="goal-row">
+            <div class="goal-head"><span>Study hours</span><span class="goal-value" id="hours-goal-label">0 / 6h</span></div>
+            <div class="prog-bar"><div class="prog-fill fill-phy" id="hours-goal-bar" style="width:0%"></div></div>
+          </div>
+          <div class="goal-row">
+            <div class="goal-head"><span>Questions</span><span class="goal-value" id="questions-goal-label">0 / 60</span></div>
+            <div class="prog-bar"><div class="prog-fill fill-chem" id="questions-goal-bar" style="width:0%"></div></div>
+          </div>
+          <div class="goal-row">
+            <div class="goal-head"><label for="daily-hours-goal">Hours goal</label><input class="goal-input" id="daily-hours-goal" type="number" min="0.5" max="16" step="0.5" onchange="saveGoals()"></div>
+            <div class="goal-head"><label for="daily-questions-goal">Questions goal</label><input class="goal-input" id="daily-questions-goal" type="number" min="1" max="500" step="5" onchange="saveGoals()"></div>
+          </div>
+        </div>
+        <div class="goal-card" style="margin-top:14px">
+          <div class="section-title" style="margin-top:0">Revision Queue <span class="section-line"></span></div>
+          <div class="revision-list" id="revision-list"></div>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <!-- Focus Timer -->
+  <div class="page" id="page-focus">
+    <div class="page-header">
+      <div>
+        <div class="page-title">Focus Timer</div>
+        <div class="page-subtitle">A distraction-light timer for deep study blocks and intentional breaks.</div>
+      </div>
+    </div>
+    <div class="timer-shell">
+      <div class="timer-card">
+        <div class="timer-mode" id="timer-mode-label">Focus session</div>
+        <div class="timer-presets">
+          <button class="filter-pill active" onclick="setTimerPreset(25,'Focus session',this)">25 min</button>
+          <button class="filter-pill" onclick="setTimerPreset(50,'Deep work',this)">50 min</button>
+          <button class="filter-pill" onclick="setTimerPreset(5,'Short break',this)">5 min break</button>
+          <button class="filter-pill" onclick="setTimerPreset(15,'Long break',this)">15 min break</button>
+        </div>
+        <div class="timer-task">
+          <select id="focus-task-select" aria-label="Task for this focus session"><option value="">General focused study</option></select>
+        </div>
+        <div class="timer-display" id="timer-display">25:00</div>
+        <div class="timer-controls">
+          <button class="btn-primary" id="timer-start-btn" onclick="toggleTimer()">Start</button>
+          <button class="btn-sm" onclick="resetTimer()">Reset</button>
+          <button class="btn-sm" onclick="completeFocusEarly()">Finish now</button>
+        </div>
+      </div>
+      <div class="session-history">
+        <div class="section-title">Recent Focus Sessions <span class="section-line"></span></div>
+        <div class="task-list" id="focus-history"></div>
+      </div>
+    </div>
+  </div>
+
   <!-- ═══════════════ FORMULA BANK ═══════════════ -->
   <div class="page" id="page-formula-bank">
     <div class="page-header">
@@ -1866,6 +2095,22 @@
   </div>
 
 </main>
+</div>
+
+<!-- Add planner task -->
+<div class="modal-overlay" id="task-modal">
+  <div class="modal">
+    <div class="modal-title">Add Study Task</div>
+    <div class="detail-field"><label>Task</label><input type="text" id="task-title" maxlength="120" placeholder="e.g. Revise Electrostatics and solve 30 PYQs"></div>
+    <div class="detail-grid" style="margin-top:10px">
+      <div class="detail-field"><label>Subject</label><select id="task-subject"><option value="Physics">Physics</option><option value="Chemistry">Chemistry</option><option value="Mathematics">Mathematics</option><option value="Mixed">Mixed / General</option></select></div>
+      <div class="detail-field"><label>Due date</label><input type="date" id="task-due"></div>
+      <div class="detail-field"><label>Priority</label><select id="task-priority"><option value="high">High</option><option value="medium" selected>Medium</option><option value="low">Low</option></select></div>
+      <div class="detail-field"><label>Estimated minutes</label><input type="number" id="task-minutes" min="5" max="600" step="5" value="45"></div>
+    </div>
+    <div class="detail-field" style="margin-top:10px"><label>Notes</label><textarea id="task-notes" placeholder="Resources, chapter, or a clear definition of done..."></textarea></div>
+    <div class="modal-footer"><button class="btn-sm" onclick="closeTaskModal()">Cancel</button><button class="btn-primary" onclick="saveTask()">Add Task</button></div>
+  </div>
 </div>
 
 <!-- ── TEST LOG MODAL ── -->
@@ -2201,6 +2446,12 @@ const LAST_USER_KEY = 'studymeter_last_user';
 const USER_COLORS = ['#5b9ef9','#34d399','#fb923c','#a78bfa','#fb7185','#fbbf24','#e879f9','#22d3ee'];
 const subjectSearch = { physics: '', chemistry: '', mathematics: '' };
 let notesSaveTimer = null;
+let taskFilter = 'open';
+let timerDuration = 25 * 60;
+let timerRemaining = timerDuration;
+let timerInterval = null;
+let timerRunning = false;
+let timerMode = 'Focus session';
 
 function escapeHtml(value) {
   return String(value ?? '').replace(/[&<>"']/g, char => ({
@@ -2381,7 +2632,7 @@ function exportUserData() {
   if (!currentUser) return;
   const payload = {
     app: 'StudyMeter',
-    version: 2,
+    version: 3,
     exportedAt: new Date().toISOString(),
     username: currentUser,
     data: store
@@ -2416,6 +2667,8 @@ function importUserData(event) {
       if (!store.testLogs) store.testLogs = [];
       if (!store.notes) store.notes = { phy:'', chem:'', math:'', gen:'' };
       if (!store.settings) store.settings = {};
+      if (!store.tasks) store.tasks = [];
+      if (!store.focusSessions) store.focusSessions = [];
       saveAll();
       renderDashboard();
       showToast('Backup restored');
@@ -2439,6 +2692,9 @@ function loadAll() {
   if (!store.testLogs)  store.testLogs  = [];
   if (!store.notes)     store.notes     = { phy:'', chem:'', math:'', gen:'' };
   if (!store.settings)  store.settings  = {};
+  if (!store.tasks)     store.tasks     = [];
+  if (!store.focusSessions) store.focusSessions = [];
+  if (!store.settings.goals) store.settings.goals = { hours: 6, questions: 60 };
 }
 
 function getChapter(id) {
@@ -2542,6 +2798,8 @@ function showPage(name) {
   if (name === 'mock-tests') renderMocks();
   if (name === 'study-log') renderStudyLog();
   if (name === 'test-log') renderTestLog();
+  if (name === 'planner') renderPlanner();
+  if (name === 'focus') renderFocusPage();
   if (name === 'formula-bank') loadNotes();
   closeSidebar();
   window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -2600,6 +2858,8 @@ function renderDashboard() {
 
   renderWeekChart();
   renderRecentLog();
+  renderDashboardIntelligence();
+  updatePlannerBadge();
 }
 
 function renderWeekChart() {
@@ -2759,7 +3019,11 @@ function renderSubject(subj, filter) {
           </div>
           <div class="detail-field"><label id="conf-label-${chapter.id}">Confidence (1–5): ${data.confidence || 3}/5</label><input type="range" min="1" max="5" step="1" value="${data.confidence || 3}" oninput="updateChapterConf('${chapter.id}',+this.value,document.getElementById('conf-label-${chapter.id}'))"></div>
           <div class="detail-field"><label>Notes / Weak Points</label><textarea oninput="updateChapter('${chapter.id}','notes',this.value)">${escapeHtml(data.notes || '')}</textarea></div>
-          <div><div style="font-size:11px;color:var(--text3);text-transform:uppercase;margin-bottom:8px">Topics — click to mark done (${topicsDone}/${chapter.topics.length})</div><div class="topics-row">${topicMarkup}</div></div>
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:8px">
+            <div style="font-size:11px;color:var(--text3);text-transform:uppercase">Topics — click to mark done (${topicsDone}/${chapter.topics.length})</div>
+            <button class="btn-sm" type="button" onclick="event.stopPropagation();markChapterRevised('${chapter.id}')">Mark revised today</button>
+          </div>
+          <div class="topics-row">${topicMarkup}</div>
         </div>
       </div>`;
   }).join('');
@@ -3186,6 +3450,346 @@ function deleteTestLogEntry(id) {
 }
 
 // ════════════════════════════════════════
+// PLANNER, REVISION AND FOCUS
+function getAllChapters() {
+  return Object.entries(SYLLABUS).flatMap(([subject, chapters]) =>
+    chapters.map(chapter => ({ ...chapter, subject }))
+  );
+}
+
+function getRevisionQueue() {
+  const today = new Date(`${localDateKey()}T00:00:00`);
+  const intervals = [1, 3, 7, 14, 30, 60];
+  return getAllChapters().map(chapter => {
+    const data = store.chapters[chapter.id] || {};
+    if (data.status === 'pending' && Number(data.confidence || 3) > 2) return null;
+    if (!data.lastRevised) {
+      if (data.status !== 'done' && Number(data.confidence || 3) > 2) return null;
+      return { ...chapter, data, due: true, reason: data.status === 'done' ? 'First revision due' : 'Low confidence' };
+    }
+    const last = new Date(`${data.lastRevised}T00:00:00`);
+    const interval = intervals[Math.min(Number(data.revision_count || 0), intervals.length - 1)];
+    const dueDate = new Date(last);
+    dueDate.setDate(dueDate.getDate() + interval);
+    if (dueDate > today && Number(data.confidence || 3) > 2) return null;
+    return { ...chapter, data, due: dueDate <= today, reason: dueDate <= today ? `Due after ${interval}-day interval` : 'Low confidence' };
+  }).filter(Boolean).sort((a, b) => {
+    if (a.due !== b.due) return a.due ? -1 : 1;
+    return Number(a.data.confidence || 3) - Number(b.data.confidence || 3);
+  });
+}
+
+function markChapterRevised(id) {
+  const chapter = getChapter(id);
+  chapter.lastRevised = localDateKey();
+  chapter.revision_count = Number(chapter.revision_count || 0) + 1;
+  chapter.confidence = Math.min(5, Number(chapter.confidence || 3) + 1);
+  saveAll();
+  renderPlanner();
+  const found = getAllChapters().find(item => item.id === id);
+  if (found) renderSubject(found.subject, currentFilter[found.subject]);
+  showToast('Revision recorded. Next review scheduled.');
+}
+
+function openTaskModal() {
+  document.getElementById('task-title').value = '';
+  document.getElementById('task-due').value = localDateKey();
+  document.getElementById('task-priority').value = 'medium';
+  document.getElementById('task-minutes').value = '45';
+  document.getElementById('task-notes').value = '';
+  document.getElementById('task-modal').classList.add('open');
+  setTimeout(() => document.getElementById('task-title').focus(), 40);
+}
+
+function closeTaskModal() {
+  document.getElementById('task-modal').classList.remove('open');
+}
+
+function saveTask() {
+  const titleEl = document.getElementById('task-title');
+  const title = titleEl.value.trim();
+  const minutesEl = document.getElementById('task-minutes');
+  const minutes = Number(minutesEl.value) || 45;
+  if (!title) return markInvalid(titleEl, 'Add a clear task');
+  if (minutes < 5 || minutes > 600) return markInvalid(minutesEl, 'Estimate between 5 and 600 minutes');
+  store.tasks.push({
+    id: Date.now(), title,
+    subject: document.getElementById('task-subject').value,
+    due: document.getElementById('task-due').value || localDateKey(),
+    priority: document.getElementById('task-priority').value,
+    minutes, notes: document.getElementById('task-notes').value.trim(),
+    done: false, createdAt: new Date().toISOString()
+  });
+  saveAll();
+  closeTaskModal();
+  renderPlanner();
+  renderDashboardIntelligence();
+  showToast('Task added to your plan');
+}
+
+function quickAddTask() {
+  const input = document.getElementById('quick-task-input');
+  const title = input.value.trim();
+  if (!title) return markInvalid(input, 'Type a task first');
+  store.tasks.push({
+    id: Date.now(), title, subject: 'Mixed', due: localDateKey(), priority: 'medium',
+    minutes: 30, notes: '', done: false, createdAt: new Date().toISOString()
+  });
+  input.value = '';
+  saveAll();
+  renderPlanner();
+  showToast('Added to today');
+}
+
+function setTaskFilter(filter, button) {
+  taskFilter = filter;
+  document.querySelectorAll('#planner-filters .filter-pill').forEach(item => item.classList.remove('active'));
+  button.classList.add('active');
+  renderTaskList();
+}
+
+function toggleTask(id) {
+  const task = store.tasks.find(item => item.id === id);
+  if (!task) return;
+  task.done = !task.done;
+  task.completedAt = task.done ? new Date().toISOString() : null;
+  saveAll();
+  renderPlanner();
+  renderDashboardIntelligence();
+  showToast(task.done ? 'Task completed' : 'Task reopened');
+}
+
+function deleteTask(id) {
+  if (!confirm('Delete this task?')) return;
+  store.tasks = store.tasks.filter(item => item.id !== id);
+  saveAll();
+  renderPlanner();
+  renderDashboardIntelligence();
+}
+
+function renderTaskList() {
+  const list = document.getElementById('task-list');
+  if (!list) return;
+  const today = localDateKey();
+  const priorityRank = { high: 0, medium: 1, low: 2 };
+  const tasks = [...store.tasks].filter(task => {
+    if (taskFilter === 'open') return !task.done;
+    if (taskFilter === 'today') return !task.done && task.due === today;
+    if (taskFilter === 'overdue') return !task.done && task.due && task.due < today;
+    if (taskFilter === 'done') return task.done;
+    return true;
+  }).sort((a, b) =>
+    Number(a.done) - Number(b.done) ||
+    (a.due || '9999').localeCompare(b.due || '9999') ||
+    priorityRank[a.priority] - priorityRank[b.priority]
+  );
+  if (!tasks.length) {
+    list.innerHTML = '<div class="empty-state"><div class="empty-icon">✓</div><div>No tasks in this view. Your plan is clear.</div></div>';
+    return;
+  }
+  list.innerHTML = tasks.map(task => {
+    const overdue = !task.done && task.due && task.due < today;
+    return `<div class="task-card ${task.done ? 'done' : ''}">
+      <button class="task-check ${task.done ? 'checked' : ''}" onclick="toggleTask(${task.id})" aria-label="${task.done ? 'Reopen' : 'Complete'} task">${task.done ? '✓' : ''}</button>
+      <div><div class="task-title">${escapeHtml(task.title)}</div><div class="task-meta">
+        <span class="task-tag">${escapeHtml(task.subject || 'Mixed')}</span>
+        <span class="task-tag priority-${task.priority || 'medium'}">${escapeHtml(task.priority || 'medium')} priority</span>
+        <span class="${overdue ? 'task-overdue' : ''}">${overdue ? 'Overdue · ' : ''}${escapeHtml(task.due || 'No deadline')}</span>
+        <span>${Number(task.minutes || 0)} min</span>
+      </div>${task.notes ? `<div style="font-size:11px;color:var(--text2);margin-top:6px">${escapeHtml(task.notes)}</div>` : ''}</div>
+      <button class="btn-sm" onclick="deleteTask(${task.id})" style="color:var(--danger)">Delete</button>
+    </div>`;
+  }).join('');
+}
+
+function saveGoals() {
+  store.settings.goals = {
+    hours: clampNumber(document.getElementById('daily-hours-goal').value, .5, 16),
+    questions: Math.round(clampNumber(document.getElementById('daily-questions-goal').value, 1, 500))
+  };
+  saveAll();
+  renderGoalProgress();
+  showToast('Daily targets updated');
+}
+
+function renderGoalProgress() {
+  const today = localDateKey();
+  const todayLogs = store.logs.filter(log => log.date === today);
+  const hours = todayLogs.reduce((sum, log) => sum + Number(log.hours || 0), 0);
+  const questions = todayLogs.reduce((sum, log) => sum + Number(log.qs || 0), 0);
+  const goals = store.settings.goals || { hours: 6, questions: 60 };
+  document.getElementById('daily-hours-goal').value = goals.hours;
+  document.getElementById('daily-questions-goal').value = goals.questions;
+  document.getElementById('hours-goal-label').textContent = `${hours.toFixed(1)} / ${goals.hours}h`;
+  document.getElementById('questions-goal-label').textContent = `${questions} / ${goals.questions}`;
+  document.getElementById('hours-goal-bar').style.width = `${Math.min(100, hours / goals.hours * 100)}%`;
+  document.getElementById('questions-goal-bar').style.width = `${Math.min(100, questions / goals.questions * 100)}%`;
+}
+
+function renderRevisionQueue() {
+  const list = document.getElementById('revision-list');
+  if (!list) return;
+  const queue = getRevisionQueue().slice(0, 6);
+  if (!queue.length) {
+    list.innerHTML = '<div class="empty-state" style="padding:22px 12px">Nothing due. Keep moving.</div>';
+    return;
+  }
+  list.innerHTML = queue.map(item => `<div class="revision-item">
+    <div><div class="revision-name">${escapeHtml(item.name)}</div><div class="revision-reason">${escapeHtml(item.reason)} · ${escapeHtml(item.subject)}</div></div>
+    <button class="btn-sm" onclick="markChapterRevised('${item.id}')">Revised</button>
+  </div>`).join('');
+}
+
+function updatePlannerBadge() {
+  const badge = document.getElementById('planner-nav-count');
+  if (badge && store.tasks) badge.textContent = store.tasks.filter(task => !task.done).length;
+}
+
+function renderPlanner() {
+  renderTaskList();
+  renderGoalProgress();
+  renderRevisionQueue();
+  updatePlannerBadge();
+  populateFocusTasks();
+}
+
+function renderDashboardIntelligence() {
+  const insights = document.getElementById('dashboard-insights');
+  if (!insights || !store.tasks) return;
+  const today = localDateKey();
+  const priorityRank = { high: 0, medium: 1, low: 2 };
+  const openTasks = store.tasks.filter(task => !task.done).sort((a, b) =>
+    priorityRank[a.priority] - priorityRank[b.priority] || (a.due || '9999').localeCompare(b.due || '9999')
+  );
+  const next = openTasks[0];
+  const revisionCount = getRevisionQueue().length;
+  const todayLogs = store.logs.filter(log => log.date === today);
+  const todayHours = todayLogs.reduce((sum, log) => sum + Number(log.hours || 0), 0);
+  const goals = store.settings.goals || { hours: 6, questions: 60 };
+  document.getElementById('next-action-title').textContent = next ? next.title : (revisionCount ? 'Clear one revision reminder' : 'Plan one meaningful study block');
+  document.getElementById('next-action-copy').textContent = next
+    ? `${next.subject} · ${next.minutes} minutes · ${next.priority} priority${next.due ? ` · due ${next.due}` : ''}`
+    : revisionCount ? `${revisionCount} chapter${revisionCount === 1 ? '' : 's'} need attention based on confidence and revision timing.` : 'Your immediate queue is clear. Add the next concrete outcome you want to finish.';
+  const completedToday = store.tasks.filter(task => task.done && task.completedAt?.slice(0, 10) === today).length;
+  const focusToday = store.focusSessions.filter(session => session.date === today).reduce((sum, session) => sum + Number(session.minutes || 0), 0);
+  insights.innerHTML = `
+    <div class="insight-item"><div class="insight-icon">T</div><div><div class="insight-title">${todayHours.toFixed(1)} of ${goals.hours} study hours</div><div class="insight-copy">${todayHours >= goals.hours ? 'Daily time target reached.' : `${Math.max(0, goals.hours - todayHours).toFixed(1)} hours remain for today's target.`}</div></div></div>
+    <div class="insight-item"><div class="insight-icon">R</div><div><div class="insight-title">${revisionCount} revision reminder${revisionCount === 1 ? '' : 's'}</div><div class="insight-copy">Generated from confidence ratings and spaced-review intervals.</div></div></div>
+    <div class="insight-item"><div class="insight-icon">F</div><div><div class="insight-title">${focusToday} focused minutes today</div><div class="insight-copy">${completedToday} planner task${completedToday === 1 ? '' : 's'} completed today.</div></div></div>`;
+  updatePlannerBadge();
+}
+
+function populateFocusTasks() {
+  const select = document.getElementById('focus-task-select');
+  if (!select) return;
+  const selected = select.value;
+  select.innerHTML = '<option value="">General focused study</option>' + store.tasks.filter(task => !task.done)
+    .map(task => `<option value="${task.id}">${escapeHtml(task.title)}</option>`).join('');
+  if ([...select.options].some(option => option.value === selected)) select.value = selected;
+}
+
+function setTimerPreset(minutes, mode, button) {
+  if (timerRunning && !confirm('Reset the running timer and change mode?')) return;
+  clearInterval(timerInterval);
+  timerRunning = false;
+  timerMode = mode;
+  timerDuration = minutes * 60;
+  timerRemaining = timerDuration;
+  document.querySelectorAll('#page-focus .timer-presets .filter-pill').forEach(item => item.classList.remove('active'));
+  button.classList.add('active');
+  updateTimerDisplay();
+}
+
+function updateTimerDisplay() {
+  const display = document.getElementById('timer-display');
+  if (!display) return;
+  const minutes = Math.floor(timerRemaining / 60);
+  const seconds = timerRemaining % 60;
+  display.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+  document.getElementById('timer-mode-label').textContent = timerMode;
+  document.getElementById('timer-start-btn').textContent = timerRunning ? 'Pause' : (timerRemaining < timerDuration ? 'Resume' : 'Start');
+  document.title = timerRunning ? `${display.textContent} · StudyMeter` : 'StudyMeter | JEE Study Companion';
+}
+
+function toggleTimer() {
+  if (timerRunning) {
+    clearInterval(timerInterval);
+    timerRunning = false;
+    updateTimerDisplay();
+    return;
+  }
+  timerRunning = true;
+  updateTimerDisplay();
+  timerInterval = setInterval(() => {
+    timerRemaining--;
+    if (timerRemaining <= 0) {
+      clearInterval(timerInterval);
+      timerRunning = false;
+      timerRemaining = 0;
+      updateTimerDisplay();
+      if (!timerMode.toLowerCase().includes('break')) recordFocusSession(Math.round(timerDuration / 60));
+      showToast(timerMode.toLowerCase().includes('break') ? 'Break complete. Ready to focus?' : 'Focus session complete');
+      return;
+    }
+    updateTimerDisplay();
+  }, 1000);
+}
+
+function resetTimer() {
+  clearInterval(timerInterval);
+  timerRunning = false;
+  timerRemaining = timerDuration;
+  updateTimerDisplay();
+}
+
+function completeFocusEarly() {
+  const elapsed = Math.floor((timerDuration - timerRemaining) / 60);
+  if (elapsed < 1) return showToast('Study for at least one minute before finishing', 'error');
+  if (!timerMode.toLowerCase().includes('break')) recordFocusSession(elapsed);
+  resetTimer();
+  showToast(`${elapsed} focused minute${elapsed === 1 ? '' : 's'} recorded`);
+}
+
+function recordFocusSession(minutes) {
+  const select = document.getElementById('focus-task-select');
+  const taskId = Number(select?.value) || null;
+  const task = store.tasks.find(item => item.id === taskId);
+  store.focusSessions.push({
+    id: Date.now(), date: localDateKey(), minutes, taskId,
+    task: task?.title || 'General focused study', completedAt: new Date().toISOString()
+  });
+  saveAll();
+  renderFocusHistory();
+  renderDashboardIntelligence();
+}
+
+function renderFocusHistory() {
+  const list = document.getElementById('focus-history');
+  if (!list) return;
+  const sessions = [...store.focusSessions].reverse().slice(0, 10);
+  if (!sessions.length) {
+    list.innerHTML = '<div class="empty-state">Complete a focus block and it will appear here.</div>';
+    return;
+  }
+  list.innerHTML = sessions.map(session => `<div class="task-card" style="grid-template-columns:minmax(0,1fr) auto">
+    <div><div class="task-title">${escapeHtml(session.task)}</div><div class="task-meta"><span>${escapeHtml(session.date)}</span><span>${session.minutes} focused minutes</span></div></div>
+    <span class="badge badge-done">Complete</span>
+  </div>`).join('');
+}
+
+function renderFocusPage() {
+  populateFocusTasks();
+  renderFocusHistory();
+  updateTimerDisplay();
+}
+
+function startSuggestedFocus() {
+  const priorityRank = { high: 0, medium: 1, low: 2 };
+  const next = store.tasks.filter(task => !task.done).sort((a, b) => priorityRank[a.priority] - priorityRank[b.priority])[0];
+  showPage('focus');
+  if (next) document.getElementById('focus-task-select').value = String(next.id);
+}
+
 // FORMULA BANK
 // ════════════════════════════════════════
 
@@ -3224,6 +3828,9 @@ document.getElementById('log-modal').addEventListener('click', function(e) {
 document.getElementById('test-log-modal').addEventListener('click', function(e) {
   if (e.target === this) closeTestLogModal();
 });
+document.getElementById('task-modal').addEventListener('click', function(e) {
+  if (e.target === this) closeTaskModal();
+});
 
 document.querySelectorAll('.nav-item').forEach(item => {
   item.setAttribute('role', 'button');
@@ -3242,6 +3849,7 @@ document.addEventListener('keydown', event => {
   closeMockModal();
   closeLogModal();
   closeTestLogModal();
+  closeTaskModal();
 });
 
 // ════════════════════════════════════════
@@ -3253,6 +3861,9 @@ renderExistingUsers();
 const lastUser = localStorage.getItem(LAST_USER_KEY);
 if (lastUser) document.getElementById('login-name').value = lastUser;
 setInterval(updateDaysRemaining, 1000);
+if ('serviceWorker' in navigator && location.protocol === 'https:') {
+  window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(() => {}));
+}
 </script>
 </body>
 </html>

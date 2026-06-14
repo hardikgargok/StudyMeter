@@ -1,0 +1,19 @@
+{
+  "name": "StudyMeter - JEE Study Companion",
+  "short_name": "StudyMeter",
+  "description": "Plan, focus, revise, and track your complete JEE preparation.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#080b12",
+  "theme_color": "#070a11",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "studymeter-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
