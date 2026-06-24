@@ -1555,6 +1555,71 @@
   .risk-dot.danger { background: var(--danger); }
   .risk-title { font-size: 12px; font-weight: 750; }
   .risk-copy { color: var(--text3); font-size: 11px; margin-top: 2px; line-height: 1.4; }
+  .battle-plan {
+    display: grid;
+    gap: 10px;
+    margin-top: 12px;
+  }
+  .battle-item {
+    display: grid;
+    grid-template-columns: 34px minmax(0,1fr) auto;
+    gap: 11px;
+    align-items: center;
+    padding: 12px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: rgba(255,255,255,.025);
+  }
+  .battle-num {
+    width: 34px;
+    height: 34px;
+    display: grid;
+    place-items: center;
+    border-radius: 10px;
+    background: rgba(91,158,249,.13);
+    color: var(--phy);
+    font-weight: 850;
+  }
+  .battle-title { font-size: 12px; font-weight: 760; }
+  .battle-copy { color: var(--text3); font-size: 11px; margin-top: 2px; }
+  .action-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+  .planner-boost {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding: 13px 15px;
+    margin-bottom: 14px;
+    border: 1px solid rgba(52,211,153,.2);
+    border-radius: 13px;
+    background: linear-gradient(135deg, rgba(52,211,153,.08), rgba(91,158,249,.045));
+  }
+  .boost-title { font-size: 13px; font-weight: 760; }
+  .boost-copy { color: var(--text3); font-size: 11px; margin-top: 2px; }
+  .focus-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin: 16px 0 18px;
+  }
+  .focus-stat {
+    padding: 10px;
+    border-radius: 11px;
+    background: rgba(255,255,255,.035);
+    border: 1px solid var(--border);
+  }
+  .focus-stat-value { font-size: 18px; font-weight: 820; }
+  .focus-stat-label { color: var(--text3); font-size: 10px; text-transform: uppercase; letter-spacing: .6px; }
+  .toggle-line {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text2);
+    font-size: 12px;
+    margin-top: 12px;
+    cursor: pointer;
+  }
+  .template-row { display: flex; gap: 8px; flex-wrap: wrap; margin: 0 0 12px; }
 
   @media (max-width: 1100px) {
     .dash-grid { grid-template-columns: 1fr; }
@@ -1597,6 +1662,10 @@
     .command-overlay { padding-top: 72px; }
     .readiness-mini { grid-template-columns: 1fr; }
     .heatmap { grid-template-columns: repeat(7, 1fr); }
+    .battle-item { grid-template-columns: 34px minmax(0,1fr); }
+    .battle-item .btn-sm { grid-column: 2; justify-self: start; }
+    .planner-boost { align-items: stretch; flex-direction: column; }
+    .focus-stats { grid-template-columns: 1fr; }
   }
 
   /* Planner, focus and revision */
@@ -1943,6 +2012,14 @@
         <div class="section-title" style="margin-top:0">Risk Radar <span class="section-line"></span></div>
         <div class="risk-list" id="risk-radar"></div>
       </div>
+      <div class="card">
+        <div class="section-title" style="margin-top:0">Today Battle Plan <span class="section-line"></span></div>
+        <div class="battle-plan" id="battle-plan"></div>
+        <div class="action-row">
+          <button class="btn-primary" onclick="generateTodaysPlan()">Generate tasks</button>
+          <button class="btn-sm" onclick="showPage('planner')">Open planner</button>
+        </div>
+      </div>
     </section>
 
     <!-- Subject overview cards -->
@@ -2258,6 +2335,13 @@
     </div>
     <div class="planner-layout">
       <section>
+        <div class="planner-boost">
+          <div>
+            <div class="boost-title">Smart plan generator</div>
+            <div class="boost-copy">Creates a focused set of tasks from revision due, weak chapters, and mock/test gaps.</div>
+          </div>
+          <button class="btn-primary" onclick="generateTodaysPlan()">Generate today's plan</button>
+        </div>
         <div class="quick-capture">
           <input id="quick-task-input" type="text" maxlength="120" placeholder="Quick add: what needs to get done?" onkeydown="if(event.key==='Enter') quickAddTask()">
           <button class="btn-primary" onclick="quickAddTask()">Add to today</button>
@@ -2315,12 +2399,18 @@
         <div class="timer-task">
           <select id="focus-task-select" aria-label="Task for this focus session"><option value="">General focused study</option></select>
         </div>
+        <div class="focus-stats">
+          <div class="focus-stat"><div class="focus-stat-value" id="focus-today-min">0m</div><div class="focus-stat-label">Today</div></div>
+          <div class="focus-stat"><div class="focus-stat-value" id="focus-week-min">0m</div><div class="focus-stat-label">7 days</div></div>
+          <div class="focus-stat"><div class="focus-stat-value" id="focus-total-min">0m</div><div class="focus-stat-label">Total</div></div>
+        </div>
         <div class="timer-display" id="timer-display">25:00</div>
         <div class="timer-controls">
           <button class="btn-primary" id="timer-start-btn" onclick="toggleTimer()">Start</button>
           <button class="btn-sm" onclick="resetTimer()">Reset</button>
           <button class="btn-sm" onclick="completeFocusEarly()">Finish now</button>
         </div>
+        <label class="toggle-line"><input id="auto-log-focus" type="checkbox" onchange="saveFocusSettings()"> Auto-log completed focus as study time</label>
       </div>
       <div class="session-history">
         <div class="section-title">Recent Focus Sessions <span class="section-line"></span></div>
@@ -2347,24 +2437,44 @@
 
     <div id="formula-phy" class="formula-section">
       <div class="section-title">Physics Formulae & Notes <span class="section-line"></span></div>
+      <div class="template-row">
+        <button class="btn-sm" onclick="insertNoteTemplate('phy','formula')">Formula template</button>
+        <button class="btn-sm" onclick="insertNoteTemplate('phy','mistake')">Mistake template</button>
+        <button class="btn-sm" onclick="insertNoteTemplate('phy','revision')">Revision template</button>
+      </div>
       <textarea class="notes-area" id="notes-phy" placeholder="Write your physics formulae, tricks, and notes here..." rows="18"
         oninput="saveNotes('phy')"></textarea>
       <div class="save-status" id="notes-status-phy"></div>
     </div>
     <div id="formula-chem" class="formula-section" style="display:none">
       <div class="section-title">Chemistry Notes <span class="section-line"></span></div>
+      <div class="template-row">
+        <button class="btn-sm" onclick="insertNoteTemplate('chem','formula')">Reaction template</button>
+        <button class="btn-sm" onclick="insertNoteTemplate('chem','mistake')">Mistake template</button>
+        <button class="btn-sm" onclick="insertNoteTemplate('chem','revision')">Revision template</button>
+      </div>
       <textarea class="notes-area" id="notes-chem" placeholder="Write your chemistry reactions, mnemonics, and notes here..." rows="18"
         oninput="saveNotes('chem')"></textarea>
       <div class="save-status" id="notes-status-chem"></div>
     </div>
     <div id="formula-math" class="formula-section" style="display:none">
       <div class="section-title">Mathematics Formulae <span class="section-line"></span></div>
+      <div class="template-row">
+        <button class="btn-sm" onclick="insertNoteTemplate('math','formula')">Formula template</button>
+        <button class="btn-sm" onclick="insertNoteTemplate('math','mistake')">Mistake template</button>
+        <button class="btn-sm" onclick="insertNoteTemplate('math','revision')">Revision template</button>
+      </div>
       <textarea class="notes-area" id="notes-math" placeholder="Write your maths formulae, identities, and shortcuts here..." rows="18"
         oninput="saveNotes('math')"></textarea>
       <div class="save-status" id="notes-status-math"></div>
     </div>
     <div id="formula-gen" class="formula-section" style="display:none">
       <div class="section-title">General Notes & Reminders <span class="section-line"></span></div>
+      <div class="template-row">
+        <button class="btn-sm" onclick="insertNoteTemplate('gen','strategy')">Strategy template</button>
+        <button class="btn-sm" onclick="insertNoteTemplate('gen','mistake')">Mistake template</button>
+        <button class="btn-sm" onclick="insertNoteTemplate('gen','revision')">Revision template</button>
+      </div>
       <textarea class="notes-area" id="notes-gen" placeholder="Exam tips, schedule, reminders, exam strategy..." rows="18"
         oninput="saveNotes('gen')"></textarea>
       <div class="save-status" id="notes-status-gen"></div>
@@ -2979,6 +3089,7 @@ function loadAll() {
   if (!store.tasks)     store.tasks     = [];
   if (!store.focusSessions) store.focusSessions = [];
   if (!store.settings.goals) store.settings.goals = { hours: 6, questions: 60 };
+  if (store.settings.autoLogFocus === undefined) store.settings.autoLogFocus = true;
 }
 
 function getChapter(id) {
@@ -3210,6 +3321,104 @@ function renderPerformanceIntelligence({ totalDone, totalChapters, ids }) {
   renderStudyHeatmap(logs);
   renderMockSparkline(mocks, bestMock);
   renderRiskRadar({ daysRemaining, weakest, recentHours, latestMock, testLogs, totalDone, totalChapters });
+  renderBattlePlan(buildStudyRecommendations(ids));
+}
+
+function buildStudyRecommendations(ids) {
+  const today = localDateKey();
+  const openTaskTitles = new Set((store.tasks || []).filter(task => !task.done).map(task => String(task.title).toLowerCase()));
+  const recommendations = [];
+  getRevisionQueue().slice(0, 2).forEach(item => recommendations.push({
+    title: `Revise ${item.name}`,
+    subject: item.subject[0].toUpperCase() + item.subject.slice(1),
+    minutes: 45,
+    priority: 'high',
+    due: today,
+    reason: item.reason,
+    notes: `Revision generated from StudyMeter queue: ${item.reason}.`
+  }));
+  getSubjectProgress(ids).sort((a, b) => a.pct - b.pct).slice(0, 2).forEach(subject => {
+    const chapter = SYLLABUS[subject.subject].find(ch => (store.chapters[ch.id]?.status || 'pending') !== 'done' && ch.high)
+      || SYLLABUS[subject.subject].find(ch => (store.chapters[ch.id]?.status || 'pending') !== 'done');
+    if (chapter) recommendations.push({
+      title: `Attack ${chapter.name}`,
+      subject: subject.subject[0].toUpperCase() + subject.subject.slice(1),
+      minutes: 60,
+      priority: 'high',
+      due: today,
+      reason: `${subject.subject} is your lowest coverage area`,
+      notes: `Target chapter: ${chapter.name}. Start with concepts, then solve 25-40 questions.`
+    });
+  });
+  const latestMock = [...(store.mocks || [])].sort((a, b) => String(b.date).localeCompare(String(a.date)))[0];
+  if (!latestMock) {
+    recommendations.push({
+      title: 'Take one timed mock baseline',
+      subject: 'Mixed',
+      minutes: 180,
+      priority: 'medium',
+      due: today,
+      reason: 'No mock baseline exists yet',
+      notes: 'Attempt a full paper or sectional test, then log score and top mistakes.'
+    });
+  } else if ((store.testLogs || []).length < (store.mocks || []).length) {
+    recommendations.push({
+      title: `Analyze ${latestMock.name || 'latest mock'}`,
+      subject: 'Mixed',
+      minutes: 35,
+      priority: 'high',
+      due: today,
+      reason: 'Score exists but mistake analysis is still thin',
+      notes: 'Write 3 concept mistakes, 3 silly mistakes, and one fix before next mock.'
+    });
+  }
+  return recommendations
+    .filter(item => !openTaskTitles.has(item.title.toLowerCase()))
+    .slice(0, 4);
+}
+
+function renderBattlePlan(items) {
+  const list = document.getElementById('battle-plan');
+  if (!list) return;
+  if (!items.length) {
+    list.innerHTML = '<div class="empty-state" style="padding:22px 12px">Your open plan already covers the obvious next moves.</div>';
+    return;
+  }
+  list.innerHTML = items.map((item, index) => `
+    <div class="battle-item">
+      <div class="battle-num">${index + 1}</div>
+      <div><div class="battle-title">${escapeHtml(item.title)}</div><div class="battle-copy">${escapeHtml(item.reason)} · ${item.minutes} min · ${escapeHtml(item.subject)}</div></div>
+      <button class="btn-sm" onclick="addRecommendedTask(${index})">Add</button>
+    </div>
+  `).join('');
+}
+
+function addRecommendedTask(index) {
+  const ids = { physics: SYLLABUS.physics.map(c=>c.id), chemistry: SYLLABUS.chemistry.map(c=>c.id), mathematics: SYLLABUS.mathematics.map(c=>c.id) };
+  const item = buildStudyRecommendations(ids)[index];
+  if (!item) return;
+  store.tasks.push({ id: Date.now(), ...item, done: false, createdAt: new Date().toISOString() });
+  saveAll();
+  renderPlanner();
+  refreshDashboardIfVisible();
+  showToast('Smart task added');
+}
+
+function generateTodaysPlan() {
+  const ids = { physics: SYLLABUS.physics.map(c=>c.id), chemistry: SYLLABUS.chemistry.map(c=>c.id), mathematics: SYLLABUS.mathematics.map(c=>c.id) };
+  const items = buildStudyRecommendations(ids);
+  if (!items.length) {
+    showToast('Your current plan already covers the best next moves');
+    return;
+  }
+  const stamp = Date.now();
+  items.forEach((item, index) => {
+    store.tasks.push({ id: stamp + index, ...item, done: false, createdAt: new Date().toISOString() });
+  });
+  saveAll();
+  renderPlanner();
+  refreshDashboardIfVisible();
+  showToast(`${items.length} smart task${items.length === 1 ? '' : 's'} added`);
 }
 
 function renderStudyHeatmap(logs) {
@@ -4238,8 +4447,24 @@ function recordFocusSession(minutes) {
     id: Date.now(), date: localDateKey(), minutes, taskId,
     task: task?.title || 'General focused study', completedAt: new Date().toISOString()
   });
+  if (store.settings.autoLogFocus !== false) {
+    store.logs.push({
+      id: Date.now() + 1,
+      date: localDateKey(),
+      subject: inferTaskSubject(task),
+      hours: Number((minutes / 60).toFixed(2)),
+      qs: 0,
+      topics: task?.title || timerMode,
+      reflection: 'Auto-logged from Focus Timer'
+    });
+  }
+  if (task && minutes >= Number(task.minutes || 0) * .8) {
+    task.done = true;
+    task.completedAt = new Date().toISOString();
+  }
   saveAll();
   renderFocusHistory();
+  renderFocusStats();
   renderDashboardIntelligence();
   refreshDashboardIfVisible();
 }
@@ -4261,7 +4486,38 @@ function renderFocusHistory() {
 function renderFocusPage() {
   populateFocusTasks();
   renderFocusHistory();
+  renderFocusStats();
+  const autoLog = document.getElementById('auto-log-focus');
+  if (autoLog) autoLog.checked = store.settings.autoLogFocus !== false;
   updateTimerDisplay();
+}
+
+function renderFocusStats() {
+  const today = localDateKey();
+  const week = new Set();
+  for (let i = 0; i < 7; i++) {
+    const d = new Date();
+    d.setDate(d.getDate() - i);
+    week.add(localDateKey(d));
+  }
+  const sessions = store.focusSessions || [];
+  const todayMin = sessions.filter(session => session.date === today).reduce((sum, session) => sum + Number(session.minutes || 0), 0);
+  const weekMin = sessions.filter(session => week.has(session.date)).reduce((sum, session) => sum + Number(session.minutes || 0), 0);
+  const totalMin = sessions.reduce((sum, session) => sum + Number(session.minutes || 0), 0);
+  document.getElementById('focus-today-min').textContent = `${todayMin}m`;
+  document.getElementById('focus-week-min').textContent = `${weekMin}m`;
+  document.getElementById('focus-total-min').textContent = `${totalMin}m`;
+}
+
+function saveFocusSettings() {
+  store.settings.autoLogFocus = document.getElementById('auto-log-focus').checked;
+  saveAll();
+  showToast(store.settings.autoLogFocus ? 'Focus auto-log enabled' : 'Focus auto-log disabled');
+}
+
+function inferTaskSubject(task) {
+  const subject = task?.subject || '';
+  return ['Physics', 'Chemistry', 'Mathematics', 'Mixed'].includes(subject) ? subject : 'Mixed';
 }
 
 function startSuggestedFocus() {
@@ -4287,6 +4543,7 @@ function buildCommandItems() {
 
   const actions = [
     { title: 'Log study session', copy: 'Record hours, questions, topics, and reflection', icon: '+', action: openLogModal, keywords: 'log study session hours questions' },
+    { title: "Generate today's plan", copy: 'Create smart tasks from weak chapters and revision due', icon: 'AI', action: generateTodaysPlan, keywords: 'generate plan smart tasks battle' },
     { title: 'Add planner task', copy: 'Create the next concrete study task', icon: '+', action: openTaskModal, keywords: 'task planner todo add' },
     { title: 'Add test analysis', copy: 'Save mistakes and subject accuracy', icon: '+', action: openTestLogModal, keywords: 'test analysis mistakes correct wrong left' },
     { title: 'Add mock test', copy: 'Save Physics, Chemistry, and Maths scores', icon: '+', action: openMockModal, keywords: 'mock test score add' },
@@ -4395,6 +4652,23 @@ function saveNotes(key) {
   notesSaveTimer = setTimeout(() => {
     if (status) status.textContent = 'Saved locally';
   }, 350);
+}
+
+function insertNoteTemplate(key, type) {
+  const textarea = document.getElementById('notes-' + key);
+  if (!textarea) return;
+  const templates = {
+    formula: `\n\n## Formula / Concept\nName:\nFormula:\nWhen to use:\nCommon trap:\nExample question:\n`,
+    mistake: `\n\n## Mistake Log\nQuestion/source:\nWhat I did wrong:\nCorrect idea:\nTrigger to remember:\nRedo date:\n`,
+    revision: `\n\n## Revision Snapshot\nTopic:\nMust-remember points:\nWeak subtopic:\nQuestions to redo:\nNext review:\n`,
+    strategy: `\n\n## Exam Strategy\nTarget score:\nAttempt order:\nTime split:\nSkip rules:\nLast 15 minutes plan:\n`
+  };
+  const insert = templates[type] || templates.revision;
+  const start = textarea.selectionStart ?? textarea.value.length;
+  textarea.value = textarea.value.slice(0, start) + insert + textarea.value.slice(start);
+  textarea.focus();
+  textarea.selectionStart = textarea.selectionEnd = start + insert.length;
+  saveNotes(key);
 }
 
 // Close modals on overlay click
