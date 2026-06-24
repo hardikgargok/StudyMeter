@@ -1282,6 +1282,35 @@
     transition: .18s ease;
   }
   .quick-action:hover { background: rgba(255,255,255,.09); transform: translateY(-1px); }
+  .momentum-strip {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 10px;
+    margin: -6px 0 24px;
+  }
+  .momentum-tile {
+    min-height: 94px;
+    padding: 15px;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    background: linear-gradient(145deg, rgba(18,24,39,.94), rgba(12,16,25,.92));
+    box-shadow: 0 12px 30px rgba(0,0,0,.14);
+  }
+  .momentum-label {
+    color: var(--text3);
+    font-size: 10px;
+    font-weight: 750;
+    letter-spacing: .7px;
+    text-transform: uppercase;
+  }
+  .momentum-value {
+    margin-top: 7px;
+    font-size: 24px;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -.5px;
+  }
+  .momentum-copy { margin-top: 6px; color: var(--text2); font-size: 11px; line-height: 1.35; }
   .hero-progress { display: grid; place-items: center; min-height: 190px; }
   .progress-ring {
     --progress: 0;
@@ -1333,6 +1362,7 @@
     border-radius: 9px; cursor: pointer; font-size: 11px;
   }
   .tool-btn:hover { color: var(--text); border-color: var(--border2); }
+  .tool-btn.wide { grid-column: 1 / -1; }
 
   .toast-stack { position: fixed; right: 22px; bottom: 22px; z-index: 1200; display: grid; gap: 9px; pointer-events: none; }
   .toast {
@@ -1345,6 +1375,72 @@
   @keyframes toastIn { from { opacity: 0; transform: translateY(8px); } }
   .field-error { border-color: var(--danger) !important; box-shadow: 0 0 0 3px rgba(251,113,133,.1) !important; }
   .save-status { font-size: 11px; color: var(--success); margin-top: 8px; min-height: 18px; }
+  .command-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1300;
+    display: none;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 9vh 16px 16px;
+    background: rgba(3,6,12,.72);
+    backdrop-filter: blur(9px);
+  }
+  .command-overlay.open { display: flex; }
+  .command-panel {
+    width: min(620px, 100%);
+    overflow: hidden;
+    border: 1px solid var(--border2);
+    border-radius: 18px;
+    background: rgba(12,16,25,.98);
+    box-shadow: 0 30px 90px rgba(0,0,0,.55);
+  }
+  .command-search {
+    width: 100%;
+    min-height: 58px;
+    padding: 0 18px;
+    border: 0;
+    border-bottom: 1px solid var(--border);
+    outline: none;
+    background: transparent;
+    color: var(--text);
+    font-size: 16px;
+  }
+  .command-list { max-height: min(55vh, 430px); overflow-y: auto; padding: 8px; }
+  .command-item {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 32px minmax(0,1fr) auto;
+    gap: 12px;
+    align-items: center;
+    padding: 12px;
+    border: 1px solid transparent;
+    border-radius: 12px;
+    background: transparent;
+    color: var(--text);
+    cursor: pointer;
+    text-align: left;
+  }
+  .command-item:hover, .command-item.active { background: rgba(255,255,255,.055); border-color: var(--border); }
+  .command-icon {
+    width: 32px;
+    height: 32px;
+    display: grid;
+    place-items: center;
+    border-radius: 10px;
+    background: rgba(167,139,250,.13);
+    color: var(--accent);
+    font-weight: 800;
+  }
+  .command-title { font-size: 13px; font-weight: 700; }
+  .command-copy { color: var(--text3); font-size: 11px; margin-top: 2px; }
+  .command-kbd {
+    color: var(--text3);
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    padding: 2px 7px;
+    font-size: 10px;
+  }
 
   @media (max-width: 1100px) {
     .dash-grid { grid-template-columns: 1fr; }
@@ -1363,6 +1459,7 @@
     .hero-progress { min-height: 160px; }
     .subject-toolbar { align-items: stretch; flex-direction: column; }
     .search-wrap { max-width: none; }
+    .momentum-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   }
   @media (max-width: 620px) {
     .page-header { align-items: flex-start; gap: 14px; }
@@ -1379,6 +1476,8 @@
     .modal { max-width: calc(100vw - 18px); padding: 20px 16px; border-radius: 18px; }
     .toast-stack { left: 12px; right: 12px; bottom: 12px; }
     .toast { min-width: 0; max-width: none; }
+    .momentum-strip { grid-template-columns: 1fr; }
+    .command-overlay { padding-top: 72px; }
   }
 
   /* Planner, focus and revision */
@@ -1508,12 +1607,18 @@
 <body>
 <div class="mobile-topbar" id="mobile-topbar">
   <button class="icon-btn" onclick="toggleSidebar()" aria-label="Open navigation">☰</button>
-  <div class="mobile-brand">StudyMeter</div>
+  <button class="mobile-brand" onclick="openCommandPalette()" aria-label="Open command center" style="border:0;background:transparent;cursor:pointer">StudyMeter</button>
   <button class="icon-btn" onclick="openLogModal()" aria-label="Log study session">＋</button>
 </div>
 <div class="sidebar-backdrop" id="sidebar-backdrop" onclick="closeSidebar()"></div>
 <div class="toast-stack" id="toast-stack" aria-live="polite"></div>
 <input type="file" id="import-file" accept="application/json" style="display:none" onchange="importUserData(event)">
+<div class="command-overlay" id="command-overlay" onclick="if(event.target===this) closeCommandPalette()">
+  <div class="command-panel" role="dialog" aria-modal="true" aria-label="Command palette">
+    <input class="command-search" id="command-search" type="search" placeholder="Search pages, actions, chapters..." autocomplete="off" oninput="renderCommandPalette()">
+    <div class="command-list" id="command-list"></div>
+  </div>
+</div>
 
 <!-- ── LOGIN SCREEN ── -->
 <div id="login-screen">
@@ -1593,6 +1698,7 @@
 
   <div class="nav-section">Your Data</div>
   <div class="sidebar-tools">
+    <button class="tool-btn wide" onclick="openCommandPalette()">Command Center</button>
     <button class="tool-btn" onclick="exportUserData()">Export</button>
     <button class="tool-btn" onclick="document.getElementById('import-file').click()">Import</button>
   </div>
@@ -1648,6 +1754,29 @@
             <div class="progress-ring-label">Syllabus complete</div>
           </div>
         </div>
+      </div>
+    </section>
+
+    <section class="momentum-strip" aria-label="Preparation momentum">
+      <div class="momentum-tile">
+        <div class="momentum-label">Today</div>
+        <div class="momentum-value" id="momentum-today">0h</div>
+        <div class="momentum-copy" id="momentum-today-copy">No study logged yet.</div>
+      </div>
+      <div class="momentum-tile">
+        <div class="momentum-label">7-day pace</div>
+        <div class="momentum-value" id="momentum-week">0h</div>
+        <div class="momentum-copy" id="momentum-week-copy">Build a visible weekly rhythm.</div>
+      </div>
+      <div class="momentum-tile">
+        <div class="momentum-label">Weakest area</div>
+        <div class="momentum-value" id="momentum-weak">-</div>
+        <div class="momentum-copy" id="momentum-weak-copy">Finish chapters to reveal priority gaps.</div>
+      </div>
+      <div class="momentum-tile">
+        <div class="momentum-label">Next review</div>
+        <div class="momentum-value" id="momentum-review">0</div>
+        <div class="momentum-copy" id="momentum-review-copy">Revision queue is clear.</div>
       </div>
     </section>
 
@@ -2452,6 +2581,8 @@ let timerRemaining = timerDuration;
 let timerInterval = null;
 let timerRunning = false;
 let timerMode = 'Focus session';
+let commandItems = [];
+let commandActiveIndex = 0;
 
 function escapeHtml(value) {
   return String(value ?? '').replace(/[&<>"']/g, char => ({
@@ -2858,8 +2989,46 @@ function renderDashboard() {
 
   renderWeekChart();
   renderRecentLog();
+  renderMomentumStrip(totalDone, ids);
   renderDashboardIntelligence();
   updatePlannerBadge();
+}
+
+function renderMomentumStrip(totalDone, ids) {
+  const today = localDateKey();
+  const lastSeven = new Set();
+  for (let i = 0; i < 7; i++) {
+    const d = new Date();
+    d.setDate(d.getDate() - i);
+    lastSeven.add(localDateKey(d));
+  }
+  const logs = store.logs || [];
+  const todayLogs = logs.filter(log => log.date === today);
+  const todayHours = todayLogs.reduce((sum, log) => sum + Number(log.hours || 0), 0);
+  const todayQs = todayLogs.reduce((sum, log) => sum + Number(log.qs || 0), 0);
+  const weekHours = logs.filter(log => lastSeven.has(log.date)).reduce((sum, log) => sum + Number(log.hours || 0), 0);
+  const goals = store.settings.goals || { hours: 6, questions: 60 };
+  const subjectProgress = Object.entries(ids).map(([subject, subjectIds]) => {
+    const done = subjectIds.filter(id => store.chapters[id]?.status === 'done').length;
+    return { subject, done, total: subjectIds.length, pct: subjectIds.length ? Math.round(done / subjectIds.length * 100) : 0 };
+  }).sort((a, b) => a.pct - b.pct);
+  const weakest = subjectProgress[0];
+  const revisionQueue = getRevisionQueue();
+
+  document.getElementById('momentum-today').textContent = `${todayHours.toFixed(1)}h`;
+  document.getElementById('momentum-today-copy').textContent = todayHours
+    ? `${todayQs} questions logged today. ${Math.max(0, goals.hours - todayHours).toFixed(1)}h left for target.`
+    : 'No study logged yet. Start with one focused block.';
+  document.getElementById('momentum-week').textContent = `${weekHours.toFixed(1)}h`;
+  document.getElementById('momentum-week-copy').textContent = `${(weekHours / 7).toFixed(1)}h daily average across the last week.`;
+  document.getElementById('momentum-weak').textContent = weakest ? `${weakest.pct}%` : '-';
+  document.getElementById('momentum-weak-copy').textContent = weakest
+    ? `${weakest.subject[0].toUpperCase() + weakest.subject.slice(1)} is lowest: ${weakest.done}/${weakest.total} chapters done.`
+    : 'Finish chapters to reveal priority gaps.';
+  document.getElementById('momentum-review').textContent = revisionQueue.length;
+  document.getElementById('momentum-review-copy').textContent = revisionQueue.length
+    ? `${revisionQueue[0].name} is the next review.`
+    : `${totalDone} chapters completed. Revision queue is clear.`;
 }
 
 function renderWeekChart() {
@@ -3790,6 +3959,92 @@ function startSuggestedFocus() {
   if (next) document.getElementById('focus-task-select').value = String(next.id);
 }
 
+function buildCommandItems() {
+  const pages = [
+    ['Dashboard', 'Open preparation overview', 'D', () => showPage('dashboard')],
+    ['Planner', 'Manage tasks, targets, and revision queue', 'P', () => showPage('planner')],
+    ['Focus Timer', 'Start a focused study block', 'F', () => showPage('focus')],
+    ['Test Log', 'Analyze correct, wrong, left, and mistakes', 'T', () => showPage('test-log')],
+    ['Mock Tests', 'Track full-length mock scores', 'M', () => showPage('mock-tests')],
+    ['Study Log', 'Review day-by-day study sessions', 'S', () => showPage('study-log')],
+    ['Formula Bank', 'Open personal notes and formulae', 'N', () => showPage('formula-bank')],
+    ['Physics', 'Open Physics syllabus tracker', 'Ph', () => showPage('physics')],
+    ['Chemistry', 'Open Chemistry syllabus tracker', 'Ch', () => showPage('chemistry')],
+    ['Mathematics', 'Open Mathematics syllabus tracker', 'Ma', () => showPage('mathematics')]
+  ].map(([title, copy, icon, action]) => ({ title, copy, icon, action, keywords: `${title} ${copy}` }));
+
+  const actions = [
+    { title: 'Log study session', copy: 'Record hours, questions, topics, and reflection', icon: '+', action: openLogModal, keywords: 'log study session hours questions' },
+    { title: 'Add planner task', copy: 'Create the next concrete study task', icon: '+', action: openTaskModal, keywords: 'task planner todo add' },
+    { title: 'Add test analysis', copy: 'Save mistakes and subject accuracy', icon: '+', action: openTestLogModal, keywords: 'test analysis mistakes correct wrong left' },
+    { title: 'Add mock test', copy: 'Save Physics, Chemistry, and Maths scores', icon: '+', action: openMockModal, keywords: 'mock test score add' },
+    { title: 'Export backup', copy: 'Download this profile as local JSON', icon: 'E', action: exportUserData, keywords: 'export backup data json' }
+  ];
+
+  const chapters = getAllChapters().map(chapter => ({
+    title: chapter.name,
+    copy: `${chapter.subject[0].toUpperCase() + chapter.subject.slice(1)} - ${chapter.unit}`,
+    icon: chapter.subject === 'physics' ? 'Ph' : chapter.subject === 'chemistry' ? 'Ch' : 'Ma',
+    keywords: `${chapter.name} ${chapter.unit} ${chapter.subject} ${chapter.topics.join(' ')}`,
+    action: () => {
+      showPage(chapter.subject);
+      setTimeout(() => {
+        const row = document.querySelector(`[onclick*="${chapter.id}"]`);
+        row?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        if (row && !document.getElementById(`detail-${chapter.id}`)?.classList.contains('open')) toggleChapter(chapter.id);
+      }, 80);
+    }
+  }));
+
+  return [...actions, ...pages, ...chapters];
+}
+
+function openCommandPalette() {
+  commandItems = buildCommandItems();
+  commandActiveIndex = 0;
+  document.getElementById('command-overlay').classList.add('open');
+  document.getElementById('command-search').value = '';
+  renderCommandPalette();
+  setTimeout(() => document.getElementById('command-search').focus(), 30);
+}
+
+function closeCommandPalette() {
+  document.getElementById('command-overlay').classList.remove('open');
+}
+
+function getFilteredCommands() {
+  const query = document.getElementById('command-search').value.trim().toLowerCase();
+  if (!query) return commandItems.slice(0, 18);
+  return commandItems.filter(item =>
+    `${item.title} ${item.copy} ${item.keywords || ''}`.toLowerCase().includes(query)
+  ).slice(0, 24);
+}
+
+function renderCommandPalette() {
+  const list = document.getElementById('command-list');
+  if (!list) return;
+  const filtered = getFilteredCommands();
+  commandActiveIndex = Math.min(commandActiveIndex, Math.max(0, filtered.length - 1));
+  if (!filtered.length) {
+    list.innerHTML = '<div class="empty-state" style="margin:8px">No matching command.</div>';
+    return;
+  }
+  list.innerHTML = filtered.map((item, index) => `
+    <button class="command-item ${index === commandActiveIndex ? 'active' : ''}" type="button" onclick="runCommand(${index})">
+      <span class="command-icon">${escapeHtml(item.icon)}</span>
+      <span><span class="command-title">${escapeHtml(item.title)}</span><span class="command-copy">${escapeHtml(item.copy)}</span></span>
+      <span class="command-kbd">Enter</span>
+    </button>
+  `).join('');
+}
+
+function runCommand(index = commandActiveIndex) {
+  const item = getFilteredCommands()[index];
+  if (!item) return;
+  closeCommandPalette();
+  item.action();
+}
+
 // FORMULA BANK
 // ════════════════════════════════════════
 
@@ -3844,7 +4099,31 @@ document.querySelectorAll('.nav-item').forEach(item => {
 });
 
 document.addEventListener('keydown', event => {
+  const commandOpen = document.getElementById('command-overlay')?.classList.contains('open');
+  if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'k') {
+    event.preventDefault();
+    openCommandPalette();
+    return;
+  }
+  if (commandOpen && event.key === 'ArrowDown') {
+    event.preventDefault();
+    commandActiveIndex++;
+    renderCommandPalette();
+    return;
+  }
+  if (commandOpen && event.key === 'ArrowUp') {
+    event.preventDefault();
+    commandActiveIndex = Math.max(0, commandActiveIndex - 1);
+    renderCommandPalette();
+    return;
+  }
+  if (commandOpen && event.key === 'Enter') {
+    event.preventDefault();
+    runCommand();
+    return;
+  }
   if (event.key !== 'Escape') return;
+  closeCommandPalette();
   closeSidebar();
   closeMockModal();
   closeLogModal();
