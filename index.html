@@ -4152,6 +4152,148 @@ function clampPercent(value) {
   return Math.round(Math.min(100, Math.max(0, Number(value) || 0)));
 }
 
+function ensureArray(value) {
+  return Array.isArray(value) ? value : [];
+}
+
+function ensureObject(value) {
+  return value && typeof value === 'object' && !Array.isArray(value) ? value : {};
+}
+
+function cleanNumber(value, fallback = 0, min = 0, max = Number.POSITIVE_INFINITY) {
+  const number = Number(value);
+  if (!Number.isFinite(number)) return fallback;
+  return Math.min(max, Math.max(min, number));
+}
+
+function cleanText(value, max = 500) {
+  return String(value ?? '').slice(0, max);
+}
+
+function isDateKey(value) {
+  return /^\d{4}-\d{2}-\d{2}$/.test(String(value || ''));
+}
+
+function normalizeStore(raw = {}) {
+  const normalized = ensureObject(raw);
+  normalized.chapters = ensureObject(normalized.chapters);
+  normalized.mocks = ensureArray(normalized.mocks);
+  normalized.logs = ensureArray(normalized.logs);
+  normalized.testLogs = ensureArray(normalized.testLogs);
+  normalized.tasks = ensureArray(normalized.tasks);
+  normalized.focusSessions = ensureArray(normalized.focusSessions);
+  normalized.flashcards = ensureArray(normalized.flashcards);
+  normalized.energy = ensureObject(normalized.energy);
+  normalized.notes = { phy: '', chem: '', math: '', gen: '', ...ensureObject(normalized.notes) };
+  normalized.settings = ensureObject(normalized.settings);
+  normalized.settings.goals = {
+    hours: cleanNumber(normalized.settings.goals?.hours, 6, .5, 16),
+    questions: Math.round(cleanNumber(normalized.settings.goals?.questions, 60, 1, 500))
+  };
+  if (normalized.settings.autoLogFocus === undefined) normalized.settings.autoLogFocus = true;
+  if (!normalized.settings.theme) normalized.settings.theme = localStorage.getItem(THEME_KEY) || 'light';
+
+  getAllChapters().forEach(chapter => {
+    const data = ensureObject(normalized.chapters[chapter.id]);
+    normalized.chapters[chapter.id] = {
+      ...data,
+      status: ['pending','partial','done'].includes(data.status) ? data.status : 'pending',
+      qs_solved: Math.round(cleanNumber(data.qs_solved, 0, 0, 100000)),
+      pyq_solved: Math.round(cleanNumber(data.pyq_solved, 0, 0, 100000)),
+      lectures: Math.round(cleanNumber(data.lectures, 0, 0, 100000)),
+      revision_hrs: cleanNumber(data.revision_hrs, 0, 0, 100000),
+      revision_count: Math.round(cleanNumber(data.revision_count, 0, 0, 1000)),
+      confidence: Math.round(cleanNumber(data.confidence, 3, 1, 5)),
+      notes: cleanText(data.notes, 2000),
+      lastRevised: data.lastRevised && isDateKey(data.lastRevised) ? data.lastRevised : undefined,
+      bookmarked: Boolean(data.bookmarked),
+      topics_done: ensureArray(data.topics_done).filter(topic => chapter.topics.includes(topic))
+    };
+  });
+
+  normalized.energy = Object.fromEntries(Object.entries(normalized.energy)
+    .filter(([date]) => isDateKey(date))
+    .map(([date, value]) => [date, Math.round(cleanNumber(value, 0, 0, 5))])
+    .filter(([, value]) => value > 0));
+
+  normalized.mocks = normalized.mocks.map(mock => ({
+    ...ensureObject(mock),
+    id: Number(mock?.id) || Date.now() + Math.random(),
+    name: cleanText(mock?.name || 'Mock Test', 120),
+    date: isDateKey(mock?.date) ? mock.date : localDateKey(),
+    phy: cleanNumber(mock?.phy, 0, 0, 100),
+    chem: cleanNumber(mock?.chem, 0, 0, 100),
+    math: cleanNumber(mock?.math, 0, 0, 100),
+    notes: cleanText(mock?.notes, 2000)
+  })).map(mock => ({ ...mock, total: mock.phy + mock.chem + mock.math }));
+
+  normalized.logs = normalized.logs.map(log => ({
+    ...ensureObject(log),
+    id: Number(log?.id) || Date.now() + Math.random(),
+    date: isDateKey(log?.date) ? log.date : localDateKey(),
+    subject: ['Physics','Chemistry','Mathematics','Mixed'].includes(log?.subject) ? log.subject : 'Mixed',
+    hours: cleanNumber(log?.hours, 0, 0, 24),
+    qs: Math.round(cleanNumber(log?.qs, 0, 0, 5000)),
+    topics: cleanText(log?.topics, 500),
+    reflection: cleanText(log?.reflection, 1000)
+  }));
+
+  normalized.testLogs = normalized.testLogs.map(entry => ({
+    ...ensureObject(entry),
+    id: Number(entry?.id) || Date.now() + Math.random(),
+    name: cleanText(entry?.name || 'Test', 120),
+    date: isDateKey(entry?.date) ? entry.date : localDateKey(),
+    phyC: Math.round(cleanNumber(entry?.phyC, 0, 0, 25)),
+    phyW: Math.round(cleanNumber(entry?.phyW, 0, 0, 25)),
+    phyL: Math.round(cleanNumber(entry?.phyL, 0, 0, 25)),
+    chemC: Math.round(cleanNumber(entry?.chemC, 0, 0, 25)),
+    chemW: Math.round(cleanNumber(entry?.chemW, 0, 0, 25)),
+    chemL: Math.round(cleanNumber(entry?.chemL, 0, 0, 25)),
+    mathC: Math.round(cleanNumber(entry?.mathC, 0, 0, 25)),
+    mathW: Math.round(cleanNumber(entry?.mathW, 0, 0, 25)),
+    mathL: Math.round(cleanNumber(entry?.mathL, 0, 0, 25)),
+    mistakes: ensureArray(entry?.mistakes).map(item => cleanText(item, 300)).filter(Boolean).slice(0, 6),
+    mistakeTypes: ensureArray(entry?.mistakeTypes).map(item => cleanText(item, 60)).filter(Boolean).slice(0, 8),
+    notes: cleanText(entry?.notes, 1500)
+  }));
+
+  normalized.tasks = normalized.tasks.map(task => ({
+    ...ensureObject(task),
+    id: Number(task?.id) || Date.now() + Math.random(),
+    title: cleanText(task?.title || 'Untitled task', 120),
+    subject: cleanText(task?.subject || 'Mixed', 40),
+    due: isDateKey(task?.due) ? task.due : localDateKey(),
+    priority: ['high','medium','low'].includes(task?.priority) ? task.priority : 'medium',
+    minutes: Math.round(cleanNumber(task?.minutes, 45, 5, 600)),
+    notes: cleanText(task?.notes, 1000),
+    done: Boolean(task?.done),
+    createdAt: cleanText(task?.createdAt || new Date().toISOString(), 80),
+    completedAt: task?.completedAt ? cleanText(task.completedAt, 80) : null
+  }));
+
+  normalized.focusSessions = normalized.focusSessions.map(session => ({
+    ...ensureObject(session),
+    id: Number(session?.id) || Date.now() + Math.random(),
+    date: isDateKey(session?.date) ? session.date : localDateKey(),
+    minutes: Math.round(cleanNumber(session?.minutes, 0, 0, 600)),
+    mode: cleanText(session?.mode || 'Focus session', 80),
+    taskTitle: cleanText(session?.taskTitle, 120)
+  }));
+
+  normalized.flashcards = normalized.flashcards.map(card => ({
+    ...ensureObject(card),
+    id: Number(card?.id) || Date.now() + Math.random(),
+    front: cleanText(card?.front, 500),
+    back: cleanText(card?.back, 1000),
+    due: isDateKey(card?.due) ? card.due : localDateKey(),
+    box: Math.round(cleanNumber(card?.box, 0, 0, 5)),
+    createdAt: cleanText(card?.createdAt || new Date().toISOString(), 80),
+    lastReviewed: card?.lastReviewed && isDateKey(card.lastReviewed) ? card.lastReviewed : undefined
+  })).filter(card => card.front && card.back);
+
+  return normalized;
+}
+
 function localDateKey(date = new Date()) {
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -4662,15 +4804,7 @@ function importUserData(event) {
       const imported = payload?.data;
       if (!imported || typeof imported !== 'object' || Array.isArray(imported)) throw new Error('Invalid backup');
       if (!confirm('Replace the current user data with this backup?')) return;
-      store = imported;
-      if (!store.chapters) store.chapters = {};
-      if (!store.mocks) store.mocks = [];
-      if (!store.logs) store.logs = [];
-      if (!store.testLogs) store.testLogs = [];
-      if (!store.notes) store.notes = { phy:'', chem:'', math:'', gen:'' };
-      if (!store.settings) store.settings = {};
-      if (!store.tasks) store.tasks = [];
-      if (!store.focusSessions) store.focusSessions = [];
+      store = normalizeStore(imported);
       saveAll();
       applyTheme(store.settings.theme || localStorage.getItem(THEME_KEY) || 'light');
       renderDashboard();
@@ -4689,19 +4823,7 @@ function loadAll() {
     const s = localStorage.getItem(getUserKey(currentUser));
     if (s) store = JSON.parse(s);
   } catch(e) {}
-  if (!store.chapters)  store.chapters  = {};
-  if (!store.mocks)     store.mocks     = [];
-  if (!store.logs)      store.logs      = [];
-  if (!store.testLogs)  store.testLogs  = [];
-  if (!store.notes)     store.notes     = { phy:'', chem:'', math:'', gen:'' };
-  if (!store.settings)  store.settings  = {};
-  if (!store.tasks)     store.tasks     = [];
-  if (!store.focusSessions) store.focusSessions = [];
-  if (!store.flashcards) store.flashcards = [];
-  if (!store.energy) store.energy = {};
-  if (!store.settings.goals) store.settings.goals = { hours: 6, questions: 60 };
-  if (store.settings.autoLogFocus === undefined) store.settings.autoLogFocus = true;
-  if (!store.settings.theme) store.settings.theme = localStorage.getItem(THEME_KEY) || 'light';
+  store = normalizeStore(store);
 }
 
 function getChapter(id) {
@@ -5226,6 +5348,33 @@ function searchSubject(subject, query) {
   renderSubject(subject, currentFilter[subject]);
 }
 
+function renderSubjectHeaderStats(subj) {
+  const colMap = { physics:'phy', chemistry:'chem', mathematics:'math' };
+  const col = colMap[subj];
+  const allCh = SYLLABUS[subj] || [];
+  let totalQs = 0;
+  let totalPyq = 0;
+  let done = 0;
+  allCh.forEach(chapter => {
+    const data = store.chapters[chapter.id] || {};
+    totalQs += Number(data.qs_solved || 0);
+    totalPyq += Number(data.pyq_solved || 0);
+    if (data.status === 'done') done++;
+  });
+  const statsEl = document.getElementById(col + '-header-stats');
+  if (statsEl) {
+    statsEl.innerHTML = `
+      <div><div style="font-size:20px;font-weight:600;color:var(--${col})">${done}/${allCh.length}</div><div style="font-size:11px">chapters done</div></div>
+      <div><div style="font-size:20px;font-weight:600">${totalQs}</div><div style="font-size:11px">Qs solved</div></div>
+      <div><div style="font-size:20px;font-weight:600">${totalPyq}</div><div style="font-size:11px">PYQs done</div></div>`;
+  }
+}
+
+function refreshSubjectStatsForChapter(id) {
+  const found = getAllChapters().find(item => item.id === id);
+  if (found) renderSubjectHeaderStats(found.subject);
+}
+
 function renderSubject(subj, filter) {
   const query = subjectSearch[subj];
   const chapters = SYLLABUS[subj].filter(chapter => {
@@ -5236,23 +5385,7 @@ function renderSubject(subj, filter) {
   const listEl = document.getElementById(subj === 'physics' ? 'phy-list' : subj === 'chemistry' ? 'chem-list' : 'math-list');
   const colMap = { physics:'phy', chemistry:'chem', mathematics:'math' };
   const col = colMap[subj];
-  const allCh = SYLLABUS[subj];
-  let totalQs = 0, totalPyq = 0, done = 0;
-
-  allCh.forEach(chapter => {
-    const data = store.chapters[chapter.id] || {};
-    totalQs += data.qs_solved || 0;
-    totalPyq += data.pyq_solved || 0;
-    if (data.status === 'done') done++;
-  });
-
-  const statsEl = document.getElementById(col + '-header-stats');
-  if (statsEl) {
-    statsEl.innerHTML = `
-      <div><div style="font-size:20px;font-weight:600;color:var(--${col})">${done}/${allCh.length}</div><div style="font-size:11px">chapters done</div></div>
-      <div><div style="font-size:20px;font-weight:600">${totalQs}</div><div style="font-size:11px">Qs solved</div></div>
-      <div><div style="font-size:20px;font-weight:600">${totalPyq}</div><div style="font-size:11px">PYQs done</div></div>`;
-  }
+  renderSubjectHeaderStats(subj);
 
   const countEl = document.getElementById(`${subj}-search-count`);
   if (countEl) countEl.textContent = `${chapters.length} chapter${chapters.length === 1 ? '' : 's'}`;
@@ -5326,15 +5459,30 @@ function toggleChapter(id) {
 
 function updateChapter(id, field, val) {
   const c = getChapter(id);
-  c[field] = val;
+  if (['qs_solved','pyq_solved','lectures','revision_count'].includes(field)) {
+    c[field] = Math.round(cleanNumber(val, 0, 0, 100000));
+  } else if (field === 'revision_hrs') {
+    c[field] = cleanNumber(val, 0, 0, 100000);
+  } else if (field === 'status') {
+    c[field] = ['pending','partial','done'].includes(val) ? val : 'pending';
+  } else {
+    c[field] = val;
+  }
   saveAll();
+  refreshSubjectStatsForChapter(id);
+  renderRevisionQueue();
+  renderDashboardIntelligence();
+  refreshDashboardIfVisible();
 }
 
 function updateChapterConf(id, val, labelEl) {
   const c = getChapter(id);
-  c.confidence = val;
-  if (labelEl) labelEl.textContent = `Confidence (1–5): ${val}/5`;
+  c.confidence = Math.round(cleanNumber(val, 3, 1, 5));
+  if (labelEl) labelEl.textContent = `Confidence (1–5): ${c.confidence}/5`;
   saveAll();
+  renderRevisionQueue();
+  renderDashboardIntelligence();
+  refreshDashboardIfVisible();
 }
 
 function toggleTopic(id, topic, el) {
@@ -5348,6 +5496,8 @@ function toggleTopic(id, topic, el) {
     el.classList.add('done');
   }
   saveAll();
+  refreshSubjectStatsForChapter(id);
+  refreshDashboardIfVisible();
 }
 
 // ════════════════════════════════════════
