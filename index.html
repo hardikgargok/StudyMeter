@@ -1721,6 +1721,170 @@
     cursor: pointer;
   }
   .energy-btn.active { color: #fff; border-color: rgba(167,139,250,.45); background: rgba(124,58,237,.25); }
+  .ai-orbit-card {
+    position: relative;
+    overflow: hidden;
+    min-height: 220px;
+    padding: 22px;
+    border: 1px solid rgba(37,99,235,.16);
+    border-radius: var(--radius-lg);
+    background:
+      radial-gradient(circle at 14% 18%, rgba(37,99,235,.14), transparent 30%),
+      radial-gradient(circle at 86% 12%, rgba(21,153,71,.10), transparent 28%),
+      linear-gradient(135deg, rgba(255,255,255,.96), rgba(244,249,255,.92));
+    box-shadow: 0 22px 60px rgba(37,99,235,.10);
+  }
+  .ai-orbit-card::before {
+    content: '';
+    position: absolute;
+    right: -58px;
+    top: -58px;
+    width: 190px;
+    height: 190px;
+    border-radius: 50%;
+    border: 24px solid rgba(37,99,235,.07);
+    animation: aiPulse 6s ease-in-out infinite;
+  }
+  .ai-orbit-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(105deg, transparent 0 36%, rgba(255,255,255,.36) 48%, transparent 60%);
+    transform: translateX(-100%);
+    animation: aiSweep 5.5s ease-in-out infinite;
+    pointer-events: none;
+  }
+  .ai-card-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 14px;
+    position: relative;
+    z-index: 1;
+  }
+  .ai-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    width: fit-content;
+    padding: 7px 10px;
+    border-radius: 999px;
+    background: rgba(37,99,235,.10);
+    color: var(--accent);
+    font-size: 11px;
+    font-weight: 850;
+    text-transform: uppercase;
+    letter-spacing: .6px;
+  }
+  .ai-title { font-size: 22px; line-height: 1.15; font-weight: 880; margin: 12px 0 7px; letter-spacing: 0; }
+  .ai-copy { color: var(--text2); font-size: 13px; max-width: 760px; }
+  .ai-signal-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 10px;
+    margin-top: 18px;
+    position: relative;
+    z-index: 1;
+  }
+  .ai-signal {
+    padding: 12px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: rgba(255,255,255,.68);
+  }
+  .ai-signal-value { font-size: 18px; font-weight: 850; }
+  .ai-signal-label { color: var(--text3); font-size: 10px; text-transform: uppercase; letter-spacing: .55px; }
+  .ai-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(320px, .95fr);
+    gap: 16px;
+    align-items: start;
+    margin-top: 18px;
+  }
+  .ai-panel {
+    padding: 18px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: var(--bg2);
+    box-shadow: 0 14px 38px rgba(15,23,42,.08);
+  }
+  .ai-panel-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+    font-size: 13px;
+    font-weight: 850;
+  }
+  .ai-step-list { display: grid; gap: 9px; }
+  .ai-step {
+    display: grid;
+    grid-template-columns: 36px minmax(0, 1fr) auto;
+    gap: 11px;
+    align-items: center;
+    padding: 12px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: rgba(255,255,255,.035);
+  }
+  .ai-step-num {
+    width: 36px;
+    height: 36px;
+    display: grid;
+    place-items: center;
+    border-radius: 11px;
+    background: rgba(37,99,235,.10);
+    color: var(--accent);
+    font-weight: 900;
+  }
+  .ai-step-title { font-size: 12px; font-weight: 780; }
+  .ai-step-copy { color: var(--text3); font-size: 11px; margin-top: 2px; }
+  .ai-matrix { display: grid; gap: 8px; }
+  .ai-matrix-row {
+    display: grid;
+    grid-template-columns: minmax(0,1fr) 64px;
+    gap: 12px;
+    align-items: center;
+    padding: 11px;
+    border-radius: 11px;
+    background: rgba(255,255,255,.035);
+    border: 1px solid var(--border);
+  }
+  .ai-meter { height: 8px; border-radius: 999px; background: var(--bg4); overflow: hidden; margin-top: 7px; }
+  .ai-meter-fill { height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--danger), var(--warn), var(--success)); }
+  .ai-brief {
+    min-height: 180px;
+    white-space: pre-wrap;
+    color: var(--text2);
+    font-size: 12px;
+    line-height: 1.65;
+  }
+  .ai-chip-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+  .ai-chip {
+    padding: 7px 10px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: var(--bg3);
+    color: var(--text2);
+    font-size: 11px;
+  }
+  @keyframes aiPulse {
+    0%, 100% { transform: scale(.92); opacity: .55; }
+    50% { transform: scale(1.06); opacity: .95; }
+  }
+  @keyframes aiSweep {
+    0%, 52% { transform: translateX(-105%); }
+    72%, 100% { transform: translateX(105%); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ai-orbit-card::before,
+    .ai-orbit-card::after,
+    .prog-fill,
+    .launch-splash,
+    .launch-logo-card,
+    .launch-needle { animation: none !important; }
+  }
 
   @media (max-width: 1100px) {
     .dash-grid { grid-template-columns: 1fr; }
@@ -1771,6 +1935,10 @@
     .update-banner .btn-primary { width: 100%; }
     .toolkit-grid { grid-template-columns: 1fr; }
     .tool-two { grid-template-columns: 1fr; }
+    .ai-signal-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .ai-layout { grid-template-columns: 1fr; }
+    .ai-step { grid-template-columns: 34px minmax(0, 1fr); }
+    .ai-step .btn-sm { grid-column: 2; justify-self: start; }
   }
 
   /* Planner, focus and revision */
@@ -2383,10 +2551,16 @@
   body.theme-dark .timer-card,
   body.theme-dark .modal,
   body.theme-dark .command-panel,
-  body.theme-dark .hero-progress {
+  body.theme-dark .hero-progress,
+  body.theme-dark .ai-orbit-card,
+  body.theme-dark .ai-panel {
     background: rgba(16,24,38,.94);
     border-color: rgba(255,255,255,.09);
     box-shadow: 0 22px 54px rgba(0,0,0,.28);
+  }
+  body.theme-dark .ai-signal {
+    background: rgba(17,26,42,.78);
+    border-color: rgba(255,255,255,.08);
   }
 
   body.theme-dark .dashboard-hero {
@@ -3300,6 +3474,9 @@
   <a class="nav-item" onclick="showPage('toolkit')">
     <span class="nav-dot" style="background:var(--gold)"></span> Toolkit
   </a>
+  <a class="nav-item" onclick="showPage('ai-mentor')">
+    <span class="nav-dot" style="background:linear-gradient(135deg,var(--phy),var(--success))"></span> AI Mentor
+  </a>
 
   <div class="nav-section">Subjects</div>
   <a class="nav-item" onclick="showPage('physics')">
@@ -3417,6 +3594,18 @@
         <div class="section-title" style="margin-top:0">Smart Insights <span class="section-line"></span></div>
         <div class="insight-list" id="dashboard-insights"></div>
       </div>
+    </section>
+
+    <section class="ai-orbit-card" id="dashboard-ai-card">
+      <div class="ai-card-head">
+        <div>
+          <div class="ai-badge">AI Mentor Engine</div>
+          <div class="ai-title" id="dashboard-ai-title">Building your personal preparation model</div>
+          <div class="ai-copy" id="dashboard-ai-copy">StudyMeter reads your syllabus status, mocks, mistakes, revision queue, energy, and deadlines to recommend the highest-leverage next move.</div>
+        </div>
+        <button class="btn-primary" onclick="showPage('ai-mentor')">Open mentor</button>
+      </div>
+      <div class="ai-signal-grid" id="dashboard-ai-signals"></div>
     </section>
 
     <section class="performance-grid" aria-label="Performance intelligence">
@@ -3972,6 +4161,16 @@
       </div>
 
       <div class="toolkit-card">
+        <div class="toolkit-title">AI Mentor Brief</div>
+        <div class="toolkit-copy">A compact coach note generated from your current StudyMeter data.</div>
+        <div class="mini-list" id="ai-toolkit-brief"></div>
+        <div class="action-row">
+          <button class="btn-primary" onclick="showPage('ai-mentor')">Open mentor</button>
+          <button class="btn-sm" onclick="copyMentorBrief()">Copy</button>
+        </div>
+      </div>
+
+      <div class="toolkit-card">
         <div class="toolkit-title">Energy Check-In</div>
         <div class="toolkit-copy">Track study energy so planning respects recovery, not just ambition.</div>
         <div class="energy-row" id="energy-row">
@@ -4007,6 +4206,52 @@
           <button class="btn-sm" onclick="downloadStudyReport()">Download</button>
         </div>
       </div>
+    </div>
+  </div>
+
+  <!-- AI Mentor -->
+  <div class="page" id="page-ai-mentor">
+    <div class="page-header">
+      <div>
+        <div class="page-title">AI Mentor</div>
+        <div class="page-subtitle">Private, offline intelligence that turns your StudyMeter data into a sharper JEE plan.</div>
+      </div>
+      <div class="action-row" style="margin-top:0">
+        <button class="btn-primary" onclick="createAiMentorTasks()">Create tasks</button>
+        <button class="btn-sm" onclick="generateMentorFlashcards()">Make flashcards</button>
+      </div>
+    </div>
+
+    <section class="ai-orbit-card">
+      <div class="ai-card-head">
+        <div>
+          <div class="ai-badge">Mission Control</div>
+          <div class="ai-title" id="ai-mentor-headline">Your next best move is loading</div>
+          <div class="ai-copy" id="ai-mentor-summary">Add study logs, chapter status, and mock scores to make this mentor more precise.</div>
+        </div>
+        <button class="btn-sm" onclick="copyMentorBrief()">Copy brief</button>
+      </div>
+      <div class="ai-signal-grid" id="ai-mentor-signals"></div>
+    </section>
+
+    <div class="ai-layout">
+      <section class="ai-panel">
+        <div class="ai-panel-title">48-Hour Attack Plan <button class="btn-sm" onclick="createAiMentorTasks()">Add all</button></div>
+        <div class="ai-step-list" id="ai-plan-list"></div>
+      </section>
+      <section class="ai-panel">
+        <div class="ai-panel-title">Weakness Matrix <button class="btn-sm" onclick="seedWeakFlashcards()">Seed cards</button></div>
+        <div class="ai-matrix" id="ai-weakness-matrix"></div>
+      </section>
+      <section class="ai-panel">
+        <div class="ai-panel-title">Mentor Brief <button class="btn-sm" onclick="copyMentorBrief()">Copy</button></div>
+        <div class="ai-brief" id="ai-mentor-brief"></div>
+      </section>
+      <section class="ai-panel">
+        <div class="ai-panel-title">Micro Lesson Generator <button class="btn-sm" onclick="generateMentorFlashcards()">Add cards</button></div>
+        <div class="mini-list" id="ai-micro-lessons"></div>
+        <div class="ai-chip-row" id="ai-habit-chips"></div>
+      </section>
     </div>
   </div>
 
@@ -5220,6 +5465,7 @@ function showPage(name) {
   if (name === 'focus') renderFocusPage();
   if (name === 'formula-bank') loadNotes();
   if (name === 'toolkit') renderToolkit();
+  if (name === 'ai-mentor') renderAiMentor();
   closeSidebar();
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
@@ -5280,6 +5526,7 @@ function renderDashboard() {
   renderMomentumStrip(totalDone, ids);
   renderPerformanceIntelligence({ totalDone, totalChapters, ids });
   renderDashboardIntelligence();
+  renderDashboardAiCoach();
   updatePlannerBadge();
 }
 
@@ -6423,6 +6670,265 @@ function renderDashboardIntelligence() {
   updatePlannerBadge();
 }
 
+function getAiMentorModel() {
+  const ids = {
+    physics: SYLLABUS.physics.map(c => c.id),
+    chemistry: SYLLABUS.chemistry.map(c => c.id),
+    mathematics: SYLLABUS.mathematics.map(c => c.id)
+  };
+  const logs = store.logs || [];
+  const mocks = [...(store.mocks || [])].sort((a, b) => String(a.date).localeCompare(String(b.date)));
+  const testLogs = store.testLogs || [];
+  const tasks = store.tasks || [];
+  const revisionQueue = getRevisionQueue();
+  const subjectProgress = getSubjectProgress(ids).sort((a, b) => a.pct - b.pct);
+  const weakChapters = getAllChapters().map(chapter => {
+    const data = store.chapters[chapter.id] || {};
+    const topicsDone = (data.topics_done || []).length;
+    const topicPct = chapter.topics.length ? topicsDone / chapter.topics.length : 0;
+    const statusScore = data.status === 'done' ? 1 : data.status === 'partial' ? .45 : 0;
+    const confidence = Number(data.confidence || 3);
+    const risk = Math.round(
+      (chapter.high ? 28 : 12) +
+      (1 - statusScore) * 34 +
+      (1 - topicPct) * 18 +
+      (5 - confidence) * 6 +
+      (data.lastRevised ? 0 : 8)
+    );
+    return { ...chapter, data, risk: clampPercent(risk), topicPct };
+  }).sort((a, b) => b.risk - a.risk);
+  const today = localDateKey();
+  const weekDays = new Set();
+  for (let i = 0; i < 7; i++) {
+    const d = new Date();
+    d.setDate(d.getDate() - i);
+    weekDays.add(localDateKey(d));
+  }
+  const todayHours = logs.filter(log => log.date === today).reduce((sum, log) => sum + Number(log.hours || 0), 0);
+  const weekHours = logs.filter(log => weekDays.has(log.date)).reduce((sum, log) => sum + Number(log.hours || 0), 0);
+  const latestMock = mocks[mocks.length - 1];
+  const previousMock = mocks[mocks.length - 2];
+  const mockDelta = latestMock && previousMock ? Number(latestMock.total || 0) - Number(previousMock.total || 0) : 0;
+  const mistakeTypes = {};
+  testLogs.forEach(entry => (entry.mistakeTypes || []).forEach(type => {
+    mistakeTypes[type] = (mistakeTypes[type] || 0) + 1;
+  }));
+  const topMistake = Object.entries(mistakeTypes).sort((a, b) => b[1] - a[1])[0];
+  const goals = store.settings.goals || { hours: 6, questions: 60 };
+  const daysRemaining = Math.max(0, Math.ceil((currentExamDate - new Date()) / 86400000));
+  const totalChapters = getAllChapters().length;
+  const doneChapters = getAllChapters().filter(chapter => store.chapters[chapter.id]?.status === 'done').length;
+  const readiness = clampPercent(
+    (doneChapters / totalChapters) * 44 +
+    Math.min(20, weekHours / Math.max(1, goals.hours * 7) * 20) +
+    (latestMock ? Number(latestMock.total || 0) / 300 * 24 : 0) +
+    Math.max(0, 12 - revisionQueue.length * 1.8)
+  );
+  return {
+    ids, logs, mocks, testLogs, tasks, revisionQueue, subjectProgress, weakChapters,
+    today, todayHours, weekHours, latestMock, previousMock, mockDelta, topMistake,
+    goals, daysRemaining, totalChapters, doneChapters, readiness,
+    energy: store.energy?.[today] || 0,
+    openTasks: tasks.filter(task => !task.done)
+  };
+}
+
+function buildAiMentorPlan(model = getAiMentorModel()) {
+  const today = localDateKey();
+  const tomorrow = new Date(`${today}T00:00:00`);
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  const openTitles = new Set(model.openTasks.map(task => String(task.title).toLowerCase()));
+  const plan = [];
+  const add = item => {
+    if (!item || openTitles.has(String(item.title).toLowerCase())) return;
+    if (plan.some(existing => existing.title.toLowerCase() === item.title.toLowerCase())) return;
+    plan.push(item);
+  };
+  model.revisionQueue.slice(0, 2).forEach(item => add({
+    title: `AI review: ${item.name}`,
+    subject: item.subject[0].toUpperCase() + item.subject.slice(1),
+    minutes: model.energy && model.energy <= 2 ? 30 : 45,
+    priority: 'high',
+    due: today,
+    reason: item.reason,
+    notes: `Mentor rule: revise first because this chapter is ${item.reason.toLowerCase()}.`
+  }));
+  model.weakChapters.slice(0, 3).forEach((chapter, index) => add({
+    title: `AI attack: ${chapter.name}`,
+    subject: chapter.subject[0].toUpperCase() + chapter.subject.slice(1),
+    minutes: index === 0 ? 70 : 45,
+    priority: index === 0 ? 'high' : 'medium',
+    due: index < 2 ? today : localDateKey(tomorrow),
+    reason: `${chapter.risk}/100 risk, ${chapter.high ? 'high weight' : 'coverage gap'}`,
+    notes: `Do concept recap, then solve ${chapter.high ? '35' : '25'} questions. Watch for: ${chapter.topics.slice(0, 3).join(', ')}.`
+  }));
+  if (model.latestMock && model.mockDelta < 0) {
+    add({
+      title: 'AI post-mock repair block',
+      subject: 'Mixed',
+      minutes: 40,
+      priority: 'high',
+      due: today,
+      reason: `Latest mock dropped by ${Math.abs(model.mockDelta)} marks`,
+      notes: 'Pick the 5 most expensive mistakes, write the correct trigger, then redo similar questions.'
+    });
+  } else if (!model.latestMock) {
+    add({
+      title: 'AI baseline mock or sectional test',
+      subject: 'Mixed',
+      minutes: 120,
+      priority: 'medium',
+      due: localDateKey(tomorrow),
+      reason: 'No score baseline exists',
+      notes: 'Attempt a timed paper or strong sectional test, then log score and mistakes.'
+    });
+  }
+  if (model.todayHours < Math.min(model.goals.hours, 2)) {
+    add({
+      title: 'AI momentum starter',
+      subject: 'Mixed',
+      minutes: 25,
+      priority: 'medium',
+      due: today,
+      reason: 'Today needs a clean first study block',
+      notes: 'No setup. Start timer, solve one small set, log honestly.'
+    });
+  }
+  return plan.slice(0, 5);
+}
+
+function buildMentorBrief(model = getAiMentorModel()) {
+  const weakest = model.subjectProgress[0];
+  const strongest = [...model.subjectProgress].sort((a, b) => b.pct - a.pct)[0];
+  const topChapter = model.weakChapters[0];
+  const mockLine = model.latestMock
+    ? `Latest mock: ${model.latestMock.total}/300 (${model.mockDelta >= 0 ? '+' : ''}${model.mockDelta} vs previous).`
+    : 'Latest mock: no baseline yet.';
+  const mistakeLine = model.topMistake ? `Dominant mistake pattern: ${model.topMistake[0]} (${model.topMistake[1]} logged).` : 'Dominant mistake pattern: not enough test analysis yet.';
+  return [
+    `Readiness: ${model.readiness}/100. ${model.readiness >= 70 ? 'Protect the system and sharpen mocks.' : model.readiness >= 40 ? 'Momentum exists, but weak chapters need pressure.' : 'Foundation mode: build daily evidence first.'}`,
+    `Coverage: ${model.doneChapters}/${model.totalChapters} chapters done. Weakest subject is ${weakest?.subject || 'unknown'} at ${weakest?.pct || 0}%; strongest is ${strongest?.subject || 'unknown'} at ${strongest?.pct || 0}%.`,
+    mockLine,
+    mistakeLine,
+    `Next chapter to attack: ${topChapter ? `${topChapter.name} (${topChapter.risk}/100 risk)` : 'log more chapter data first'}.`,
+    `Next 24 hours: ${buildAiMentorPlan(model).slice(0, 3).map(item => item.title).join(' | ') || 'create one concrete planner task and start focus timer'}.`
+  ].join('\n');
+}
+
+function renderDashboardAiCoach() {
+  const signalBox = document.getElementById('dashboard-ai-signals');
+  if (!signalBox) return;
+  const model = getAiMentorModel();
+  const plan = buildAiMentorPlan(model);
+  const top = plan[0];
+  document.getElementById('dashboard-ai-title').textContent = top ? top.title : 'Your plan is calm and current';
+  document.getElementById('dashboard-ai-copy').textContent = top
+    ? `${top.reason}. Suggested block: ${top.minutes} minutes in ${top.subject}.`
+    : 'No urgent gap is screaming right now. Keep the study loop alive with a planned focus block.';
+  signalBox.innerHTML = [
+    ['Readiness', `${model.readiness}/100`],
+    ['Today', `${model.todayHours.toFixed(1)}h`],
+    ['Revision', model.revisionQueue.length],
+    ['Weak risk', model.weakChapters[0] ? `${model.weakChapters[0].risk}%` : '-']
+  ].map(([label, value]) => `<div class="ai-signal"><div class="ai-signal-value">${escapeHtml(value)}</div><div class="ai-signal-label">${escapeHtml(label)}</div></div>`).join('');
+}
+
+function renderAiMentor() {
+  const model = getAiMentorModel();
+  const plan = buildAiMentorPlan(model);
+  const headline = document.getElementById('ai-mentor-headline');
+  if (!headline) return;
+  const top = plan[0];
+  headline.textContent = top ? top.title : 'Your current system is balanced';
+  document.getElementById('ai-mentor-summary').textContent = top
+    ? `${top.reason}. Do this before adding more tasks.`
+    : 'Keep logging study, revision, and mocks so the mentor can keep your next move sharp.';
+  document.getElementById('ai-mentor-signals').innerHTML = [
+    ['Readiness', `${model.readiness}/100`],
+    ['Days left', model.daysRemaining],
+    ['7-day hrs', model.weekHours.toFixed(1)],
+    ['Open tasks', model.openTasks.length]
+  ].map(([label, value]) => `<div class="ai-signal"><div class="ai-signal-value">${escapeHtml(value)}</div><div class="ai-signal-label">${escapeHtml(label)}</div></div>`).join('');
+  document.getElementById('ai-plan-list').innerHTML = plan.length ? plan.map((item, index) => `
+    <div class="ai-step">
+      <div class="ai-step-num">${index + 1}</div>
+      <div><div class="ai-step-title">${escapeHtml(item.title)}</div><div class="ai-step-copy">${escapeHtml(item.reason)} - ${item.minutes} min - ${escapeHtml(item.due)}</div></div>
+      <button class="btn-sm" onclick="addAiPlanTask(${index})">Add</button>
+    </div>
+  `).join('') : '<div class="empty-state">No urgent generated tasks. Keep your current plan moving.</div>';
+  document.getElementById('ai-weakness-matrix').innerHTML = model.weakChapters.slice(0, 6).map(chapter => `
+    <div class="ai-matrix-row">
+      <div>
+        <div class="mini-row-title">${escapeHtml(chapter.name)}</div>
+        <div class="mini-row-copy">${escapeHtml(chapter.subject)} - ${escapeHtml(chapter.unit)} - confidence ${chapter.data.confidence || 3}/5</div>
+        <div class="ai-meter"><div class="ai-meter-fill" style="width:${chapter.risk}%"></div></div>
+      </div>
+      <strong>${chapter.risk}</strong>
+    </div>
+  `).join('');
+  document.getElementById('ai-mentor-brief').textContent = buildMentorBrief(model);
+  document.getElementById('ai-micro-lessons').innerHTML = model.weakChapters.slice(0, 4).map(chapter => `
+    <div class="mini-row">
+      <div class="mini-row-main"><div class="mini-row-title">${escapeHtml(chapter.name)} micro-lesson</div><div class="mini-row-copy">Explain ${escapeHtml(chapter.topics.slice(0, 3).join(', '))}, then solve 10 mixed questions without notes.</div></div>
+      <span class="badge">${chapter.high ? 'High' : 'Core'}</span>
+    </div>
+  `).join('');
+  const habit = model.energy && model.energy <= 2 ? 'Low energy: use 25 minute blocks' : model.weekHours < 12 ? 'Raise weekly floor before adding complexity' : 'Keep mock-analysis loop tight';
+  document.getElementById('ai-habit-chips').innerHTML = [habit, model.topMistake?.[0] || 'Log mistake types', `${model.revisionQueue.length} reviews due`]
+    .map(text => `<span class="ai-chip">${escapeHtml(text)}</span>`).join('');
+}
+
+function addAiPlanTask(index) {
+  const item = buildAiMentorPlan()[index];
+  if (!item) return;
+  store.tasks.push({ id: Date.now(), ...item, done: false, createdAt: new Date().toISOString() });
+  saveAll();
+  renderAiMentor();
+  renderPlanner();
+  refreshDashboardIfVisible();
+  showToast('AI task added');
+}
+
+function createAiMentorTasks() {
+  const items = buildAiMentorPlan();
+  if (!items.length) return showToast('Your current plan already covers the mentor moves');
+  const stamp = Date.now();
+  items.forEach((item, index) => store.tasks.push({ id: stamp + index, ...item, done: false, createdAt: new Date().toISOString() }));
+  saveAll();
+  renderAiMentor();
+  renderPlanner();
+  refreshDashboardIfVisible();
+  showToast(`${items.length} AI task${items.length === 1 ? '' : 's'} created`);
+}
+
+function generateMentorFlashcards() {
+  const model = getAiMentorModel();
+  const existing = new Set((store.flashcards || []).map(card => card.front.toLowerCase()));
+  let added = 0;
+  model.weakChapters.slice(0, 5).forEach(chapter => {
+    const front = `AI recall: ${chapter.name}`;
+    if (existing.has(front.toLowerCase())) return;
+    store.flashcards.push({
+      id: Date.now() + Math.random(),
+      front,
+      back: `Teach these without notes: ${chapter.topics.slice(0, 4).join(', ')}. Then write one trap and one solved example.`,
+      due: localDateKey(),
+      box: 0,
+      createdAt: new Date().toISOString()
+    });
+    added++;
+  });
+  saveAll();
+  renderAiMentor();
+  renderToolkit();
+  showToast(added ? `${added} AI flashcard${added === 1 ? '' : 's'} added` : 'AI flashcards already exist');
+}
+
+function copyMentorBrief() {
+  const brief = buildMentorBrief();
+  navigator.clipboard?.writeText(brief).then(() => showToast('Mentor brief copied')).catch(() => showToast('Copy failed', 'error'));
+}
+
 function populateFocusTasks() {
   const select = document.getElementById('focus-task-select');
   if (!select) return;
@@ -6592,6 +7098,7 @@ function buildCommandItems() {
     ['Study Log', 'Review day-by-day study sessions', 'S', () => showPage('study-log')],
     ['Formula Bank', 'Open personal notes and formulae', 'N', () => showPage('formula-bank')],
     ['Toolkit', 'Open flashcards, reports, reminders, and achievements', 'TK', () => showPage('toolkit')],
+    ['AI Mentor', 'Open adaptive plan, risk matrix, and mentor brief', 'AI', () => showPage('ai-mentor')],
     ['Physics', 'Open Physics syllabus tracker', 'Ph', () => showPage('physics')],
     ['Chemistry', 'Open Chemistry syllabus tracker', 'Ch', () => showPage('chemistry')],
     ['Mathematics', 'Open Mathematics syllabus tracker', 'Ma', () => showPage('mathematics')]
@@ -6600,6 +7107,9 @@ function buildCommandItems() {
   const actions = [
     { title: 'Log study session', copy: 'Record hours, questions, topics, and reflection', icon: '+', action: openLogModal, keywords: 'log study session hours questions' },
     { title: "Generate today's plan", copy: 'Create smart tasks from weak chapters and revision due', icon: 'AI', action: generateTodaysPlan, keywords: 'generate plan smart tasks battle' },
+    { title: 'Open AI Mentor', copy: 'See readiness, weak chapters, micro-lessons, and next moves', icon: 'AI', action: () => showPage('ai-mentor'), keywords: 'ai mentor coach intelligence weakness risk readiness' },
+    { title: 'Create AI mentor tasks', copy: 'Add the full 48-hour attack plan to planner', icon: 'AI', action: createAiMentorTasks, keywords: 'ai generate mentor tasks attack plan' },
+    { title: 'Make AI flashcards', copy: 'Generate recall cards from highest-risk chapters', icon: 'FC', action: generateMentorFlashcards, keywords: 'ai flashcards recall weak chapters' },
     { title: 'Add planner task', copy: 'Create the next concrete study task', icon: '+', action: openTaskModal, keywords: 'task planner todo add' },
     { title: 'Add test analysis', copy: 'Save mistakes and subject accuracy', icon: '+', action: openTestLogModal, keywords: 'test analysis mistakes correct wrong left' },
     { title: 'Add mock test', copy: 'Save Physics, Chemistry, and Maths scores', icon: '+', action: openMockModal, keywords: 'mock test score add' },
@@ -6742,6 +7252,7 @@ function renderToolkit() {
   renderBookmarks();
   searchNotes();
   renderScorePredictor();
+  renderAiToolkitBrief();
   renderEnergy();
   renderReminderCenter();
   renderShortcuts();
@@ -6913,6 +7424,21 @@ function renderScorePredictor() {
   box.innerHTML = `<div class="mini-row"><div class="mini-row-main"><div class="mini-row-title">${predicted - 12}–${predicted + 12}</div><div class="mini-row-copy">Projected next mock range from recent average, trend, and study volume.</div></div></div>`;
 }
 
+function renderAiToolkitBrief() {
+  const box = document.getElementById('ai-toolkit-brief');
+  if (!box) return;
+  const model = getAiMentorModel();
+  const top = buildAiMentorPlan(model)[0];
+  box.innerHTML = `
+    <div class="mini-row">
+      <div class="mini-row-main">
+        <div class="mini-row-title">${top ? escapeHtml(top.title) : 'Keep current plan moving'}</div>
+        <div class="mini-row-copy">${top ? escapeHtml(top.reason) : `Readiness ${model.readiness}/100. Add more logs and mocks for sharper coaching.`}</div>
+      </div>
+      <span class="badge">${model.readiness}/100</span>
+    </div>`;
+}
+
 function setEnergy(value) {
   store.energy[localDateKey()] = value;
   saveAll();
@@ -6977,7 +7503,7 @@ function generateStudyReport() {
   const openTasks = tasks.filter(task => !task.done).length;
   const latestMock = [...mocks].sort((a, b) => String(b.date).localeCompare(String(a.date)))[0];
   const revisions = getRevisionQueue().slice(0, 5).map(item => item.name).join(', ') || 'None due';
-  const report = `StudyMeter Weekly Report\n\nHours logged: ${totalHours}\nQuestions solved: ${totalQs}\nOpen tasks: ${openTasks}\nCurrent streak: ${getStudyStreak(logs)} days\nLatest mock: ${latestMock ? `${latestMock.name || 'Mock'} - ${latestMock.total}/300` : 'No mock logged'}\nRevision focus: ${revisions}\nEnergy today: ${store.energy?.[localDateKey()] || 'Not checked'}\n\nNext move:\n${(document.getElementById('next-action-title')?.textContent || 'Generate a battle plan and start one focused block')}`;
+  const report = `StudyMeter Weekly Report\n\nHours logged: ${totalHours}\nQuestions solved: ${totalQs}\nOpen tasks: ${openTasks}\nCurrent streak: ${getStudyStreak(logs)} days\nLatest mock: ${latestMock ? `${latestMock.name || 'Mock'} - ${latestMock.total}/300` : 'No mock logged'}\nRevision focus: ${revisions}\nEnergy today: ${store.energy?.[localDateKey()] || 'Not checked'}\n\nAI Mentor Brief:\n${buildMentorBrief()}\n\nNext move:\n${(document.getElementById('next-action-title')?.textContent || 'Generate a battle plan and start one focused block')}`;
   output.value = report;
   return report;
 }
