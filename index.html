@@ -2493,6 +2493,275 @@
     box-shadow: 0 10px 22px rgba(0,0,0,.18);
   }
 
+  .onboarding-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1300;
+    display: none;
+    overflow-y: auto;
+    background:
+      radial-gradient(circle at 20% 18%, rgba(96,165,250,.16), transparent 28%),
+      radial-gradient(circle at 84% 82%, rgba(74,222,128,.12), transparent 28%),
+      linear-gradient(180deg, #070b13, #101827);
+    color: #f4f7fb;
+  }
+
+  .onboarding-overlay.open { display: block; }
+
+  .onboarding-shell {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: minmax(280px, .82fr) minmax(420px, 1.18fr);
+    gap: clamp(28px, 5vw, 70px);
+    align-items: center;
+    width: min(1180px, calc(100% - 40px));
+    margin: 0 auto;
+    padding: 54px 0;
+  }
+
+  .onboarding-hero {
+    max-width: 470px;
+  }
+
+  .onboarding-art {
+    width: 128px;
+    height: 128px;
+    display: grid;
+    place-items: center;
+    border-radius: 32px;
+    margin-bottom: 28px;
+    font-size: 58px;
+    background:
+      radial-gradient(circle at 35% 25%, rgba(255,255,255,.22), transparent 28%),
+      linear-gradient(135deg, #16345f, #0b1a32);
+    box-shadow: 0 0 42px rgba(96,165,250,.22), inset 0 0 0 1px rgba(255,255,255,.1);
+  }
+
+  .onboarding-hero h2 {
+    font-size: clamp(36px, 5vw, 58px);
+    line-height: .98;
+    letter-spacing: 0;
+    margin-bottom: 14px;
+  }
+
+  .onboarding-hero p {
+    color: #aebbd0;
+    font-size: 18px;
+    line-height: 1.55;
+    margin-bottom: 26px;
+  }
+
+  .onboarding-hero strong { color: #fff; }
+
+  .onboarding-card {
+    background: rgba(25,33,49,.96);
+    border: 1px solid rgba(255,255,255,.10);
+    border-radius: 28px;
+    box-shadow: 0 28px 80px rgba(0,0,0,.35);
+    padding: clamp(24px, 4vw, 34px);
+  }
+
+  .onboarding-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 18px;
+  }
+
+  .onboarding-step-label {
+    color: #94a3b8;
+    font-weight: 750;
+    font-size: 13px;
+  }
+
+  .onboarding-dots {
+    display: flex;
+    gap: 9px;
+  }
+
+  .onboarding-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.32);
+  }
+
+  .onboarding-dot.done { background: #22c55e; }
+  .onboarding-dot.active { background: #2386ff; box-shadow: 0 0 0 5px rgba(35,134,255,.12); }
+
+  .onboarding-title {
+    font-size: clamp(24px, 3vw, 34px);
+    line-height: 1.08;
+    margin-bottom: 8px;
+  }
+
+  .onboarding-copy {
+    color: #aebbd0;
+    margin-bottom: 22px;
+  }
+
+  .onboarding-field {
+    display: grid;
+    gap: 8px;
+    margin-bottom: 18px;
+  }
+
+  .onboarding-field label {
+    color: #f4f7fb;
+    font-weight: 750;
+    font-size: 13px;
+  }
+
+  .onboarding-field input,
+  .onboarding-field select {
+    width: 100%;
+    border: 1px solid rgba(255,255,255,.12);
+    border-radius: 12px;
+    background: #2a3448;
+    color: #fff;
+    padding: 13px 14px;
+    font: inherit;
+    outline: none;
+  }
+
+  .onboarding-field input:focus,
+  .onboarding-field select:focus {
+    border-color: #2386ff;
+    box-shadow: 0 0 0 4px rgba(35,134,255,.16);
+  }
+
+  .onboarding-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+    margin-bottom: 18px;
+  }
+
+  .onboarding-grid.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+  .onboarding-choice {
+    min-height: 150px;
+    text-align: left;
+    border: 1px solid rgba(255,255,255,.10);
+    border-radius: 18px;
+    background: rgba(15,23,42,.36);
+    color: #f4f7fb;
+    padding: 18px;
+    cursor: pointer;
+    transition: .18s ease;
+  }
+
+  .onboarding-choice:hover,
+  .onboarding-choice.active {
+    border-color: #2386ff;
+    box-shadow: 0 0 0 1px rgba(35,134,255,.52), 0 18px 40px rgba(0,0,0,.22);
+    transform: translateY(-2px);
+  }
+
+  .choice-icon {
+    width: 58px;
+    height: 58px;
+    display: grid;
+    place-items: center;
+    border-radius: 16px;
+    font-size: 30px;
+    margin-bottom: 14px;
+    background: rgba(255,255,255,.08);
+  }
+
+  .choice-title {
+    display: block;
+    font-weight: 850;
+    margin-bottom: 7px;
+  }
+
+  .choice-copy {
+    display: block;
+    color: #aebbd0;
+    font-size: 13px;
+    line-height: 1.45;
+  }
+
+  .onboarding-mini-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+  }
+
+  .onboarding-summary {
+    display: grid;
+    gap: 12px;
+    margin: 20px 0;
+  }
+
+  .summary-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 13px 15px;
+    border-radius: 14px;
+    background: rgba(255,255,255,.06);
+    color: #d9e4f5;
+  }
+
+  .summary-row span:last-child {
+    color: #fff;
+    font-weight: 800;
+  }
+
+  .onboarding-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 24px;
+  }
+
+  .onboarding-back,
+  .onboarding-skip {
+    border: 1px solid rgba(255,255,255,.12);
+    background: rgba(255,255,255,.06);
+    color: #f4f7fb;
+    border-radius: 999px;
+    padding: 12px 18px;
+    font: inherit;
+    font-weight: 750;
+    cursor: pointer;
+  }
+
+  .onboarding-next {
+    border: 0;
+    background: #22c55e;
+    color: #052e16;
+    border-radius: 999px;
+    padding: 12px 22px;
+    font: inherit;
+    font-weight: 850;
+    cursor: pointer;
+    box-shadow: 0 14px 34px rgba(34,197,94,.22);
+  }
+
+  .onboarding-confetti {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .onboarding-confetti span {
+    position: absolute;
+    top: -30px;
+    width: 9px;
+    height: 18px;
+    border-radius: 3px;
+    background: #22c55e;
+    animation: confettiFall 3.6s linear infinite;
+  }
+
+  @keyframes confettiFall {
+    to { transform: translateY(110vh) rotate(420deg); }
+  }
+
   @media (max-width: 760px) {
     .login-box {
       min-height: 0;
@@ -2510,6 +2779,19 @@
     .hero-progress { min-height: 170px; width: 100%; }
     .page-header { gap: 12px; }
     .page-title { font-size: 30px; }
+    .onboarding-shell {
+      grid-template-columns: 1fr;
+      width: min(100% - 24px, 520px);
+      padding: 26px 0;
+    }
+    .onboarding-hero { max-width: none; }
+    .onboarding-art { width: 86px; height: 86px; font-size: 40px; margin-bottom: 18px; }
+    .onboarding-hero h2 { font-size: 34px; }
+    .onboarding-hero p { font-size: 15px; }
+    .onboarding-grid, .onboarding-grid.two, .onboarding-mini-grid { grid-template-columns: 1fr; }
+    .onboarding-choice { min-height: 0; }
+    .onboarding-actions { flex-wrap: wrap; }
+    .onboarding-actions button { flex: 1; }
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -2541,6 +2823,30 @@
 </div>
 
 <!-- ── LOGIN SCREEN ── -->
+<div class="onboarding-overlay" id="onboarding-overlay" role="dialog" aria-modal="true" aria-label="StudyMeter setup">
+  <div class="onboarding-confetti" id="onboarding-confetti"></div>
+  <div class="onboarding-shell">
+    <section class="onboarding-hero">
+      <div class="onboarding-art" id="onboarding-art">SM</div>
+      <h2 id="onboarding-hero-title">Welcome to StudyMeter.</h2>
+      <p id="onboarding-hero-copy">Let's shape your JEE preparation dashboard around your exam, rhythm, and motivation style.</p>
+      <p><strong>Four quick steps</strong> and your app will create a starter plan you can follow today.</p>
+    </section>
+    <section class="onboarding-card">
+      <div class="onboarding-top">
+        <div class="onboarding-step-label" id="onboarding-step-label">Step 1 / 4</div>
+        <div class="onboarding-dots" id="onboarding-dots"></div>
+      </div>
+      <div id="onboarding-content"></div>
+      <div class="onboarding-actions">
+        <button class="onboarding-skip" id="onboarding-skip" type="button">Skip</button>
+        <button class="onboarding-back" id="onboarding-back" type="button">Back</button>
+        <button class="onboarding-next" id="onboarding-next" type="button">Continue</button>
+      </div>
+    </section>
+  </div>
+</div>
+
 <div id="login-screen">
   <div class="login-box">
     <div class="login-logo">StudyMeter</div>
@@ -2626,6 +2932,7 @@
       <button class="appearance-option" id="theme-dark-btn" type="button">Dark</button>
     </div>
     <button class="tool-btn wide" onclick="openCommandPalette()">Command Center</button>
+    <button class="tool-btn wide" onclick="openOnboarding(true)">Setup Guide</button>
     <button class="tool-btn wide" id="install-app-btn" onclick="installApp()" style="display:none">Install App</button>
     <button class="tool-btn" onclick="exportUserData()">Export</button>
     <button class="tool-btn" onclick="document.getElementById('import-file').click()">Import</button>
@@ -3677,6 +3984,8 @@ let timerRunning = false;
 let timerMode = 'Focus session';
 let commandItems = [];
 let commandActiveIndex = 0;
+let onboardingStep = 0;
+let onboardingState = {};
 let deferredInstallPrompt = null;
 let waitingServiceWorker = null;
 
@@ -3773,6 +4082,321 @@ function bindThemeControls() {
   }, true);
 }
 
+function bindOnboardingControls() {
+  document.getElementById('onboarding-next')?.addEventListener('click', nextOnboardingStep);
+  document.getElementById('onboarding-back')?.addEventListener('click', previousOnboardingStep);
+  document.getElementById('onboarding-skip')?.addEventListener('click', skipOnboarding);
+  document.addEventListener('click', event => {
+    const choice = event.target.closest?.('[data-onboarding-choice]');
+    if (!choice) return;
+    const group = choice.getAttribute('data-onboarding-choice');
+    const value = choice.getAttribute('data-value');
+    onboardingState[group] = value;
+    document.querySelectorAll(`[data-onboarding-choice="${group}"]`).forEach(item => item.classList.toggle('active', item === choice));
+  });
+}
+
+const ONBOARDING_STEPS = [
+  {
+    art: '01',
+    heroTitle: 'Welcome to StudyMeter.',
+    heroCopy: 'Build a preparation dashboard that knows your exam, target, and study rhythm.',
+    title: 'Personalize your experience',
+    copy: 'Tell StudyMeter what kind of support you want most right now.'
+  },
+  {
+    art: '02',
+    heroTitle: 'Choose your exam path.',
+    heroCopy: 'Your countdown, planning pressure, and recommendations will follow this attempt.',
+    title: 'Exam and appearance',
+    copy: 'Pick the JEE attempt you are preparing for and choose the look you prefer.'
+  },
+  {
+    art: '03',
+    heroTitle: 'Set your daily rhythm.',
+    heroCopy: 'A realistic target makes the dashboard useful from day one.',
+    title: 'Daily targets',
+    copy: 'Set the minimum study pace StudyMeter should hold you accountable to.'
+  },
+  {
+    art: '04',
+    heroTitle: 'Your setup is ready.',
+    heroCopy: 'StudyMeter will create a first-day launch plan so you can start immediately.',
+    title: 'Launch plan',
+    copy: 'Review your setup and create your starter tasks.'
+  }
+];
+
+function getDefaultOnboardingState() {
+  return {
+    name: currentUser || '',
+    reason: store.settings?.onboarding?.reason || 'accountability',
+    exam: store.settings?.exam || currentExam || 'mains1',
+    theme: store.settings?.theme || localStorage.getItem(THEME_KEY) || 'light',
+    hours: store.settings?.goals?.hours || 6,
+    questions: store.settings?.goals?.questions || 60,
+    weakSubject: store.settings?.onboarding?.weakSubject || 'physics',
+    focusStyle: store.settings?.onboarding?.focusStyle || 'balanced'
+  };
+}
+
+function openOnboarding(manual = false) {
+  onboardingStep = 0;
+  onboardingState = getDefaultOnboardingState();
+  document.getElementById('onboarding-overlay')?.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  if (manual) showToast('Setup guide opened');
+  renderOnboarding();
+}
+
+function closeOnboarding(markDone = false) {
+  if (markDone && store.settings) {
+    store.settings.onboardingDone = true;
+    saveAll();
+  }
+  document.getElementById('onboarding-overlay')?.classList.remove('open');
+  document.body.style.overflow = '';
+  document.getElementById('onboarding-confetti').innerHTML = '';
+}
+
+function renderOnboarding() {
+  const step = ONBOARDING_STEPS[onboardingStep];
+  document.getElementById('onboarding-art').textContent = step.art;
+  document.getElementById('onboarding-hero-title').textContent = step.heroTitle;
+  document.getElementById('onboarding-hero-copy').textContent = step.heroCopy;
+  document.getElementById('onboarding-step-label').textContent = `Step ${onboardingStep + 1} / ${ONBOARDING_STEPS.length}`;
+  document.getElementById('onboarding-dots').innerHTML = ONBOARDING_STEPS.map((_, index) =>
+    `<span class="onboarding-dot ${index < onboardingStep ? 'done' : index === onboardingStep ? 'active' : ''}"></span>`
+  ).join('');
+  document.getElementById('onboarding-content').innerHTML = `
+    <h3 class="onboarding-title">${escapeHtml(step.title)}</h3>
+    <p class="onboarding-copy">${escapeHtml(step.copy)}</p>
+    ${renderOnboardingStep()}
+  `;
+  document.getElementById('onboarding-back').style.display = onboardingStep === 0 ? 'none' : 'inline-flex';
+  document.getElementById('onboarding-skip').style.display = onboardingStep === ONBOARDING_STEPS.length - 1 ? 'none' : 'inline-flex';
+  document.getElementById('onboarding-next').textContent = onboardingStep === ONBOARDING_STEPS.length - 1 ? 'Get started' : 'Continue';
+  syncOnboardingInputs();
+}
+
+function renderOnboardingStep() {
+  if (onboardingStep === 0) {
+    return `
+      <div class="onboarding-field">
+        <label for="onboarding-name">What should StudyMeter call you?</label>
+        <input id="onboarding-name" type="text" maxlength="30" value="${escapeHtml(onboardingState.name)}" placeholder="Your name">
+      </div>
+      <div class="onboarding-grid">
+        ${onboardingChoice('reason', 'motivation', 'Trophy', 'Motivation', 'Keep streaks, medals, and visible momentum in front.')}
+        ${onboardingChoice('reason', 'accountability', 'Checks', 'Accountability', 'Get daily targets, reminders, and honest next actions.')}
+        ${onboardingChoice('reason', 'analysis', 'Charts', 'Analysis', 'Focus on mocks, weak chapters, and progress patterns.')}
+      </div>
+    `;
+  }
+  if (onboardingStep === 1) {
+    return `
+      <div class="onboarding-mini-grid">
+        <div class="onboarding-field">
+          <label for="onboarding-exam">Primary exam attempt</label>
+          <select id="onboarding-exam">
+            <option value="mains1">JEE Main S1 2027</option>
+            <option value="mains2">JEE Main S2 2027</option>
+            <option value="advanced">JEE Advanced 2027</option>
+          </select>
+        </div>
+        <div class="onboarding-field">
+          <label for="onboarding-theme">Appearance</label>
+          <select id="onboarding-theme">
+            <option value="light">Light / white</option>
+            <option value="dark">Dark</option>
+          </select>
+        </div>
+      </div>
+      <div class="onboarding-grid two">
+        ${onboardingChoice('focusStyle', 'balanced', '50-10', 'Balanced sessions', 'A steady mix of study, revision, and breaks.')}
+        ${onboardingChoice('focusStyle', 'deep', '90', 'Deep work blocks', 'Longer sessions for chapters, mocks, and hard problem sets.')}
+      </div>
+    `;
+  }
+  if (onboardingStep === 2) {
+    return `
+      <div class="onboarding-mini-grid">
+        <div class="onboarding-field">
+          <label for="onboarding-hours">Daily study goal (hours)</label>
+          <input id="onboarding-hours" type="number" min="0.5" max="16" step="0.5" value="${Number(onboardingState.hours)}">
+        </div>
+        <div class="onboarding-field">
+          <label for="onboarding-questions">Daily question goal</label>
+          <input id="onboarding-questions" type="number" min="5" max="500" step="5" value="${Number(onboardingState.questions)}">
+        </div>
+      </div>
+      <div class="onboarding-field">
+        <label>Which subject needs the most attention first?</label>
+      </div>
+      <div class="onboarding-grid">
+        ${onboardingChoice('weakSubject', 'physics', 'Ph', 'Physics', 'Mechanics, electricity, optics, and modern physics.')}
+        ${onboardingChoice('weakSubject', 'chemistry', 'Ch', 'Chemistry', 'Physical, organic, inorganic, and reactions.')}
+        ${onboardingChoice('weakSubject', 'mathematics', 'Ma', 'Mathematics', 'Algebra, calculus, coordinate geometry, and vectors.')}
+      </div>
+    `;
+  }
+  const examNames = { mains1: 'JEE Main S1 2027', mains2: 'JEE Main S2 2027', advanced: 'JEE Advanced 2027' };
+  return `
+    <div class="onboarding-summary">
+      <div class="summary-row"><span>Primary reason</span><span>${escapeHtml(labelize(onboardingState.reason))}</span></div>
+      <div class="summary-row"><span>Exam</span><span>${escapeHtml(examNames[onboardingState.exam] || 'JEE Main S1 2027')}</span></div>
+      <div class="summary-row"><span>Appearance</span><span>${onboardingState.theme === 'dark' ? 'Dark' : 'Light'}</span></div>
+      <div class="summary-row"><span>Daily pace</span><span>${Number(onboardingState.hours)}h / ${Number(onboardingState.questions)} Qs</span></div>
+      <div class="summary-row"><span>First weak subject</span><span>${escapeHtml(labelize(onboardingState.weakSubject))}</span></div>
+    </div>
+    <p class="onboarding-copy">When you continue, StudyMeter will save these settings and create a few useful starter tasks for today.</p>
+  `;
+}
+
+function onboardingChoice(group, value, icon, title, copy) {
+  return `
+    <button class="onboarding-choice ${onboardingState[group] === value ? 'active' : ''}" type="button" data-onboarding-choice="${group}" data-value="${value}">
+      <span class="choice-icon">${escapeHtml(icon)}</span>
+      <span class="choice-title">${escapeHtml(title)}</span>
+      <span class="choice-copy">${escapeHtml(copy)}</span>
+    </button>
+  `;
+}
+
+function labelize(value) {
+  return String(value || '').replace(/-/g, ' ').replace(/\b\w/g, char => char.toUpperCase());
+}
+
+function syncOnboardingInputs() {
+  const exam = document.getElementById('onboarding-exam');
+  const theme = document.getElementById('onboarding-theme');
+  if (exam) exam.value = onboardingState.exam;
+  if (theme) theme.value = onboardingState.theme;
+}
+
+function captureOnboardingStep() {
+  const name = document.getElementById('onboarding-name');
+  const exam = document.getElementById('onboarding-exam');
+  const theme = document.getElementById('onboarding-theme');
+  const hours = document.getElementById('onboarding-hours');
+  const questions = document.getElementById('onboarding-questions');
+  if (name) {
+    onboardingState.name = name.value.trim();
+    if (!onboardingState.name) return markInvalid(name, 'Add your name to personalize the app');
+  }
+  if (exam) onboardingState.exam = exam.value;
+  if (theme) onboardingState.theme = theme.value;
+  if (hours) {
+    const value = Number(hours.value);
+    if (value < 0.5 || value > 16) return markInvalid(hours, 'Choose 0.5 to 16 study hours');
+    onboardingState.hours = value;
+  }
+  if (questions) {
+    const value = Number(questions.value);
+    if (value < 5 || value > 500) return markInvalid(questions, 'Choose 5 to 500 questions');
+    onboardingState.questions = value;
+  }
+  return true;
+}
+
+function nextOnboardingStep() {
+  if (!captureOnboardingStep()) return;
+  if (onboardingStep < ONBOARDING_STEPS.length - 1) {
+    onboardingStep++;
+    renderOnboarding();
+    return;
+  }
+  finishOnboarding();
+}
+
+function previousOnboardingStep() {
+  captureOnboardingStep();
+  onboardingStep = Math.max(0, onboardingStep - 1);
+  renderOnboarding();
+}
+
+function skipOnboarding() {
+  if (!confirm('Skip setup? You can reopen the Setup Guide from the sidebar anytime.')) return;
+  closeOnboarding(true);
+}
+
+function finishOnboarding() {
+  if (!store.settings) store.settings = {};
+  store.settings.onboardingDone = true;
+  store.settings.onboarding = {
+    reason: onboardingState.reason,
+    weakSubject: onboardingState.weakSubject,
+    focusStyle: onboardingState.focusStyle
+  };
+  store.settings.goals = {
+    hours: Number(onboardingState.hours),
+    questions: Number(onboardingState.questions)
+  };
+  currentExam = onboardingState.exam;
+  currentExamDate = EXAM_DATES[currentExam] || EXAM_DATES.mains1;
+  store.settings.exam = currentExam;
+  const examSelect = document.getElementById('exam-selector');
+  if (examSelect) examSelect.value = currentExam;
+  setTheme(onboardingState.theme, false);
+  addOnboardingStarterTasks();
+  saveAll();
+  changeExam(false);
+  renderDashboard();
+  renderPlanner();
+  launchOnboardingConfetti();
+  showToast('StudyMeter setup complete');
+  setTimeout(() => closeOnboarding(false), 1200);
+}
+
+function addOnboardingStarterTasks() {
+  const today = localDateKey();
+  const openTitles = new Set((store.tasks || []).filter(task => !task.done).map(task => String(task.title).toLowerCase()));
+  const subjectName = labelize(onboardingState.weakSubject);
+  const focusMinutes = onboardingState.focusStyle === 'deep' ? 90 : 50;
+  const tasks = [
+    {
+      title: `Start ${subjectName} weak-area block`,
+      subject: subjectName,
+      due: today,
+      priority: 'high',
+      minutes: focusMinutes,
+      notes: `Created from onboarding. Open the ${subjectName} syllabus and attack one high-weight chapter.`
+    },
+    {
+      title: `Solve ${Number(onboardingState.questions)} mixed questions`,
+      subject: 'Mixed',
+      due: today,
+      priority: 'medium',
+      minutes: Math.max(30, Math.round(Number(onboardingState.questions) * 1.5)),
+      notes: 'Use this as your daily question target baseline.'
+    },
+    {
+      title: "Log today's study session",
+      subject: 'Mixed',
+      due: today,
+      priority: 'medium',
+      minutes: 10,
+      notes: 'At night, log hours, questions, and one reflection so the dashboard starts learning your pace.'
+    }
+  ];
+  const stamp = Date.now();
+  tasks.forEach((task, index) => {
+    if (openTitles.has(task.title.toLowerCase())) return;
+    store.tasks.push({ id: stamp + index, ...task, done: false, createdAt: new Date().toISOString() });
+  });
+}
+
+function launchOnboardingConfetti() {
+  const container = document.getElementById('onboarding-confetti');
+  if (!container) return;
+  container.innerHTML = Array.from({ length: 46 }, (_, index) => {
+    const left = (index * 23) % 100;
+    const delay = (index % 11) * .11;
+    const color = index % 3 === 0 ? '#22c55e' : index % 3 === 1 ? '#2386ff' : '#fbbf24';
+    return `<span style="left:${left}%;animation-delay:${delay}s;background:${color}"></span>`;
+  }).join('');
+}
+
 // Exam dates mapping
 const EXAM_DATES = {
   mains1: new Date('2027-01-21T09:30:00+05:30'),
@@ -3852,6 +4476,7 @@ function loginAs(name) {
   }
   updateDaysRemaining();
   renderDashboard();
+  if (!store.settings?.onboardingDone) setTimeout(() => openOnboarding(false), 250);
   showToast(`Welcome, ${name}`);
 }
 
@@ -5886,6 +6511,7 @@ document.addEventListener('keydown', event => {
   closeLogModal();
   closeTestLogModal();
   closeTaskModal();
+  if (document.getElementById('onboarding-overlay')?.classList.contains('open')) closeOnboarding(false);
 });
 
 // ════════════════════════════════════════
@@ -5894,6 +6520,7 @@ document.addEventListener('keydown', event => {
 
 migrateLegacyStorage();
 bindThemeControls();
+bindOnboardingControls();
 applyTheme(localStorage.getItem(THEME_KEY) || 'light');
 renderExistingUsers();
 const lastUser = localStorage.getItem(LAST_USER_KEY);
