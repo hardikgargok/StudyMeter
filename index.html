@@ -2868,7 +2868,268 @@
     to { transform: translateY(110vh) rotate(420deg); }
   }
 
+  .launch-splash {
+    position: fixed;
+    inset: 0;
+    z-index: 2500;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    background:
+      radial-gradient(circle at 50% 42%, rgba(255,255,255,.96) 0 14%, rgba(248,250,255,.92) 34%, rgba(239,245,255,.92) 58%, #f9fbff 100%);
+    color: #222936;
+    pointer-events: auto;
+    animation: launchExit .9s cubic-bezier(.22,1,.36,1) 5.35s forwards;
+  }
+
+  .launch-splash.done {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  .launch-splash::before,
+  .launch-splash::after {
+    content: '';
+    position: absolute;
+    inset: auto;
+    border-radius: 999px;
+    filter: blur(18px);
+    opacity: .54;
+    pointer-events: none;
+  }
+
+  .launch-splash::before {
+    width: min(78vw, 560px);
+    height: min(18vw, 120px);
+    left: 50%;
+    top: 47%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,.96), transparent);
+    transform: translate(-80%, -50%);
+    animation: launchBeam 3.6s cubic-bezier(.2,.85,.2,1) .15s both;
+  }
+
+  .launch-splash::after {
+    width: min(52vw, 380px);
+    height: min(18vw, 120px);
+    right: 12%;
+    top: 48%;
+    background: rgba(91,158,249,.16);
+    animation: launchGlow 4s ease both;
+  }
+
+  .launch-stage {
+    width: min(84vw, 560px);
+    min-height: clamp(260px, 48vh, 420px);
+    display: grid;
+    justify-items: center;
+    align-content: center;
+    gap: clamp(24px, 4vw, 42px);
+    transform: translateY(clamp(-8px, -1.4vw, -4px));
+  }
+
+  .launch-logo-card {
+    position: relative;
+    width: clamp(150px, 24vw, 230px);
+    aspect-ratio: 1;
+    display: grid;
+    place-items: center;
+    border-radius: 2px;
+    background: linear-gradient(145deg, #fff 0%, #f7f8fb 54%, #d9dde6 100%);
+    border: 1px solid rgba(12,20,34,.055);
+    box-shadow:
+      0 24px 50px rgba(25,35,55,.14),
+      0 1px 0 rgba(255,255,255,.9) inset,
+      0 -22px 44px rgba(8,15,35,.12) inset;
+    opacity: 0;
+    filter: blur(10px);
+    transform: translateY(22px) scale(.72) rotateX(10deg);
+    animation: launchLogoIn 1.65s cubic-bezier(.18,.92,.22,1.02) .32s forwards, launchLogoHold 3.2s ease 1.7s both;
+  }
+
+  .launch-logo-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(105deg, transparent 10%, rgba(255,255,255,.86) 45%, transparent 72%);
+    transform: translateX(-120%);
+    animation: launchShine 2.4s cubic-bezier(.22,1,.36,1) 1.05s both;
+  }
+
+  .launch-logo-card::after {
+    content: '';
+    position: absolute;
+    left: 10%;
+    right: 10%;
+    bottom: max(-28px, -4vw);
+    height: clamp(16px, 4vw, 30px);
+    border-radius: 50%;
+    background: radial-gradient(ellipse at center, rgba(28,36,52,.2), rgba(28,36,52,0) 68%);
+    filter: blur(5px);
+    transform: scaleX(.78);
+    opacity: 0;
+    animation: launchShadow 1.45s ease .55s forwards;
+  }
+
+  .launch-mark {
+    position: relative;
+    width: 74%;
+    aspect-ratio: 1;
+  }
+
+  .launch-gauge {
+    position: absolute;
+    inset: 4% 0 28% 0;
+    border-radius: 50%;
+    border: clamp(10px, 2vw, 16px) solid transparent;
+    border-left-color: #ef2e24;
+    border-top-color: #f3211d;
+    transform: rotate(-28deg);
+    filter: drop-shadow(0 7px 8px rgba(239,46,36,.22));
+  }
+
+  .launch-gauge::after {
+    content: '';
+    position: absolute;
+    right: -8%;
+    top: 12%;
+    width: 0;
+    height: 0;
+    border-left: clamp(14px, 2.7vw, 22px) solid #f3211d;
+    border-top: clamp(8px, 1.5vw, 13px) solid transparent;
+    border-bottom: clamp(8px, 1.5vw, 13px) solid transparent;
+    transform: rotate(35deg);
+  }
+
+  .launch-needle {
+    position: absolute;
+    left: 42%;
+    top: 49%;
+    width: 42%;
+    height: clamp(4px, .82vw, 7px);
+    background: #202635;
+    border-radius: 999px;
+    transform-origin: 10% 50%;
+    transform: rotate(-20deg) scaleX(.35);
+    animation: launchNeedle 1.75s cubic-bezier(.17,.9,.25,1) .75s forwards;
+  }
+
+  .launch-needle::before {
+    content: '';
+    position: absolute;
+    left: -8%;
+    top: 50%;
+    width: clamp(12px, 2.2vw, 18px);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #6f7688, #1f2635 70%);
+    transform: translateY(-50%);
+  }
+
+  .launch-logo-text {
+    position: absolute;
+    right: 1%;
+    bottom: 15%;
+    font-weight: 850;
+    font-size: clamp(17px, 3.05vw, 25px);
+    line-height: .86;
+    letter-spacing: -.9px;
+    color: #242a36;
+  }
+
+  .launch-logo-text span {
+    display: block;
+    color: #e82d2a;
+  }
+
+  .launch-title {
+    position: relative;
+    font-size: clamp(19px, 3.8vw, 32px);
+    font-weight: 500;
+    letter-spacing: clamp(1.8px, .42vw, 4px);
+    color: rgba(35,42,55,.78);
+    text-transform: uppercase;
+    opacity: 0;
+    transform: translateY(16px);
+    animation: launchTitleIn 1.25s ease 2.15s forwards;
+  }
+
+  .launch-title::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: calc(100% + 10px);
+    width: 84%;
+    height: 16px;
+    border-radius: 50%;
+    background: radial-gradient(ellipse at center, rgba(55,64,82,.17), transparent 68%);
+    filter: blur(5px);
+    transform: translateX(-50%);
+    opacity: .62;
+  }
+
+  @keyframes launchLogoIn {
+    0% { opacity: 0; filter: blur(14px); transform: translateY(32px) scale(.56) rotateX(16deg); }
+    55% { opacity: 1; filter: blur(1px); transform: translateY(-2px) scale(1.05) rotateX(0deg); }
+    100% { opacity: 1; filter: blur(0); transform: translateY(0) scale(1) rotateX(0deg); }
+  }
+
+  @keyframes launchLogoHold {
+    0%, 100% { box-shadow: 0 24px 50px rgba(25,35,55,.14), 0 1px 0 rgba(255,255,255,.9) inset, 0 -22px 44px rgba(8,15,35,.12) inset; }
+    48% { box-shadow: 0 30px 64px rgba(25,35,55,.2), 0 1px 0 rgba(255,255,255,.92) inset, 0 -22px 44px rgba(8,15,35,.12) inset; }
+  }
+
+  @keyframes launchNeedle {
+    0% { transform: rotate(-45deg) scaleX(.2); }
+    68% { transform: rotate(-12deg) scaleX(1.06); }
+    100% { transform: rotate(-16deg) scaleX(1); }
+  }
+
+  @keyframes launchShine {
+    0% { transform: translateX(-130%); opacity: 0; }
+    35% { opacity: .92; }
+    100% { transform: translateX(135%); opacity: 0; }
+  }
+
+  @keyframes launchShadow {
+    0% { opacity: 0; transform: scaleX(.45); }
+    100% { opacity: 1; transform: scaleX(1); }
+  }
+
+  @keyframes launchTitleIn {
+    0% { opacity: 0; transform: translateY(18px); filter: blur(5px); }
+    100% { opacity: 1; transform: translateY(0); filter: blur(0); }
+  }
+
+  @keyframes launchBeam {
+    0% { opacity: 0; transform: translate(-105%, -50%) scaleX(.35); }
+    35% { opacity: .88; }
+    100% { opacity: 0; transform: translate(42%, -50%) scaleX(1); }
+  }
+
+  @keyframes launchGlow {
+    0%, 100% { opacity: 0; transform: translateX(28px) scale(.78); }
+    45% { opacity: .55; transform: translateX(0) scale(1); }
+  }
+
+  @keyframes launchExit {
+    0% { opacity: 1; visibility: visible; }
+    100% { opacity: 0; visibility: hidden; pointer-events: none; }
+  }
+
   @media (max-width: 760px) {
+    .launch-stage {
+      min-height: min(68vh, 520px);
+      gap: 24px;
+      transform: translateY(-4vh);
+    }
+    .launch-logo-card {
+      width: clamp(160px, 48vw, 220px);
+    }
+    .launch-title {
+      font-size: clamp(18px, 5vw, 26px);
+      letter-spacing: 2px;
+    }
     .login-box {
       min-height: 0;
       grid-template-columns: 1fr;
@@ -2902,10 +3163,30 @@
 
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+    .launch-splash { animation: launchExit .9s ease 5.35s forwards !important; }
+    .launch-splash::before { animation: launchBeam 3.6s ease .15s both !important; }
+    .launch-splash::after { animation: launchGlow 4s ease both !important; }
+    .launch-logo-card { animation: launchLogoIn 1.65s ease .32s forwards, launchLogoHold 3.2s ease 1.7s both !important; }
+    .launch-logo-card::before { animation: launchShine 2.4s ease 1.05s both !important; }
+    .launch-logo-card::after { animation: launchShadow 1.45s ease .55s forwards !important; }
+    .launch-needle { animation: launchNeedle 1.75s ease .75s forwards !important; }
+    .launch-title { animation: launchTitleIn 1.25s ease 2.15s forwards !important; }
   }
 </style>
 </head>
 <body>
+<div class="launch-splash" id="launch-splash" aria-label="Opening StudyMeter" role="status">
+  <div class="launch-stage">
+    <div class="launch-logo-card">
+      <div class="launch-mark" aria-hidden="true">
+        <div class="launch-gauge"></div>
+        <div class="launch-needle"></div>
+        <div class="launch-logo-text">STUDY<span>METER</span></div>
+      </div>
+    </div>
+    <div class="launch-title">Study Meter</div>
+  </div>
+</div>
 <div class="mobile-topbar" id="mobile-topbar">
   <button class="icon-btn" onclick="toggleSidebar()" aria-label="Open navigation">☰</button>
   <button class="mobile-brand" onclick="openCommandPalette()" aria-label="Open command center" style="border:0;background:transparent;cursor:pointer">StudyMeter</button>
@@ -4113,6 +4394,14 @@ function showToast(message, type = 'success') {
     toast.style.transform = 'translateY(8px)';
     setTimeout(() => toast.remove(), 220);
   }, 2600);
+}
+
+function initializeLaunchSplash() {
+  const splash = document.getElementById('launch-splash');
+  if (!splash) return;
+  const finishDelay = 6400;
+  window.setTimeout(() => splash.classList.add('done'), finishDelay);
+  window.setTimeout(() => splash.remove(), finishDelay + 900);
 }
 
 function showUpdateBanner(worker) {
@@ -6775,6 +7064,7 @@ document.addEventListener('keydown', event => {
 // ════════════════════════════════════════
 
 migrateLegacyStorage();
+initializeLaunchSplash();
 bindThemeControls();
 bindOnboardingControls();
 applyTheme(localStorage.getItem(THEME_KEY) || 'light');
