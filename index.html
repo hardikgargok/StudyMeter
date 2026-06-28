@@ -5474,6 +5474,20 @@
       </div>
 
       <div class="toolkit-card">
+        <div class="toolkit-title">Active Recall Quiz Lab</div>
+        <div class="toolkit-copy">Generates quick test prompts from weak chapters, parked doubts, and flashcards.</div>
+        <div class="flashcard-face" id="quiz-lab-prompt">Generate a question when you are ready.</div>
+        <div class="mini-list" id="quiz-lab-answer" style="margin-top:10px"></div>
+        <div class="action-row">
+          <button class="btn-primary" onclick="generateQuizPrompt()">Generate quiz</button>
+          <button class="btn-sm" onclick="revealQuizAnswer()">Reveal</button>
+          <button class="btn-sm" onclick="gradeQuizPrompt('got')">Got it</button>
+          <button class="btn-sm" onclick="gradeQuizPrompt('missed')">Missed</button>
+        </div>
+        <div class="mini-list" id="quiz-lab-history" style="margin-top:10px"></div>
+      </div>
+
+      <div class="toolkit-card">
         <div class="toolkit-title">Achievement Wall</div>
         <div class="toolkit-copy">Motivation badges from real preparation behavior.</div>
         <div class="badge-wall" id="achievement-wall"></div>
@@ -6202,6 +6216,7 @@ function normalizeStore(raw = {}) {
   normalized.focusSessions = ensureArray(normalized.focusSessions);
   normalized.flashcards = ensureArray(normalized.flashcards);
   normalized.doubts = ensureArray(normalized.doubts);
+  normalized.quizHistory = ensureArray(normalized.quizHistory);
   normalized.energy = ensureObject(normalized.energy);
   normalized.notes = { phy: '', chem: '', math: '', gen: '', ...ensureObject(normalized.notes) };
   normalized.settings = ensureObject(normalized.settings);
@@ -6312,6 +6327,15 @@ function normalizeStore(raw = {}) {
     solved: Boolean(doubt?.solved),
     createdAt: cleanText(doubt?.createdAt || new Date().toISOString(), 80)
   })).filter(doubt => doubt.text);
+
+  normalized.quizHistory = normalized.quizHistory.map(item => ({
+    ...ensureObject(item),
+    id: Number(item?.id) || Date.now() + Math.random(),
+    prompt: cleanText(item?.prompt, 500),
+    source: cleanText(item?.source || 'Quiz Lab', 80),
+    result: ['got','missed'].includes(item?.result) ? item.result : 'missed',
+    createdAt: cleanText(item?.createdAt || new Date().toISOString(), 80)
+  })).filter(item => item.prompt);
 
   normalized.flashcards = normalized.flashcards.map(card => ({
     ...ensureObject(card),
@@ -9285,6 +9309,7 @@ function buildCommandItems() {
     { title: 'Add test analysis', copy: 'Save mistakes and subject accuracy', icon: '+', action: openTestLogModal, keywords: 'test analysis mistakes correct wrong left' },
     { title: 'Add mock test', copy: 'Save Physics, Chemistry, and Maths scores', icon: '+', action: openMockModal, keywords: 'mock test score add' },
     { title: 'Build weak flashcards', copy: 'Create review cards from low-readiness chapters', icon: 'FC', action: () => { showPage('toolkit'); setTimeout(seedWeakFlashcards, 80); }, keywords: 'flashcards weak review spaced repetition' },
+    { title: 'Generate recall quiz', copy: 'Create a quick active-recall test from weak areas', icon: 'Q', action: () => { showPage('toolkit'); setTimeout(generateQuizPrompt, 80); }, keywords: 'quiz active recall test practice weak doubts' },
     { title: 'Create study report', copy: 'Generate a shareable progress summary', icon: 'R', action: () => { showPage('toolkit'); setTimeout(generateStudyReport, 80); }, keywords: 'report summary progress copy download' },
     { title: 'Switch to light mode', copy: 'Use the bright StudyMeter appearance', icon: 'L', action: () => setTheme('light'), keywords: 'appearance theme light white mode' },
     { title: 'Switch to dark mode', copy: 'Use the dark StudyMeter appearance', icon: 'D', action: () => setTheme('dark'), keywords: 'appearance theme dark black mode' },
@@ -9420,9 +9445,11 @@ function insertNoteTemplate(key, type) {
 // TOOLKIT
 let currentFlashcardId = null;
 let flashcardShowingBack = false;
+let currentQuizPrompt = null;
 
 function renderToolkit() {
   renderFlashcard();
+  renderQuizLab();
   renderAchievements();
   renderWeeklyCalendar();
   renderBookmarks();
@@ -9808,6 +9835,87 @@ if ('serviceWorker' in navigator && location.protocol === 'https:') {
       });
     }).catch(() => {});
   });
+}
+
+function buildQuizPool() {
+  const weak = getAllChapters().map(chapter => {
+    const data = store.chapters[chapter.id] || {};
+    const confidence = Number(data.confidence || 3);
+    const topicsDone = (data.topics_done || []).length;
+    const risk = (chapter.high ? 2 : 0) + (data.status !== 'done' ? 2 : 0) + (confidence <= 2 ? 2 : 0) + (topicsDone < chapter.topics.length ? 1 : 0);
+    return { chapter, data, risk };
+  }).filter(item => item.risk >= 3).sort((a, b) => b.risk - a.risk).slice(0, 8).map(item => ({
+    prompt: `Explain ${item.chapter.name} without notes, then solve one question from ${item.chapter.topics[0] || item.chapter.unit}.`,
+    answer: `Cover: ${item.chapter.topics.slice(0, 4).join(', ')}. Focus on the exact weak point you marked in this chapter.`,
+    source: `${item.chapter.subject} weakness`
+  }));
+  const doubts = (store.doubts || []).filter(doubt => !doubt.solved).slice(-6).map(doubt => ({
+    prompt: `Resolve this parked doubt: ${doubt.text}`,
+    answer: 'Write the missing concept, one solved example, and one trap to avoid next time.',
+    source: 'Parked doubt'
+  }));
+  const cards = dueFlashcards().slice(0, 6).map(card => ({
+    prompt: card.front,
+    answer: card.back,
+    source: 'Flashcard'
+  }));
+  return [...weak, ...doubts, ...cards];
+}
+
+function renderQuizLab() {
+  const prompt = document.getElementById('quiz-lab-prompt');
+  const answer = document.getElementById('quiz-lab-answer');
+  const history = document.getElementById('quiz-lab-history');
+  if (!prompt || !answer || !history) return;
+  prompt.textContent = currentQuizPrompt?.prompt || 'Generate a question when you are ready.';
+  answer.innerHTML = currentQuizPrompt?.revealed ? `<div class="mini-row"><div class="mini-row-main"><div class="mini-row-title">Answer guide</div><div class="mini-row-copy">${escapeHtml(currentQuizPrompt.answer)}</div></div></div>` : '';
+  const recent = [...(store.quizHistory || [])].reverse().slice(0, 3);
+  history.innerHTML = recent.length
+    ? recent.map(item => `<div class="mini-row"><div class="mini-row-main"><div class="mini-row-title">${escapeHtml(item.result === 'got' ? 'Got it' : 'Missed')}</div><div class="mini-row-copy">${escapeHtml(item.prompt)}</div></div><span class="badge">${escapeHtml(item.source)}</span></div>`).join('')
+    : '<div class="mini-row"><div class="mini-row-main"><div class="mini-row-title">No quiz attempts yet</div><div class="mini-row-copy">Generate one and grade it honestly.</div></div></div>';
+}
+
+function generateQuizPrompt() {
+  const pool = buildQuizPool();
+  currentQuizPrompt = pool[0] || {
+    prompt: 'Teach one formula from memory and write a question where it is used.',
+    answer: 'Formula, condition, common trap, and one solved example.',
+    source: 'Starter quiz'
+  };
+  currentQuizPrompt.revealed = false;
+  renderQuizLab();
+}
+
+function revealQuizAnswer() {
+  if (!currentQuizPrompt) generateQuizPrompt();
+  currentQuizPrompt.revealed = true;
+  renderQuizLab();
+}
+
+function gradeQuizPrompt(result) {
+  if (!currentQuizPrompt) return showToast('Generate a quiz first', 'error');
+  store.quizHistory.push({
+    id: Date.now(),
+    prompt: currentQuizPrompt.prompt,
+    source: currentQuizPrompt.source,
+    result,
+    createdAt: new Date().toISOString()
+  });
+  if (result === 'missed') {
+    store.flashcards.push({
+      id: Date.now() + 1,
+      front: currentQuizPrompt.prompt,
+      back: currentQuizPrompt.answer,
+      due: localDateKey(),
+      box: 0,
+      createdAt: new Date().toISOString()
+    });
+  }
+  saveAll();
+  currentQuizPrompt = null;
+  renderQuizLab();
+  renderMomentumGame();
+  showToast(result === 'got' ? 'Quiz marked correct' : 'Missed quiz converted to flashcard');
 }
 </script>
 <script type="module">
