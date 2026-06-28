@@ -3042,6 +3042,313 @@
     to { transform: translateY(110vh) rotate(420deg); }
   }
 
+  .customize-hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(260px, .38fr);
+    gap: 16px;
+    align-items: stretch;
+    margin-bottom: 18px;
+  }
+
+  .customize-panel,
+  .customize-card,
+  .feature-blueprint {
+    background: rgba(255,255,255,.82);
+    border: 1px solid rgba(37,99,235,.10);
+    border-radius: 8px;
+    box-shadow: 0 18px 42px rgba(30,41,59,.08);
+  }
+
+  .customize-panel { padding: 22px; }
+  .customize-card { padding: 18px; min-height: 100%; }
+
+  .customize-kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 9px;
+    border-radius: 999px;
+    background: rgba(37,99,235,.08);
+    color: #1d4ed8;
+    font-size: 11px;
+    font-weight: 850;
+    text-transform: uppercase;
+    letter-spacing: .4px;
+    margin-bottom: 12px;
+  }
+
+  .customize-title {
+    font-size: clamp(24px, 3vw, 42px);
+    line-height: 1.04;
+    font-weight: 850;
+    color: #172033;
+    max-width: 760px;
+    margin-bottom: 12px;
+  }
+
+  .customize-copy {
+    color: #60708a;
+    max-width: 760px;
+    font-size: 14px;
+  }
+
+  .customize-metrics {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+    margin-top: 18px;
+  }
+
+  .customize-metric {
+    padding: 12px;
+    border: 1px solid rgba(37,99,235,.10);
+    border-radius: 8px;
+    background: rgba(248,251,255,.82);
+  }
+
+  .customize-metric strong {
+    display: block;
+    color: #172033;
+    font-size: 22px;
+    line-height: 1;
+    margin-bottom: 5px;
+  }
+
+  .customize-metric span { color: #65758d; font-size: 11px; }
+
+  .customize-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+  }
+
+  .customize-card.wide { grid-column: 1 / -1; }
+
+  .customize-card-title {
+    font-size: 15px;
+    font-weight: 850;
+    color: #172033;
+    margin-bottom: 4px;
+  }
+
+  .customize-card-copy {
+    color: #65758d;
+    font-size: 12px;
+    margin-bottom: 14px;
+  }
+
+  .option-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .option-btn,
+  .module-toggle,
+  .feature-chip {
+    border: 1px solid rgba(37,99,235,.12);
+    border-radius: 8px;
+    background: rgba(248,251,255,.9);
+    color: #26344d;
+    font: inherit;
+  }
+
+  .option-btn {
+    min-height: 74px;
+    padding: 10px;
+    cursor: pointer;
+    text-align: left;
+  }
+
+  .option-btn strong,
+  .module-toggle strong {
+    display: block;
+    font-size: 12px;
+    font-weight: 850;
+    margin-bottom: 3px;
+  }
+
+  .option-btn span,
+  .module-toggle span { display: block; color: #6b7890; font-size: 11px; line-height: 1.35; }
+
+  .option-btn.active,
+  .module-toggle.active {
+    border-color: rgba(37,99,235,.42);
+    background: #eef5ff;
+    box-shadow: 0 10px 24px rgba(37,99,235,.10);
+  }
+
+  .swatch-row { display: flex; gap: 8px; flex-wrap: wrap; }
+
+  .swatch-btn {
+    width: 42px;
+    aspect-ratio: 1;
+    border: 3px solid #fff;
+    border-radius: 50%;
+    box-shadow: 0 0 0 1px rgba(15,23,42,.16), 0 8px 18px rgba(15,23,42,.12);
+    cursor: pointer;
+  }
+
+  .swatch-btn.active { box-shadow: 0 0 0 3px rgba(37,99,235,.32), 0 10px 24px rgba(15,23,42,.18); }
+
+  .module-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .module-toggle {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 11px;
+    cursor: pointer;
+    text-align: left;
+  }
+
+  .module-toggle::after {
+    content: '';
+    width: 34px;
+    height: 20px;
+    border-radius: 999px;
+    flex: 0 0 auto;
+    background: #cbd5e1;
+    box-shadow: inset 0 0 0 2px rgba(15,23,42,.08);
+  }
+
+  .module-toggle.active::after { background: linear-gradient(135deg, var(--phy), var(--success)); }
+
+  .custom-field-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .custom-field label {
+    display: block;
+    color: #6b7890;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: .35px;
+    margin-bottom: 6px;
+  }
+
+  .custom-field input,
+  .custom-field select {
+    width: 100%;
+    border: 1px solid rgba(37,99,235,.14);
+    border-radius: 8px;
+    background: #fff;
+    color: #1f2937;
+    padding: 10px 11px;
+    font: inherit;
+  }
+
+  .feature-blueprint {
+    padding: 16px;
+  }
+
+  .feature-blueprint-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .feature-blueprint h4 {
+    color: #172033;
+    font-size: 12px;
+    margin-bottom: 9px;
+  }
+
+  .feature-chip {
+    display: block;
+    padding: 8px 9px;
+    margin-bottom: 6px;
+    font-size: 11px;
+    color: #42526b;
+  }
+
+  .module-disabled { display: none !important; }
+
+  body.theme-focus .ai-orbit-card,
+  body.theme-focus .performance-grid {
+    display: none;
+  }
+
+  body.layout-wide .page { max-width: min(1680px, calc(100vw - 40px)); }
+  body.layout-focus .page { max-width: 980px; }
+  body.density-compact { font-size: 13px; }
+  body.density-compact .card,
+  body.density-compact .toolkit-card,
+  body.density-compact .customize-card,
+  body.density-compact .ai-panel { padding: 14px; }
+  body.density-roomy .card,
+  body.density-roomy .toolkit-card,
+  body.density-roomy .customize-card,
+  body.density-roomy .ai-panel { padding: 24px; }
+  body.reduce-motion *,
+  body.reduce-motion *::before,
+  body.reduce-motion *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  body.accent-ocean { --accent: #06b6d4; --accent2: #0e7490; }
+  body.accent-forest { --accent: #22c55e; --accent2: #15803d; }
+  body.accent-sunrise { --accent: #f97316; --accent2: #c2410c; }
+  body.accent-royal { --accent: #8b5cf6; --accent2: #6d28d9; }
+
+  body.theme-dark .customize-panel,
+  body.theme-dark .customize-card,
+  body.theme-dark .feature-blueprint,
+  body.theme-dark .customize-metric,
+  body.theme-dark .option-btn,
+  body.theme-dark .module-toggle,
+  body.theme-dark .feature-chip {
+    background: rgba(16,24,38,.94);
+    border-color: rgba(255,255,255,.09);
+    color: #f4f7fb;
+  }
+
+  body.theme-dark .customize-title,
+  body.theme-dark .customize-card-title,
+  body.theme-dark .customize-metric strong,
+  body.theme-dark .feature-blueprint h4 { color: #f4f7fb; }
+
+  body.theme-dark .customize-copy,
+  body.theme-dark .customize-card-copy,
+  body.theme-dark .option-btn span,
+  body.theme-dark .module-toggle span,
+  body.theme-dark .feature-chip,
+  body.theme-dark .customize-metric span { color: #aab6c9; }
+
+  body.theme-dark .option-btn.active,
+  body.theme-dark .module-toggle.active { background: rgba(96,165,250,.12); }
+
+  body.theme-dark .custom-field input,
+  body.theme-dark .custom-field select {
+    background: #111a2a;
+    border-color: rgba(255,255,255,.12);
+    color: #f4f7fb;
+  }
+
+  @media (max-width: 900px) {
+    .customize-hero,
+    .customize-grid,
+    .feature-blueprint-grid {
+      grid-template-columns: 1fr;
+    }
+    .customize-metrics,
+    .option-grid,
+    .module-grid,
+    .custom-field-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
   .launch-splash {
     position: fixed;
     inset: 0;
@@ -3476,6 +3783,9 @@
   </a>
   <a class="nav-item" onclick="showPage('ai-mentor')">
     <span class="nav-dot" style="background:linear-gradient(135deg,var(--phy),var(--success))"></span> AI Mentor
+  </a>
+  <a class="nav-item" onclick="showPage('personalize')">
+    <span class="nav-dot" style="background:var(--accent2)"></span> Personalize
   </a>
 
   <div class="nav-section">Subjects</div>
@@ -4210,6 +4520,131 @@
   </div>
 
   <!-- AI Mentor -->
+  <div class="page" id="page-personalize">
+    <div class="page-header">
+      <div>
+        <div class="page-title">Personalize</div>
+        <div class="page-subtitle">Control the look, layout, modules, reminders, and feature direction of your study cockpit.</div>
+      </div>
+      <button class="btn-primary" onclick="resetPersonalization()">Reset</button>
+    </div>
+
+    <section class="customize-hero">
+      <div class="customize-panel">
+        <div class="customize-kicker">Student OS Builder</div>
+        <h2 class="customize-title">Make StudyMeter feel like it was built for one student: you.</h2>
+        <p class="customize-copy">Tune appearance, density, navigation, notification behavior, and visible modules. The goal is not a fixed dashboard, but a configurable study system that can become minimal, analytical, motivational, or intense depending on your phase of preparation.</p>
+        <div class="customize-metrics">
+          <div class="customize-metric"><strong id="custom-module-count">0</strong><span>active modules</span></div>
+          <div class="customize-metric"><strong id="custom-layout-label">Standard</strong><span>layout mode</span></div>
+          <div class="customize-metric"><strong id="custom-reminder-label">Smart</strong><span>reminder style</span></div>
+        </div>
+      </div>
+      <div class="customize-card">
+        <div class="customize-card-title">Profile Presets</div>
+        <div class="customize-card-copy">Fast setups for different student moods.</div>
+        <div class="option-grid" id="preset-options"></div>
+      </div>
+    </section>
+
+    <div class="customize-grid">
+      <section class="customize-card">
+        <div class="customize-card-title">Visual Theme</div>
+        <div class="customize-card-copy">Choose mode, accent, density, and motion comfort.</div>
+        <div class="option-grid" id="theme-options"></div>
+        <div class="swatch-row" id="accent-options" style="margin-top:12px"></div>
+        <div class="option-grid" id="density-options" style="margin-top:12px"></div>
+        <div class="option-grid" id="motion-options" style="margin-top:12px"></div>
+      </section>
+
+      <section class="customize-card">
+        <div class="customize-card-title">Layout & Focus</div>
+        <div class="customize-card-copy">Pick a dashboard width and whether StudyMeter should hide high-noise panels during deep work.</div>
+        <div class="option-grid" id="layout-options"></div>
+        <div class="option-grid" id="focus-options" style="margin-top:12px"></div>
+      </section>
+
+      <section class="customize-card wide">
+        <div class="customize-card-title">Module Control</div>
+        <div class="customize-card-copy">Turn visible feature areas on or off. Disabled modules disappear from navigation and command search.</div>
+        <div class="module-grid" id="module-options"></div>
+      </section>
+
+      <section class="customize-card">
+        <div class="customize-card-title">Reminder Engine</div>
+        <div class="customize-card-copy">Set how reminders behave before exams, tasks, and revisions.</div>
+        <div class="custom-field-grid">
+          <div class="custom-field">
+            <label for="custom-reminder-style">Style</label>
+            <select id="custom-reminder-style" onchange="updatePersonalization('reminderStyle', this.value)">
+              <option value="quiet">Quiet</option>
+              <option value="smart">Smart</option>
+              <option value="strict">Strict</option>
+            </select>
+          </div>
+          <div class="custom-field">
+            <label for="custom-quiet-hours">Quiet hours</label>
+            <input id="custom-quiet-hours" maxlength="40" placeholder="10 PM - 7 AM" oninput="updatePersonalization('quietHours', this.value)">
+          </div>
+          <div class="custom-field">
+            <label for="custom-daily-brief">Daily brief</label>
+            <select id="custom-daily-brief" onchange="updatePersonalization('dailyBrief', this.value)">
+              <option value="morning">Morning</option>
+              <option value="evening">Evening</option>
+              <option value="both">Both</option>
+              <option value="off">Off</option>
+            </select>
+          </div>
+          <div class="custom-field">
+            <label for="custom-coach-tone">Coach tone</label>
+            <select id="custom-coach-tone" onchange="updatePersonalization('coachTone', this.value)">
+              <option value="calm">Calm</option>
+              <option value="direct">Direct</option>
+              <option value="motivational">Motivational</option>
+              <option value="examiner">Examiner</option>
+            </select>
+          </div>
+        </div>
+      </section>
+
+      <section class="customize-card">
+        <div class="customize-card-title">Student Profile</div>
+        <div class="customize-card-copy">These fields guide future feature recommendations and reports.</div>
+        <div class="custom-field-grid">
+          <div class="custom-field">
+            <label for="custom-grade">Class / phase</label>
+            <input id="custom-grade" maxlength="40" placeholder="Class 12, dropper, revision..." oninput="updatePersonalization('gradePhase', this.value)">
+          </div>
+          <div class="custom-field">
+            <label for="custom-learning-style">Learning style</label>
+            <select id="custom-learning-style" onchange="updatePersonalization('learningStyle', this.value)">
+              <option value="balanced">Balanced</option>
+              <option value="visual">Visual</option>
+              <option value="practice">Practice-first</option>
+              <option value="revision">Revision-heavy</option>
+            </select>
+          </div>
+          <div class="custom-field">
+            <label for="custom-target-score">Target score</label>
+            <input id="custom-target-score" type="number" min="0" max="300" placeholder="240" oninput="updatePersonalization('targetScore', this.value)">
+          </div>
+          <div class="custom-field">
+            <label for="custom-school-hours">School / coaching hours</label>
+            <input id="custom-school-hours" maxlength="40" placeholder="8 AM - 2 PM" oninput="updatePersonalization('blockedHours', this.value)">
+          </div>
+        </div>
+      </section>
+
+      <section class="customize-card wide">
+        <div class="customize-card-title">Feature Blueprint</div>
+        <div class="customize-card-copy">A living design map for the “10000 things” ambition: deep customization plus a broad student feature set.</div>
+        <div class="feature-blueprint">
+          <div class="feature-blueprint-grid" id="feature-blueprint"></div>
+        </div>
+      </section>
+    </div>
+  </div>
+
   <div class="page" id="page-ai-mentor">
     <div class="page-header">
       <div>
@@ -4726,6 +5161,7 @@ function normalizeStore(raw = {}) {
   };
   if (normalized.settings.autoLogFocus === undefined) normalized.settings.autoLogFocus = true;
   if (!normalized.settings.theme) normalized.settings.theme = localStorage.getItem(THEME_KEY) || 'light';
+  normalized.settings.personalization = normalizePersonalization(normalized.settings.personalization);
 
   getAllChapters().forEach(chapter => {
     const data = ensureObject(normalized.chapters[chapter.id]);
@@ -4835,6 +5271,75 @@ function localDateKey(date = new Date()) {
   return `${year}-${month}-${day}`;
 }
 
+const PERSONALIZATION_DEFAULTS = {
+  accent: 'royal',
+  density: 'comfortable',
+  layout: 'standard',
+  focusMode: 'off',
+  motion: 'full',
+  reminderStyle: 'smart',
+  quietHours: '10 PM - 7 AM',
+  dailyBrief: 'morning',
+  coachTone: 'calm',
+  gradePhase: '',
+  learningStyle: 'balanced',
+  targetScore: '',
+  blockedHours: '',
+  modules: {
+    dashboard: true,
+    'mock-tests': true,
+    'test-log': true,
+    'study-log': true,
+    planner: true,
+    focus: true,
+    'formula-bank': true,
+    toolkit: true,
+    'ai-mentor': true,
+    physics: true,
+    chemistry: true,
+    mathematics: true
+  }
+};
+
+const PERSONALIZATION_MODULES = [
+  ['dashboard', 'Dashboard', 'overview, progress, insights'],
+  ['mock-tests', 'Mock Tests', 'full mock score tracking'],
+  ['test-log', 'Test Log', 'mistakes and attempt analysis'],
+  ['study-log', 'Study Log', 'daily hours and questions'],
+  ['planner', 'Planner', 'tasks, targets, revision'],
+  ['focus', 'Focus Timer', 'deep work sessions'],
+  ['formula-bank', 'Formula Bank', 'notes and formulae'],
+  ['toolkit', 'Toolkit', 'flashcards, reports, reminders'],
+  ['ai-mentor', 'AI Mentor', 'adaptive private guidance'],
+  ['physics', 'Physics', 'subject tracker'],
+  ['chemistry', 'Chemistry', 'subject tracker'],
+  ['mathematics', 'Mathematics', 'subject tracker']
+];
+
+function normalizePersonalization(raw = {}) {
+  const source = ensureObject(raw);
+  const modules = { ...PERSONALIZATION_DEFAULTS.modules, ...ensureObject(source.modules) };
+  modules.dashboard = true;
+  return {
+    ...PERSONALIZATION_DEFAULTS,
+    ...source,
+    accent: ['ocean','forest','sunrise','royal'].includes(source.accent) ? source.accent : PERSONALIZATION_DEFAULTS.accent,
+    density: ['compact','comfortable','roomy'].includes(source.density) ? source.density : PERSONALIZATION_DEFAULTS.density,
+    layout: ['standard','wide','focus'].includes(source.layout) ? source.layout : PERSONALIZATION_DEFAULTS.layout,
+    focusMode: source.focusMode === 'on' ? 'on' : 'off',
+    motion: source.motion === 'reduced' ? 'reduced' : 'full',
+    reminderStyle: ['quiet','smart','strict'].includes(source.reminderStyle) ? source.reminderStyle : PERSONALIZATION_DEFAULTS.reminderStyle,
+    dailyBrief: ['morning','evening','both','off'].includes(source.dailyBrief) ? source.dailyBrief : PERSONALIZATION_DEFAULTS.dailyBrief,
+    coachTone: ['calm','direct','motivational','examiner'].includes(source.coachTone) ? source.coachTone : PERSONALIZATION_DEFAULTS.coachTone,
+    learningStyle: ['balanced','visual','practice','revision'].includes(source.learningStyle) ? source.learningStyle : PERSONALIZATION_DEFAULTS.learningStyle,
+    quietHours: cleanText(source.quietHours || PERSONALIZATION_DEFAULTS.quietHours, 40),
+    gradePhase: cleanText(source.gradePhase, 60),
+    targetScore: cleanText(source.targetScore, 8),
+    blockedHours: cleanText(source.blockedHours, 60),
+    modules
+  };
+}
+
 function applyTheme(theme) {
   const chosen = theme === 'dark' ? 'dark' : 'light';
   document.body.classList.toggle('theme-dark', chosen === 'dark');
@@ -4852,7 +5357,153 @@ function setTheme(theme, announce = true) {
   }
   try { localStorage.setItem(THEME_KEY, chosen); } catch(e) {}
   applyTheme(chosen);
+  if (currentUser) {
+    applyPersonalization();
+    if (document.getElementById('page-personalize')?.classList.contains('active')) renderPersonalization();
+  }
   if (announce) showToast(`${chosen === 'dark' ? 'Dark' : 'Light'} mode enabled`);
+}
+
+function getPersonalization() {
+  if (!store.settings) return normalizePersonalization();
+  store.settings.personalization = normalizePersonalization(store.settings.personalization);
+  return store.settings.personalization;
+}
+
+function applyPersonalization() {
+  const pref = getPersonalization();
+  document.body.classList.remove('accent-ocean','accent-forest','accent-sunrise','accent-royal','density-compact','density-roomy','layout-wide','layout-focus','theme-focus');
+  document.body.classList.add(`accent-${pref.accent}`);
+  if (pref.density !== 'comfortable') document.body.classList.add(`density-${pref.density}`);
+  if (pref.layout !== 'standard') document.body.classList.add(`layout-${pref.layout}`);
+  document.body.classList.toggle('theme-focus', pref.focusMode === 'on');
+  document.body.classList.toggle('reduce-motion', pref.motion === 'reduced');
+  PERSONALIZATION_MODULES.forEach(([key]) => {
+    const enabled = key === 'dashboard' || pref.modules[key] !== false;
+    const page = document.getElementById(`page-${key}`);
+    page?.classList.toggle('module-disabled', !enabled);
+    document.querySelectorAll(`.nav-item[onclick*="'${key}'"], .nav-item[onclick*='"${key}"']`).forEach(item => {
+      item.classList.toggle('module-disabled', !enabled);
+    });
+  });
+  const active = document.querySelector('.page.active');
+  if (active?.classList.contains('module-disabled')) showPage('dashboard');
+}
+
+function updatePersonalization(key, value) {
+  const pref = getPersonalization();
+  pref[key] = value;
+  if (key === 'targetScore') pref[key] = String(Math.round(cleanNumber(value, 0, 0, 300)) || '');
+  saveAll();
+  applyPersonalization();
+  renderPersonalization();
+}
+
+function togglePersonalizationModule(key) {
+  const pref = getPersonalization();
+  if (key === 'dashboard') return;
+  pref.modules[key] = pref.modules[key] === false;
+  saveAll();
+  applyPersonalization();
+  renderPersonalization();
+}
+
+function setPersonalizationPreset(preset) {
+  const pref = getPersonalization();
+  const presets = {
+    minimal: { density: 'compact', layout: 'focus', focusMode: 'on', reminderStyle: 'quiet', coachTone: 'calm' },
+    balanced: { density: 'comfortable', layout: 'standard', focusMode: 'off', reminderStyle: 'smart', coachTone: 'direct' },
+    power: { density: 'compact', layout: 'wide', focusMode: 'off', reminderStyle: 'strict', coachTone: 'examiner' }
+  };
+  Object.assign(pref, presets[preset] || presets.balanced);
+  saveAll();
+  applyPersonalization();
+  renderPersonalization();
+  showToast('Personalization preset applied');
+}
+
+function resetPersonalization() {
+  if (!store.settings) return;
+  store.settings.personalization = normalizePersonalization();
+  saveAll();
+  applyPersonalization();
+  renderPersonalization();
+  showToast('Personalization reset');
+}
+
+function renderOptionButtons(containerId, value, options, handler) {
+  const box = document.getElementById(containerId);
+  if (!box) return;
+  box.innerHTML = options.map(option => `
+    <button class="option-btn ${value === option.value ? 'active' : ''}" type="button" onclick="${handler}('${option.value}')">
+      <strong>${escapeHtml(option.title)}</strong><span>${escapeHtml(option.copy)}</span>
+    </button>
+  `).join('');
+}
+
+function renderPersonalization() {
+  const pref = getPersonalization();
+  const activeCount = PERSONALIZATION_MODULES.filter(([key]) => key === 'dashboard' || pref.modules[key] !== false).length;
+  const moduleCount = document.getElementById('custom-module-count');
+  if (!moduleCount) return;
+  moduleCount.textContent = activeCount;
+  document.getElementById('custom-layout-label').textContent = pref.layout[0].toUpperCase() + pref.layout.slice(1);
+  document.getElementById('custom-reminder-label').textContent = pref.reminderStyle[0].toUpperCase() + pref.reminderStyle.slice(1);
+  renderOptionButtons('preset-options', '', [
+    { value: 'minimal', title: 'Minimal', copy: 'Calm, focused, low-noise.' },
+    { value: 'balanced', title: 'Balanced', copy: 'All-round daily study setup.' },
+    { value: 'power', title: 'Power', copy: 'Dense analytics and strict nudges.' }
+  ], 'setPersonalizationPreset');
+  renderOptionButtons('theme-options', store.settings.theme || 'light', [
+    { value: 'light', title: 'Light', copy: 'Bright study desk.' },
+    { value: 'dark', title: 'Dark', copy: 'Low-glare night mode.' }
+  ], 'setTheme');
+  document.getElementById('density-options').innerHTML = ['compact','comfortable','roomy'].map(value => `
+    <button class="option-btn ${pref.density === value ? 'active' : ''}" type="button" onclick="updatePersonalization('density','${value}')">
+      <strong>${value[0].toUpperCase() + value.slice(1)}</strong><span>${value === 'compact' ? 'More data per screen.' : value === 'roomy' ? 'Larger breathing space.' : 'Default spacing.'}</span>
+    </button>
+  `).join('');
+  document.getElementById('layout-options').innerHTML = ['standard','wide','focus'].map(value => `
+    <button class="option-btn ${pref.layout === value ? 'active' : ''}" type="button" onclick="updatePersonalization('layout','${value}')">
+      <strong>${value[0].toUpperCase() + value.slice(1)}</strong><span>${value === 'wide' ? 'Use large desktop width.' : value === 'focus' ? 'Narrow reading width.' : 'Default app width.'}</span>
+    </button>
+  `).join('');
+  document.getElementById('focus-options').innerHTML = ['off','on'].map(value => `
+    <button class="option-btn ${pref.focusMode === value ? 'active' : ''}" type="button" onclick="updatePersonalization('focusMode','${value}')">
+      <strong>${value === 'on' ? 'Focus filter' : 'Full detail'}</strong><span>${value === 'on' ? 'Hide noisy dashboard panels.' : 'Show every dashboard panel.'}</span>
+    </button>
+  `).join('');
+  document.getElementById('motion-options').innerHTML = ['full','reduced'].map(value => `
+    <button class="option-btn ${pref.motion === value ? 'active' : ''}" type="button" onclick="updatePersonalization('motion','${value}')">
+      <strong>${value === 'full' ? 'Motion' : 'Reduced'}</strong><span>${value === 'full' ? 'Use polished transitions.' : 'Prefer calmer movement.'}</span>
+    </button>
+  `).join('');
+  const accents = [
+    ['royal', 'linear-gradient(135deg,#8b5cf6,#2563eb)'],
+    ['ocean', 'linear-gradient(135deg,#06b6d4,#2563eb)'],
+    ['forest', 'linear-gradient(135deg,#22c55e,#0f766e)'],
+    ['sunrise', 'linear-gradient(135deg,#f97316,#ef4444)']
+  ];
+  document.getElementById('accent-options').innerHTML = accents.map(([value, bg]) =>
+    `<button class="swatch-btn ${pref.accent === value ? 'active' : ''}" type="button" title="${value}" style="background:${bg}" onclick="updatePersonalization('accent','${value}')"></button>`
+  ).join('');
+  document.getElementById('module-options').innerHTML = PERSONALIZATION_MODULES.map(([key, title, copy]) => {
+    const active = key === 'dashboard' || pref.modules[key] !== false;
+    return `<button class="module-toggle ${active ? 'active' : ''}" type="button" onclick="togglePersonalizationModule('${key}')" ${key === 'dashboard' ? 'aria-disabled="true"' : ''}><span><strong>${escapeHtml(title)}</strong><span>${escapeHtml(copy)}</span></span></button>`;
+  }).join('');
+  ['reminderStyle','quietHours','dailyBrief','coachTone','gradePhase','learningStyle','targetScore','blockedHours'].forEach(key => {
+    const el = document.getElementById(`custom-${key.replace(/[A-Z]/g, letter => '-' + letter.toLowerCase())}`);
+    if (el) el.value = pref[key] || '';
+  });
+  const blueprint = {
+    Academic: ['Planner', 'Assignments', 'Gradebook', 'Formula bank', 'Mock analytics', 'Revision queue'],
+    Customization: ['Themes', 'Layouts', 'Modules', 'Notification rules', 'Density', 'Coach tone'],
+    Productivity: ['Focus timer', 'Habits', 'Goals', 'Reports', 'Flashcards', 'Command palette'],
+    Support: ['AI mentor', 'Weakness matrix', 'Wellness check-in', 'Career notes', 'Resource finder', 'Accessibility']
+  };
+  document.getElementById('feature-blueprint').innerHTML = Object.entries(blueprint).map(([group, items]) =>
+    `<div><h4>${escapeHtml(group)}</h4>${items.map(item => `<span class="feature-chip">${escapeHtml(item)}</span>`).join('')}</div>`
+  ).join('');
 }
 
 function bindThemeControls() {
@@ -5247,6 +5898,7 @@ function loginAs(name) {
   loadAll();
   updateUserUI();
   applyTheme(store.settings.theme || localStorage.getItem(THEME_KEY) || 'light');
+  applyPersonalization();
   document.getElementById('login-screen').classList.add('hidden');
   document.getElementById('main-shell').style.display = 'flex';
   const savedExam = store.settings?.exam;
@@ -5341,6 +5993,7 @@ function importUserData(event) {
       store = normalizeStore(imported);
       saveAll();
       applyTheme(store.settings.theme || localStorage.getItem(THEME_KEY) || 'light');
+      applyPersonalization();
       renderDashboard();
       showToast('Backup restored');
     } catch (error) {
@@ -5447,6 +6100,10 @@ function updateDaysRemaining() {
 // ════════════════════════════════════════
 
 function showPage(name) {
+  const pref = getPersonalization();
+  if (name !== 'dashboard' && name !== 'personalize' && pref.modules?.[name] === false) {
+    name = 'dashboard';
+  }
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
   document.getElementById('page-' + name).classList.add('active');
@@ -5465,6 +6122,7 @@ function showPage(name) {
   if (name === 'focus') renderFocusPage();
   if (name === 'formula-bank') loadNotes();
   if (name === 'toolkit') renderToolkit();
+  if (name === 'personalize') renderPersonalization();
   if (name === 'ai-mentor') renderAiMentor();
   closeSidebar();
   window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -7099,15 +7757,21 @@ function buildCommandItems() {
     ['Formula Bank', 'Open personal notes and formulae', 'N', () => showPage('formula-bank')],
     ['Toolkit', 'Open flashcards, reports, reminders, and achievements', 'TK', () => showPage('toolkit')],
     ['AI Mentor', 'Open adaptive plan, risk matrix, and mentor brief', 'AI', () => showPage('ai-mentor')],
+    ['Personalize', 'Customize themes, layout, modules, and reminders', 'PZ', () => showPage('personalize')],
     ['Physics', 'Open Physics syllabus tracker', 'Ph', () => showPage('physics')],
     ['Chemistry', 'Open Chemistry syllabus tracker', 'Ch', () => showPage('chemistry')],
     ['Mathematics', 'Open Mathematics syllabus tracker', 'Ma', () => showPage('mathematics')]
-  ].map(([title, copy, icon, action]) => ({ title, copy, icon, action, keywords: `${title} ${copy}` }));
+  ].map(([title, copy, icon, action]) => {
+    const actionText = String(action || '');
+    const match = actionText.match(/showPage\('([^']+)'\)/);
+    return { title, copy, icon, action, page: match?.[1], keywords: `${title} ${copy}` };
+  });
 
   const actions = [
     { title: 'Log study session', copy: 'Record hours, questions, topics, and reflection', icon: '+', action: openLogModal, keywords: 'log study session hours questions' },
     { title: "Generate today's plan", copy: 'Create smart tasks from weak chapters and revision due', icon: 'AI', action: generateTodaysPlan, keywords: 'generate plan smart tasks battle' },
     { title: 'Open AI Mentor', copy: 'See readiness, weak chapters, micro-lessons, and next moves', icon: 'AI', action: () => showPage('ai-mentor'), keywords: 'ai mentor coach intelligence weakness risk readiness' },
+    { title: 'Open Personalize', copy: 'Tune themes, modules, density, layout, and reminders', icon: 'PZ', action: () => showPage('personalize'), keywords: 'personalize customize settings theme layout modules reminders' },
     { title: 'Create AI mentor tasks', copy: 'Add the full 48-hour attack plan to planner', icon: 'AI', action: createAiMentorTasks, keywords: 'ai generate mentor tasks attack plan' },
     { title: 'Make AI flashcards', copy: 'Generate recall cards from highest-risk chapters', icon: 'FC', action: generateMentorFlashcards, keywords: 'ai flashcards recall weak chapters' },
     { title: 'Add planner task', copy: 'Create the next concrete study task', icon: '+', action: openTaskModal, keywords: 'task planner todo add' },
@@ -7124,6 +7788,7 @@ function buildCommandItems() {
     title: chapter.name,
     copy: `${chapter.subject[0].toUpperCase() + chapter.subject.slice(1)} - ${chapter.unit}`,
     icon: chapter.subject === 'physics' ? 'Ph' : chapter.subject === 'chemistry' ? 'Ch' : 'Ma',
+    page: chapter.subject,
     keywords: `${chapter.name} ${chapter.unit} ${chapter.subject} ${chapter.topics.join(' ')}`,
     action: () => {
       showPage(chapter.subject);
@@ -7135,7 +7800,11 @@ function buildCommandItems() {
     }
   }));
 
-  return [...actions, ...pages, ...chapters];
+  const pref = getPersonalization();
+  return [...actions, ...pages, ...chapters].filter(item => {
+    const page = item.page || String(item.action || '').match(/showPage\('([^']+)'\)/)?.[1];
+    return !page || page === 'dashboard' || page === 'personalize' || pref.modules?.[page] !== false;
+  });
 }
 
 function openCommandPalette() {
