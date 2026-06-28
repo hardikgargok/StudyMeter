@@ -3335,6 +3335,157 @@
     color: #f4f7fb;
   }
 
+  /* Premium UI pass: calmer hierarchy, native-feeling controls, consistent depth. */
+  :root {
+    --surface: rgba(255,255,255,.86);
+    --surface-strong: #ffffff;
+    --surface-muted: #f7f9fc;
+    --ink: #142033;
+    --ink-muted: #56657a;
+    --ink-soft: #7a8798;
+    --hairline: rgba(15,23,42,.10);
+    --hairline-strong: rgba(15,23,42,.16);
+    --shadow-soft: 0 10px 26px rgba(15,23,42,.07);
+    --shadow-lift: 0 18px 42px rgba(15,23,42,.10);
+    --ease-native: cubic-bezier(.2,.8,.2,1);
+  }
+
+  body:not(.theme-dark) {
+    background:
+      linear-gradient(180deg, #f8fbff 0%, #f3f6fb 48%, #eef3f8 100%);
+    color: var(--ink);
+  }
+
+  body:not(.theme-dark) .page-title,
+  body:not(.theme-dark) .section-title,
+  body:not(.theme-dark) .stat-value,
+  body:not(.theme-dark) .momentum-value,
+  body:not(.theme-dark) .task-title,
+  body:not(.theme-dark) .toolkit-title,
+  body:not(.theme-dark) .ai-title,
+  body:not(.theme-dark) .customize-card-title {
+    color: var(--ink);
+  }
+
+  body:not(.theme-dark) .page-subtitle,
+  body:not(.theme-dark) .stat-sub,
+  body:not(.theme-dark) .panel-caption,
+  body:not(.theme-dark) .toolkit-copy,
+  body:not(.theme-dark) .customize-card-copy,
+  body:not(.theme-dark) .insight-copy {
+    color: var(--ink-muted);
+  }
+
+  .momentum-tile, .card, .stat-card, .subj-card, .toolkit-card, .goal-card,
+  .readiness-card, .focus-now-card, .task-card, .chapter-row, .mock-card, .tl-card,
+  .timer-card, .modal, .command-panel, .customize-panel, .customize-card,
+  .feature-blueprint, .ai-panel {
+    border-radius: 8px;
+    box-shadow: var(--shadow-soft);
+    transition:
+      transform .18s var(--ease-native),
+      box-shadow .18s var(--ease-native),
+      border-color .18s var(--ease-native),
+      background-color .18s var(--ease-native);
+  }
+
+  body:not(.theme-dark) .momentum-tile,
+  body:not(.theme-dark) .card,
+  body:not(.theme-dark) .stat-card,
+  body:not(.theme-dark) .subj-card,
+  body:not(.theme-dark) .toolkit-card,
+  body:not(.theme-dark) .goal-card,
+  body:not(.theme-dark) .readiness-card,
+  body:not(.theme-dark) .focus-now-card,
+  body:not(.theme-dark) .task-card,
+  body:not(.theme-dark) .chapter-row,
+  body:not(.theme-dark) .mock-card,
+  body:not(.theme-dark) .tl-card,
+  body:not(.theme-dark) .timer-card,
+  body:not(.theme-dark) .modal,
+  body:not(.theme-dark) .command-panel,
+  body:not(.theme-dark) .ai-panel {
+    background: var(--surface);
+    border-color: var(--hairline);
+  }
+
+  .momentum-tile:hover, .card:hover, .stat-card:hover, .subj-card:hover,
+  .toolkit-card:hover, .chapter-row:hover, .mock-card:hover, .tl-card:hover,
+  .task-card:hover, .customize-card:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-lift);
+  }
+
+  .btn-primary, .login-btn, .btn-sm, .tool-btn, .quick-action, .filter-pill,
+  .tab-btn, .option-btn, .module-toggle, .icon-btn {
+    border-radius: 8px;
+    min-height: 38px;
+    transition:
+      transform .16s var(--ease-native),
+      box-shadow .16s var(--ease-native),
+      background-color .16s var(--ease-native),
+      border-color .16s var(--ease-native),
+      opacity .16s var(--ease-native);
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .btn-primary:active, .login-btn:active, .btn-sm:active, .tool-btn:active,
+  .quick-action:active, .filter-pill:active, .tab-btn:active, .option-btn:active,
+  .module-toggle:active, .icon-btn:active {
+    transform: scale(.985);
+  }
+
+  :where(button, a, input, select, textarea, [tabindex]):focus-visible {
+    outline: 3px solid color-mix(in srgb, var(--accent) 42%, transparent);
+    outline-offset: 2px;
+  }
+
+  .login-input, .command-search, .chapter-search, .detail-field input,
+  .detail-field select, .detail-field textarea, .notes-area, .tool-input,
+  .tool-textarea, .goal-input, .timer-task select, .quick-capture input,
+  .exam-select, .custom-field input, .custom-field select {
+    border-radius: 8px;
+    transition: border-color .16s var(--ease-native), box-shadow .16s var(--ease-native), background-color .16s var(--ease-native);
+  }
+
+  :where(.login-input, .command-search, .chapter-search, .detail-field input,
+  .detail-field select, .detail-field textarea, .notes-area, .tool-input,
+  .tool-textarea, .goal-input, .timer-task select, .quick-capture input,
+  .exam-select, .custom-field input, .custom-field select):focus {
+    border-color: color-mix(in srgb, var(--accent) 46%, transparent);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 14%, transparent);
+  }
+
+  .page.active {
+    animation: premiumPageIn .24s var(--ease-native);
+  }
+
+  @keyframes premiumPageIn {
+    from { opacity: 0; transform: translateY(6px) scale(.997); }
+    to { opacity: 1; transform: none; }
+  }
+
+  .nav-item {
+    border-radius: 8px;
+    color: color-mix(in srgb, var(--text2) 86%, var(--text));
+  }
+
+  .nav-item.active {
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 18%, transparent);
+  }
+
+  .toast {
+    border-radius: 8px;
+    box-shadow: 0 16px 36px rgba(15,23,42,.16);
+  }
+
+  body.theme-dark {
+    --shadow-soft: 0 12px 30px rgba(0,0,0,.22);
+    --shadow-lift: 0 20px 48px rgba(0,0,0,.32);
+    --hairline: rgba(255,255,255,.09);
+  }
+
   @media (max-width: 900px) {
     .customize-hero,
     .customize-grid,
@@ -4575,6 +4726,14 @@
         <div class="customize-card-copy">Set how reminders behave before exams, tasks, and revisions.</div>
         <div class="custom-field-grid">
           <div class="custom-field">
+            <label for="custom-sound-feedback">Sound feedback</label>
+            <select id="custom-sound-feedback" onchange="updatePersonalization('soundFeedback', this.value)">
+              <option value="off">Off</option>
+              <option value="soft">Soft taps</option>
+              <option value="success">Success only</option>
+            </select>
+          </div>
+          <div class="custom-field">
             <label for="custom-reminder-style">Style</label>
             <select id="custom-reminder-style" onchange="updatePersonalization('reminderStyle', this.value)">
               <option value="quiet">Quiet</option>
@@ -5065,6 +5224,7 @@ function escapeHtml(value) {
 function showToast(message, type = 'success') {
   const stack = document.getElementById('toast-stack');
   if (!stack) return;
+  if (type === 'success') playUISound('success');
   const toast = document.createElement('div');
   toast.className = `toast ${type}`;
   toast.textContent = message;
@@ -5278,6 +5438,7 @@ const PERSONALIZATION_DEFAULTS = {
   focusMode: 'off',
   motion: 'full',
   reminderStyle: 'smart',
+  soundFeedback: 'off',
   quietHours: '10 PM - 7 AM',
   dailyBrief: 'morning',
   coachTone: 'calm',
@@ -5329,6 +5490,7 @@ function normalizePersonalization(raw = {}) {
     focusMode: source.focusMode === 'on' ? 'on' : 'off',
     motion: source.motion === 'reduced' ? 'reduced' : 'full',
     reminderStyle: ['quiet','smart','strict'].includes(source.reminderStyle) ? source.reminderStyle : PERSONALIZATION_DEFAULTS.reminderStyle,
+    soundFeedback: ['off','soft','success'].includes(source.soundFeedback) ? source.soundFeedback : PERSONALIZATION_DEFAULTS.soundFeedback,
     dailyBrief: ['morning','evening','both','off'].includes(source.dailyBrief) ? source.dailyBrief : PERSONALIZATION_DEFAULTS.dailyBrief,
     coachTone: ['calm','direct','motivational','examiner'].includes(source.coachTone) ? source.coachTone : PERSONALIZATION_DEFAULTS.coachTone,
     learningStyle: ['balanced','visual','practice','revision'].includes(source.learningStyle) ? source.learningStyle : PERSONALIZATION_DEFAULTS.learningStyle,
@@ -5364,6 +5526,37 @@ function setTheme(theme, announce = true) {
   if (announce) showToast(`${chosen === 'dark' ? 'Dark' : 'Light'} mode enabled`);
 }
 
+let uiAudioContext = null;
+
+function playUISound(kind = 'tap') {
+  const pref = store.settings?.personalization;
+  if (!pref || pref.soundFeedback === 'off') return;
+  if (pref.soundFeedback === 'success' && kind !== 'success') return;
+  try {
+    uiAudioContext = uiAudioContext || new (window.AudioContext || window.webkitAudioContext)();
+    const oscillator = uiAudioContext.createOscillator();
+    const gain = uiAudioContext.createGain();
+    const now = uiAudioContext.currentTime;
+    oscillator.type = 'sine';
+    oscillator.frequency.setValueAtTime(kind === 'success' ? 660 : 420, now);
+    oscillator.frequency.exponentialRampToValueAtTime(kind === 'success' ? 880 : 520, now + .055);
+    gain.gain.setValueAtTime(0.0001, now);
+    gain.gain.exponentialRampToValueAtTime(kind === 'success' ? 0.045 : 0.025, now + .012);
+    gain.gain.exponentialRampToValueAtTime(0.0001, now + .11);
+    oscillator.connect(gain).connect(uiAudioContext.destination);
+    oscillator.start(now);
+    oscillator.stop(now + .12);
+  } catch(e) {}
+}
+
+function bindPremiumInteractions() {
+  document.addEventListener('click', event => {
+    if (!currentUser) return;
+    const control = event.target.closest?.('button, .nav-item, .quick-action, .filter-pill, .tab-btn');
+    if (control) playUISound('tap');
+  }, true);
+}
+
 function getPersonalization() {
   if (!store.settings) return normalizePersonalization();
   store.settings.personalization = normalizePersonalization(store.settings.personalization);
@@ -5397,6 +5590,7 @@ function updatePersonalization(key, value) {
   saveAll();
   applyPersonalization();
   renderPersonalization();
+  if (key === 'soundFeedback' && value !== 'off') playUISound('success');
 }
 
 function togglePersonalizationModule(key) {
@@ -5491,7 +5685,7 @@ function renderPersonalization() {
     const active = key === 'dashboard' || pref.modules[key] !== false;
     return `<button class="module-toggle ${active ? 'active' : ''}" type="button" onclick="togglePersonalizationModule('${key}')" ${key === 'dashboard' ? 'aria-disabled="true"' : ''}><span><strong>${escapeHtml(title)}</strong><span>${escapeHtml(copy)}</span></span></button>`;
   }).join('');
-  ['reminderStyle','quietHours','dailyBrief','coachTone','gradePhase','learningStyle','targetScore','blockedHours'].forEach(key => {
+  ['soundFeedback','reminderStyle','quietHours','dailyBrief','coachTone','gradePhase','learningStyle','targetScore','blockedHours'].forEach(key => {
     const el = document.getElementById(`custom-${key.replace(/[A-Z]/g, letter => '-' + letter.toLowerCase())}`);
     if (el) el.value = pref[key] || '';
   });
@@ -8262,6 +8456,7 @@ migrateLegacyStorage();
 initializeLaunchSplash();
 bindThemeControls();
 bindOnboardingControls();
+bindPremiumInteractions();
 applyTheme(localStorage.getItem(THEME_KEY) || 'light');
 renderExistingUsers();
 const lastUser = localStorage.getItem(LAST_USER_KEY);
