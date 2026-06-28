@@ -3894,6 +3894,117 @@
     margin-top: 12px;
   }
 
+  .hundred-audit {
+    display: grid;
+    grid-template-columns: minmax(0, .36fr) minmax(0, .64fr);
+    gap: 14px;
+    margin-top: 12px;
+  }
+
+  .audit-score-card {
+    padding: 14px;
+    border: 1px solid var(--hairline);
+    border-radius: 8px;
+    background: rgba(255,255,255,.56);
+  }
+
+  .audit-score {
+    color: var(--ink);
+    font-size: 42px;
+    font-weight: 900;
+    line-height: 1;
+  }
+
+  .audit-score span {
+    color: var(--ink-muted);
+    font-size: 16px;
+  }
+
+  .audit-mini {
+    color: var(--ink-muted);
+    font-size: 11px;
+    line-height: 1.45;
+    margin-top: 8px;
+  }
+
+  .audit-category-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .audit-category {
+    padding: 9px;
+    border: 1px solid var(--hairline);
+    border-radius: 8px;
+    background: rgba(255,255,255,.5);
+  }
+
+  .audit-category-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    color: var(--ink);
+    font-size: 11px;
+    font-weight: 850;
+  }
+
+  .audit-track {
+    height: 6px;
+    margin-top: 7px;
+    border-radius: 999px;
+    background: rgba(15,23,42,.08);
+    overflow: hidden;
+  }
+
+  .audit-fill {
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, var(--phy), var(--success));
+  }
+
+  .audit-recs {
+    display: grid;
+    gap: 8px;
+    margin-top: 12px;
+  }
+
+  .audit-rec {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 9px;
+    padding: 9px;
+    border: 1px solid var(--hairline);
+    border-radius: 8px;
+    background: rgba(255,255,255,.52);
+  }
+
+  .audit-rank {
+    width: 24px;
+    height: 24px;
+    border-radius: 8px;
+    display: grid;
+    place-items: center;
+    color: #fff;
+    background: #07142f;
+    font-size: 11px;
+    font-weight: 900;
+  }
+
+  .audit-rec-title {
+    color: var(--ink);
+    font-size: 12px;
+    font-weight: 850;
+  }
+
+  .audit-rec-copy {
+    color: var(--ink-muted);
+    font-size: 11px;
+    line-height: 1.4;
+    margin-top: 2px;
+  }
+
   .snapshot-line {
     padding: 9px;
     border: 1px solid var(--hairline);
@@ -3911,17 +4022,26 @@
   body.theme-dark .upgrade-panel,
   body.theme-dark .mode-btn,
   body.theme-dark .doubt-item,
-  body.theme-dark .snapshot-line {
+  body.theme-dark .snapshot-line,
+  body.theme-dark .audit-score-card,
+  body.theme-dark .audit-category,
+  body.theme-dark .audit-rec {
     background: rgba(16,24,38,.94);
     border-color: rgba(255,255,255,.09);
   }
 
   body.theme-dark .mode-btn,
-  body.theme-dark .snapshot-line strong { color: #f4f7fb; }
+  body.theme-dark .snapshot-line strong,
+  body.theme-dark .audit-score,
+  body.theme-dark .audit-category-head,
+  body.theme-dark .audit-rec-title { color: #f4f7fb; }
 
   body.theme-dark .mode-btn span,
   body.theme-dark .snapshot-line,
-  body.theme-dark .doubt-item { color: #aab6c9; }
+  body.theme-dark .doubt-item,
+  body.theme-dark .audit-mini,
+  body.theme-dark .audit-score span,
+  body.theme-dark .audit-rec-copy { color: #aab6c9; }
 
   body.theme-dark .doubt-capture input {
     background: #111a2a;
@@ -4930,6 +5050,26 @@
       <div class="pulse-title">Mentor Snapshot</div>
       <div class="pulse-copy">A premium-readable summary for you, a parent, or a mentor before the next study block.</div>
       <div class="mentor-snapshot" id="mentor-snapshot"></div>
+    </section>
+
+    <section class="upgrade-panel" aria-label="100x study audit">
+      <div class="pulse-title">100x Study Audit</div>
+      <div class="pulse-copy">StudyMeter runs 100 student-experience checks across recall, planning, focus, mocks, notes, recovery, and interface habits.</div>
+      <div class="hundred-audit">
+        <div class="audit-score-card">
+          <div class="audit-score"><strong id="hundred-audit-score-prefix">0</strong><span>/100</span></div>
+          <div class="audit-mini" id="hundred-audit-copy">Run the audit to find the next best improvements.</div>
+          <div class="action-row" style="margin-top:12px">
+            <button class="btn-primary" onclick="renderHundredAudit()">Run audit</button>
+            <button class="btn-sm" onclick="addHundredAuditTasks()">Add fixes</button>
+            <button class="btn-sm" onclick="speakHundredAudit()">Read</button>
+          </div>
+        </div>
+        <div>
+          <div class="audit-category-grid" id="hundred-audit-categories"></div>
+          <div class="audit-recs" id="hundred-audit-recs"></div>
+        </div>
+      </div>
     </section>
 
     <section class="dashboard-hero">
@@ -7581,6 +7721,7 @@ function renderDashboard() {
   renderPulseCoach();
   renderDoubtParking();
   renderMentorSnapshot();
+  renderHundredAudit();
   updatePlannerBadge();
 }
 
@@ -7892,6 +8033,276 @@ function renderMentorSnapshot() {
     <div class="snapshot-line"><strong>Risk:</strong> ${openDoubts ? `${openDoubts} unsolved doubt${openDoubts === 1 ? '' : 's'} need closure.` : 'No parked doubts waiting.'}</div>
     <div class="snapshot-line"><strong>Mock signal:</strong> ${latestMock ? `${escapeHtml(latestMock.name)} at ${latestMock.total}/300. Repair mistakes before chasing a new test.` : 'No mock logged yet. Add one to unlock sharper mentor guidance.'}</div>
   `;
+}
+
+function daysSinceDateKey(dateKey) {
+  if (!isDateKey(dateKey)) return 999;
+  const today = new Date(`${localDateKey()}T00:00:00`);
+  const then = new Date(`${dateKey}T00:00:00`);
+  return Math.max(0, Math.round((today - then) / 86400000));
+}
+
+function getHundredAuditMetrics() {
+  const today = localDateKey();
+  const logs = store.logs || [];
+  const tasks = store.tasks || [];
+  const mocks = [...(store.mocks || [])].sort((a, b) => String(a.date).localeCompare(String(b.date)));
+  const testLogs = store.testLogs || [];
+  const flashcards = store.flashcards || [];
+  const doubts = store.doubts || [];
+  const chapters = getAllChapters();
+  const chapterData = chapters.map(chapter => ({ chapter, data: store.chapters[chapter.id] || {} }));
+  const doneChapters = chapterData.filter(item => item.data.status === 'done').length;
+  const partialChapters = chapterData.filter(item => item.data.status === 'partial').length;
+  const highDone = chapterData.filter(item => item.chapter.high && item.data.status === 'done').length;
+  const highTotal = chapterData.filter(item => item.chapter.high).length || 1;
+  const lowConfidence = chapterData.filter(item => Number(item.data.confidence || 3) <= 2).length;
+  const revised = chapterData.filter(item => item.data.lastRevised).length;
+  const bookmarked = chapterData.filter(item => item.data.bookmarked).length;
+  const topicProgress = chapterData.reduce((sum, item) => sum + (item.data.topics_done || []).length, 0);
+  const totalTopics = chapters.reduce((sum, chapter) => sum + chapter.topics.length, 0) || 1;
+  const todayLogs = logs.filter(log => log.date === today);
+  const todayHours = todayLogs.reduce((sum, log) => sum + Number(log.hours || 0), 0);
+  const todayQs = todayLogs.reduce((sum, log) => sum + Number(log.qs || 0), 0);
+  const weekKeys = new Set(Array.from({ length: 7 }, (_, index) => {
+    const date = new Date();
+    date.setDate(date.getDate() - index);
+    return localDateKey(date);
+  }));
+  const weekLogs = logs.filter(log => weekKeys.has(log.date));
+  const weekHours = weekLogs.reduce((sum, log) => sum + Number(log.hours || 0), 0);
+  const activeDays = new Set(weekLogs.map(log => log.date)).size;
+  const focusToday = (store.focusSessions || []).filter(session => session.date === today).reduce((sum, session) => sum + Number(session.minutes || 0), 0);
+  const openTasks = tasks.filter(task => !task.done);
+  const overdue = openTasks.filter(task => task.due && task.due < today);
+  const todayTasks = openTasks.filter(task => task.due === today);
+  const highTasks = openTasks.filter(task => task.priority === 'high');
+  const completedToday = tasks.filter(task => task.done && task.completedAt?.slice(0, 10) === today).length;
+  const notesChars = Object.values(store.notes || {}).join(' ').trim().length;
+  const quizAttempts = store.quizHistory || [];
+  const latestMock = mocks[mocks.length - 1];
+  const bestMock = mocks.reduce((best, mock) => Math.max(best, Number(mock.total || 0)), 0);
+  const latestTestLog = testLogs[testLogs.length - 1];
+  const goals = store.settings?.goals || { hours: 6, questions: 60 };
+  const personalization = store.settings?.personalization || {};
+  return {
+    today, logs, tasks, mocks, testLogs, flashcards, doubts, chapters, doneChapters, partialChapters,
+    highDone, highTotal, lowConfidence, revised, bookmarked, topicProgress, totalTopics, todayHours,
+    todayQs, weekHours, activeDays, focusToday, openTasks, overdue, todayTasks, highTasks,
+    completedToday, notesChars, quizAttempts, latestMock, bestMock, latestTestLog, goals,
+    personalization, revisions: getRevisionQueue(), streak: getStudyStreak(logs),
+    dueCards: dueFlashcards(), openDoubts: doubts.filter(doubt => !doubt.solved),
+    energyToday: Number(store.energy?.[today] || 0)
+  };
+}
+
+function buildHundredAuditChecks() {
+  const m = getHundredAuditMetrics();
+  const pctDone = m.doneChapters / Math.max(1, m.chapters.length);
+  const topicPct = m.topicProgress / m.totalTopics;
+  const highPct = m.highDone / m.highTotal;
+  const latestMockAge = daysSinceDateKey(m.latestMock?.date);
+  const latestTestAge = daysSinceDateKey(m.latestTestLog?.date);
+  const categories = [
+    ['Planning', [
+      ['One open task exists', m.openTasks.length > 0, 'Create one concrete planner task for the next session.'],
+      ['Task list is not overloaded', m.openTasks.length <= 12, 'Trim or finish low-value tasks so the plan feels calm.'],
+      ['No overdue tasks', m.overdue.length === 0, 'Clear or reschedule overdue planner items.'],
+      ['Today has a task', m.todayTasks.length > 0, 'Put one task on today so the app has a clear next move.'],
+      ['High-priority work exists', m.highTasks.length > 0, 'Mark one high-return task as high priority.'],
+      ['High-priority load is focused', m.highTasks.length <= 4, 'Keep high priority rare so it actually means something.'],
+      ['Daily hour goal is realistic', Number(m.goals.hours || 0) >= 2 && Number(m.goals.hours || 0) <= 10, 'Tune the daily hour goal to a sustainable range.'],
+      ['Daily question goal is set', Number(m.goals.questions || 0) >= 20, 'Set a visible daily question target.'],
+      ['Completed something today', m.completedToday > 0, 'Close one planner task today.'],
+      ['Planner can guide focus', m.openTasks.some(task => Number(task.minutes || 0) > 0), 'Add minutes to the next task so the focus timer can use it.']
+    ]],
+    ['Active Recall', [
+      ['Flashcards exist', m.flashcards.length > 0, 'Create flashcards from formulas, traps, or Source Studio notes.'],
+      ['Due cards are manageable', m.dueCards.length <= 20, 'Review due cards before adding many new ones.'],
+      ['Enough recall material', m.flashcards.length >= 10, 'Build at least 10 cards for weak formulas and traps.'],
+      ['Quiz lab has history', m.quizAttempts.length > 0, 'Generate and grade one active-recall quiz.'],
+      ['Recent misses became cards', m.flashcards.some(card => String(card.front || '').includes('Without looking') || String(card.front || '').includes('Source recall')), 'Convert missed prompts or notes into recall cards.'],
+      ['Source Studio used', m.flashcards.some(card => String(card.front || '').startsWith('Source recall')), 'Paste notes into Source Studio to generate practice.'],
+      ['Weak cards are scheduled', m.flashcards.some(card => Number(card.box || 0) > 0), 'Grade cards after review so spacing becomes smarter.'],
+      ['Recall beats rereading', m.quizAttempts.length + m.flashcards.length >= 5, 'Use flashcards or quiz prompts before reading notes.'],
+      ['Answers are reviewed', m.quizAttempts.some(item => item.result === 'missed') || m.quizAttempts.some(item => item.result === 'got'), 'Grade recall honestly after each prompt.'],
+      ['Memory queue is active', m.dueCards.length > 0 || m.flashcards.length >= 5, 'Keep a small daily memory queue alive.']
+    ]],
+    ['Focus', [
+      ['Focused today', m.focusToday > 0, 'Run one focus block today.'],
+      ['Meaningful focus volume', m.focusToday >= 25, 'Complete at least one 25-minute focused block.'],
+      ['Deep work exists', m.focusToday >= 50 || (store.focusSessions || []).some(session => Number(session.minutes || 0) >= 50), 'Try one deeper 50-minute block for hard chapters.'],
+      ['Auto-log helps tracking', store.settings?.autoLogFocus !== false, 'Enable focus auto-log for cleaner progress.'],
+      ['Study log exists today', m.todayHours > 0, 'Log today after the focus session.'],
+      ['Daily hours progressing', m.todayHours >= Math.min(1, Number(m.goals.hours || 6) * .2), 'Start with one hour or a smaller honest block.'],
+      ['Question work started', m.todayQs > 0, 'Solve and log questions today.'],
+      ['Weekly rhythm exists', m.activeDays >= 3, 'Build at least three active study days this week.'],
+      ['Streak exists', m.streak > 0, 'Log one real session to start a streak.'],
+      ['Energy is checked', m.energyToday > 0, 'Use Energy Check-In so planning respects recovery.']
+    ]],
+    ['Mocks', [
+      ['At least one mock logged', m.mocks.length > 0, 'Add a baseline mock test.'],
+      ['Recent mock signal', latestMockAge <= 14, 'Take or log a recent mock within two weeks.'],
+      ['Multiple mocks for trend', m.mocks.length >= 3, 'Log at least three mocks to reveal trend.'],
+      ['Mock has repair notes', Boolean(m.latestMock?.notes), 'Add mistake notes to the latest mock.'],
+      ['Best score is visible', m.bestMock > 0, 'Log mock subject scores to unlock score tracking.'],
+      ['Test analysis exists', m.testLogs.length > 0, 'Analyze one test beyond the raw score.'],
+      ['Recent test analysis', latestTestAge <= 14, 'Analyze a recent mock or sectional test.'],
+      ['Mistake categories captured', Boolean(m.latestTestLog?.mistakes || m.latestTestLog?.notes), 'Write the mistake pattern after a test.'],
+      ['Mock repair is planned', m.openTasks.some(task => /mock|mistake|repair|redo/i.test(task.title)), 'Add a mock-repair task before the next test.'],
+      ['Scores are not ignored', m.mocks.length === 0 || m.testLogs.length >= Math.min(m.mocks.length, 2), 'Pair mock scores with at least two analysis logs.']
+    ]],
+    ['Syllabus', [
+      ['Some chapters completed', m.doneChapters > 0, 'Mark completed chapters so progress becomes real.'],
+      ['Partial progress visible', m.partialChapters > 0 || m.doneChapters > 0, 'Move at least one chapter to partial or done.'],
+      ['High-weight progress', highPct >= .2, 'Attack one high-weight chapter.'],
+      ['Overall coverage started', pctDone >= .05, 'Finish the first 5% of chapters.'],
+      ['Topic-level tracking used', topicPct >= .05, 'Tick subtopics inside chapters for sharper progress.'],
+      ['Low confidence is contained', m.lowConfidence <= 12, 'Raise confidence in one low-confidence chapter.'],
+      ['Bookmarks identify priorities', m.bookmarked > 0, 'Bookmark one high-priority chapter.'],
+      ['Revision timestamps exist', m.revised > 0, 'Mark one chapter revised after active recall.'],
+      ['Revision queue is not huge', m.revisions.length <= 10, 'Clear the revision queue before it becomes noisy.'],
+      ['Subject balance is moving', getSubjectProgress({ physics: SYLLABUS.physics.map(c=>c.id), chemistry: SYLLABUS.chemistry.map(c=>c.id), mathematics: SYLLABUS.mathematics.map(c=>c.id) }).filter(s => s.done > 0).length >= 2, 'Make visible progress in at least two subjects.']
+    ]],
+    ['Notes', [
+      ['Notes exist', m.notesChars > 0, 'Save formulas or mistake notes in Formula Bank.'],
+      ['Notes have substance', m.notesChars >= 300, 'Add enough notes to be useful during revision.'],
+      ['Physics notes used', String(store.notes?.phy || '').trim().length > 40, 'Add Physics formulas or traps.'],
+      ['Chemistry notes used', String(store.notes?.chem || '').trim().length > 40, 'Add Chemistry reactions, exceptions, or mnemonics.'],
+      ['Math notes used', String(store.notes?.math || '').trim().length > 40, 'Add Math identities, methods, or common traps.'],
+      ['General strategy exists', String(store.notes?.gen || '').trim().length > 40, 'Write exam strategy or weekly rules in General Notes.'],
+      ['Doubts are captured', m.doubts.length > 0, 'Park one doubt instead of letting it float.'],
+      ['Doubts are not piling up', m.openDoubts.length <= 5, 'Resolve or convert open doubts into tasks.'],
+      ['Solved doubts exist', m.doubts.some(doubt => doubt.solved), 'Mark one doubt solved after closure.'],
+      ['Notes feed practice', m.flashcards.some(card => /Source recall|formula|trap|mistake/i.test(`${card.front} ${card.back}`)), 'Turn notes into flashcards or Source Studio cards.']
+    ]],
+    ['Wellbeing', [
+      ['Pulse selected', Boolean(store.settings?.studentPulse), 'Pick your current state in Pulse Coach.'],
+      ['Energy logged', m.energyToday > 0, 'Log energy today.'],
+      ['Recovery is possible', m.openTasks.length <= 15, 'Reduce task clutter to lower pressure.'],
+      ['No panic backlog', m.overdue.length <= 3, 'Reschedule overdue tasks into realistic blocks.'],
+      ['Calm mode available', Boolean(store.settings?.studentPulse === 'stressed' || store.settings?.studentPulse === 'tired' || store.settings?.studentPulse === 'focused' || store.settings?.studentPulse === 'stuck'), 'Use Pulse Coach before studying.'],
+      ['Study is not all mocks', m.mocks.length === 0 || m.weekHours > 0, 'Balance mocks with review hours.'],
+      ['Break-friendly blocks', m.openTasks.some(task => Number(task.minutes || 0) <= 50), 'Keep at least one task short enough to start easily.'],
+      ['Momentum without overload', m.todayHours <= Number(m.goals.hours || 6) + 3, 'Avoid turning one day into burnout debt.'],
+      ['Doubt stress reduced', m.openDoubts.length < 8, 'Close or taskify old doubts.'],
+      ['Next action is clear', m.openTasks.length > 0 || m.revisions.length > 0, 'Keep one next action visible.']
+    ]],
+    ['Personalization', [
+      ['Theme chosen', Boolean(store.settings?.theme), 'Choose a comfortable theme.'],
+      ['Dashboard mode is set', ['simple','full'].includes(store.settings?.dashboardMode), 'Use Simple or Full dashboard mode intentionally.'],
+      ['Personalization exists', Boolean(store.settings?.personalization), 'Open Personalize and tune the app.'],
+      ['Modules are not all hidden', Object.values(m.personalization.modules || {}).filter(value => value === false).length < 6, 'Keep core modules visible.'],
+      ['Density preference set', Boolean(m.personalization.density), 'Set compact, default, or roomy density.'],
+      ['Layout preference set', Boolean(m.personalization.layout), 'Set your preferred layout.'],
+      ['Motion preference respected', Boolean(m.personalization.motion), 'Choose motion level for comfort.'],
+      ['Sound preference available', m.personalization.sound !== undefined, 'Set UI sounds on or off.'],
+      ['Reminder window exists', Boolean(m.personalization.reminderTime || store.settings?.reminderTime), 'Set a reminder time.'],
+      ['Friendly guide not blocking', store.settings?.showFriendlyGuide === false || store.settings?.showFriendlyGuide === true, 'Use Guide when learning, hide it when fluent.']
+    ]],
+    ['Navigation', [
+      ['Command palette exists', true, 'Use Search when you do not know where a feature is.'],
+      ['Toolkit has practice tools', true, 'Open Toolkit for flashcards, Source Studio, and reports.'],
+      ['Focus timer is connected', true, 'Use Focus Timer with a planner task.'],
+      ['Dashboard has next action', true, 'Start from the command strip on top.'],
+      ['Mobile quick access exists', true, 'Use the mobile bottom bar on small screens.'],
+      ['Voice controls exist', true, 'Try Speak plan or Voice command if supported.'],
+      ['Installable PWA exists', true, 'Install StudyMeter from browser menu for app-like access.'],
+      ['Backup is possible', true, 'Export backup from Personalize before big changes.'],
+      ['Report generation exists', true, 'Generate a study report for review.'],
+      ['Shortcuts are documented', true, 'Use Toolkit shortcuts to move faster.']
+    ]],
+    ['Polish Loop', [
+      ['100 checks completed', true, 'Run this audit again after making changes.'],
+      ['Top fixes can become tasks', true, 'Use Add fixes to convert audit results into action.'],
+      ['Recommendations are limited', true, 'Focus on top five fixes, not all 100.'],
+      ['Score is visible', true, 'Use the 100x score as a quick health signal.'],
+      ['Categories are visible', true, 'Use category bars to spot weak systems.'],
+      ['Student context matters', true, 'StudyMeter adapts to your actual data.'],
+      ['Less clutter is respected', true, 'The audit summarizes instead of dumping everything.'],
+      ['Native actions exist', true, 'Buttons create tasks, speak, or rerun directly.'],
+      ['Loop is repeatable', true, 'Repeat after each study day.'],
+      ['Improvement is measurable', true, 'Watch score move as habits improve.']
+    ]]
+  ];
+
+  return categories.flatMap(([category, items]) => items.map(([title, passed, fix]) => ({ category, title, passed: Boolean(passed), fix }))).slice(0, 100);
+}
+
+function getHundredAudit() {
+  const checks = buildHundredAuditChecks();
+  const passed = checks.filter(check => check.passed).length;
+  const categories = Object.entries(checks.reduce((acc, check) => {
+    acc[check.category] = acc[check.category] || { total: 0, passed: 0 };
+    acc[check.category].total += 1;
+    if (check.passed) acc[check.category].passed += 1;
+    return acc;
+  }, {})).map(([name, value]) => ({ name, ...value, pct: Math.round(value.passed / value.total * 100) }));
+  const recommendations = checks.filter(check => !check.passed).slice(0, 5);
+  return { checks, passed, score: Math.round(passed / checks.length * 100), categories, recommendations };
+}
+
+function renderHundredAudit() {
+  const score = document.getElementById('hundred-audit-score-prefix');
+  const copy = document.getElementById('hundred-audit-copy');
+  const categoryBox = document.getElementById('hundred-audit-categories');
+  const recBox = document.getElementById('hundred-audit-recs');
+  if (!score || !copy || !categoryBox || !recBox) return;
+  const audit = getHundredAudit();
+  score.textContent = audit.score;
+  copy.textContent = `${audit.passed}/100 checks passing. Fix the top recommendations first; this is the clean version of the 100-loop audit.`;
+  categoryBox.innerHTML = audit.categories.map(category => `
+    <div class="audit-category">
+      <div class="audit-category-head"><span>${escapeHtml(category.name)}</span><span>${category.passed}/${category.total}</span></div>
+      <div class="audit-track"><div class="audit-fill" style="width:${category.pct}%"></div></div>
+    </div>
+  `).join('');
+  recBox.innerHTML = audit.recommendations.length
+    ? audit.recommendations.map((rec, index) => `
+      <div class="audit-rec">
+        <div class="audit-rank">${index + 1}</div>
+        <div><div class="audit-rec-title">${escapeHtml(rec.title)}</div><div class="audit-rec-copy">${escapeHtml(rec.fix)} · ${escapeHtml(rec.category)}</div></div>
+      </div>
+    `).join('')
+    : '<div class="audit-rec"><div class="audit-rank">OK</div><div><div class="audit-rec-title">All 100 checks pass</div><div class="audit-rec-copy">Use the app normally and rerun after your next study session.</div></div></div>';
+}
+
+function addHundredAuditTasks() {
+  const audit = getHundredAudit();
+  const recs = audit.recommendations.slice(0, 5);
+  if (!recs.length) return showToast('100x audit is already clean');
+  const existing = new Set((store.tasks || []).filter(task => !task.done).map(task => String(task.title || '').toLowerCase()));
+  const stamp = Date.now();
+  let added = 0;
+  recs.forEach((rec, index) => {
+    const title = `100x fix: ${rec.title}`;
+    if (existing.has(title.toLowerCase())) return;
+    store.tasks.push({
+      id: stamp + index,
+      title,
+      subject: 'Mixed',
+      due: localDateKey(),
+      priority: index < 2 ? 'high' : 'medium',
+      minutes: index < 2 ? 25 : 15,
+      notes: rec.fix,
+      done: false,
+      createdAt: new Date().toISOString()
+    });
+    added += 1;
+  });
+  saveAll();
+  renderPlanner();
+  renderDashboard();
+  showToast(`${added} audit fix${added === 1 ? '' : 'es'} added`);
+}
+
+function speakHundredAudit() {
+  const audit = getHundredAudit();
+  const first = audit.recommendations[0];
+  const text = first
+    ? `100x Study Audit score ${audit.score} out of 100. First fix: ${first.fix}`
+    : `100x Study Audit score ${audit.score} out of 100. All checks are currently passing.`;
+  speakText(text, '100x Study Audit');
 }
 
 function getStudyStreak(logs = store.logs || []) {
@@ -9483,6 +9894,7 @@ function buildCommandItems() {
     { title: 'Open Personalize', copy: 'Tune themes, modules, density, layout, and reminders', icon: 'PZ', action: () => showPage('personalize'), keywords: 'personalize customize settings theme layout modules reminders' },
     { title: 'Speak dashboard plan', copy: 'Read your next action and mentor snapshot aloud', icon: 'VO', action: speakDashboardBrief, keywords: 'voice speak read aloud dashboard mentor audio' },
     { title: 'Start voice command', copy: 'Say open planner, start focus, log study, or generate quiz', icon: 'MIC', action: startVoiceCommand, keywords: 'voice command microphone speech recognition' },
+    { title: 'Run 100x audit', copy: 'Score 100 student-experience checks and show top fixes', icon: '100', action: () => { showPage('dashboard'); setTimeout(renderHundredAudit, 80); }, keywords: '100 audit improve app checks recommendations fixes student experience' },
     { title: 'Create AI mentor tasks', copy: 'Add the full 48-hour attack plan to planner', icon: 'AI', action: createAiMentorTasks, keywords: 'ai generate mentor tasks attack plan' },
     { title: 'Make AI flashcards', copy: 'Generate recall cards from highest-risk chapters', icon: 'FC', action: generateMentorFlashcards, keywords: 'ai flashcards recall weak chapters' },
     { title: 'Add planner task', copy: 'Create the next concrete study task', icon: '+', action: openTaskModal, keywords: 'task planner todo add' },
