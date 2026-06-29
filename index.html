@@ -3201,7 +3201,7 @@
     width: 100%;
     height: 5px;
     display: grid;
-    grid-template-columns: repeat(12, 1fr);
+    grid-template-columns: repeat(var(--onboarding-step-count, 5), 1fr);
     gap: 0;
     border-radius: 999px;
     overflow: hidden;
@@ -5797,6 +5797,30 @@
       width: min(420px, 100%);
     }
   }
+
+  body.dashboard-simple .friendly-toolbar,
+  body.dashboard-simple .friendly-guide,
+  body.dashboard-simple .voice-coach {
+    display: none;
+  }
+
+  body.dashboard-simple .student-launch {
+    margin-top: 0;
+    border-color: rgba(34,197,94,.22);
+    background:
+      linear-gradient(135deg, rgba(34,197,94,.16), rgba(14,165,233,.08)),
+      var(--card);
+  }
+
+  body.dashboard-simple .student-launch-title {
+    font-size: clamp(22px, 5vw, 32px);
+    line-height: 1.08;
+  }
+
+  body.dashboard-simple .student-launch-copy {
+    max-width: 560px;
+    font-size: 14px;
+  }
 </style>
 </head>
 <body>
@@ -8165,50 +8189,27 @@ const ONBOARDING_STEPS = [
   {
     kind: 'welcome',
     title: 'StudyMeter',
-    next: 'Get Started'
+    next: 'Start'
   },
   {
-    kind: 'rega',
-    bubble: "Hi, I'm Rega. I'll help you stay focused on your studies!"
-  },
-  {
-    kind: 'rega',
-    bubble: "Let's answer a few questions before we focus!"
+    kind: 'goal',
+    bubble: "What should StudyMeter help you fix first?"
   },
   {
     kind: 'distractions',
-    bubble: "What's your biggest distraction when you're trying to focus?"
-  },
-  {
-    kind: 'schedulePromo',
-    next: 'Schedule now!'
+    bubble: "What usually breaks your focus?"
   },
   {
     kind: 'time',
-    bubble: 'When do you study?'
-  },
-  {
-    kind: 'timeConfirm'
-  },
-  {
-    kind: 'examQuestion',
-    bubble: 'Are you preparing for any exams?'
+    bubble: 'When should we protect your study time?'
   },
   {
     kind: 'examSelect',
-    bubble: 'Which exam are you preparing for?'
+    bubble: 'What are you preparing for?'
   },
   {
-    kind: 'groupPromo'
-  },
-  {
-    kind: 'groups',
-    bubble: 'Join any of these IIT JEE groups'
-  },
-  {
-    kind: 'permissions',
-    bubble: 'Almost there, allow these permissions to focus alongside 4227 people now!',
-    next: 'Start StudyMeter'
+    kind: 'planReady',
+    next: 'Open Dashboard'
   }
 ];
 
@@ -8222,7 +8223,7 @@ function getDefaultOnboardingState() {
     questions: store.settings?.goals?.questions || 60,
     weakSubject: store.settings?.onboarding?.weakSubject || 'physics',
     focusStyle: store.settings?.onboarding?.focusStyle || 'balanced',
-    distractions: store.settings?.onboarding?.distractions || ['reels', 'notifications', 'texting', 'games'],
+    distractions: store.settings?.onboarding?.distractions || [],
     timeSlot: store.settings?.onboarding?.timeSlot || 'morning',
     examPrep: store.settings?.onboarding?.examPrep || '',
     group: store.settings?.onboarding?.group || ''
@@ -8254,6 +8255,7 @@ function renderOnboarding() {
   document.getElementById('onboarding-hero-title').textContent = 'StudyMeter';
   document.getElementById('onboarding-hero-copy').textContent = 'Focus setup';
   document.getElementById('onboarding-step-label').textContent = `Step ${onboardingStep + 1} / ${ONBOARDING_STEPS.length}`;
+  document.getElementById('onboarding-dots').style.setProperty('--onboarding-step-count', ONBOARDING_STEPS.length);
   document.getElementById('onboarding-dots').innerHTML = ONBOARDING_STEPS.map((_, index) =>
     `<span class="onboarding-dot ${index < onboardingStep ? 'done' : index === onboardingStep ? 'active' : ''}"></span>`
   ).join('');
@@ -8263,7 +8265,7 @@ function renderOnboarding() {
     ${renderOnboardingStep()}
   `;
   document.getElementById('onboarding-back').style.display = onboardingStep === 0 ? 'none' : 'inline-flex';
-  document.getElementById('onboarding-skip').style.display = onboardingStep === 10 ? 'inline-flex' : 'none';
+  document.getElementById('onboarding-skip').style.display = 'none';
   document.getElementById('onboarding-next').textContent = step.next || (onboardingStep === ONBOARDING_STEPS.length - 1 ? 'Start StudyMeter' : 'Continue');
   document.getElementById('onboarding-next').disabled = isOnboardingNextDisabled();
   syncOnboardingInputs();
@@ -8275,10 +8277,10 @@ function renderOnboardingStep() {
     <div class="rega-scene">
       <div class="rega-logo">StudyMeter</div>
       <div class="rega-hero-rank">#1</div>
-      <div class="rega-hero-title">Study App for students to focus</div>
+      <div class="rega-hero-title">One clear study plan for today.</div>
       <div class="rega-proof">
-        <div class="rega-proof-item">Trusted by<strong>2M</strong>students</div>
-        <div class="rega-proof-item">Rated<strong>4.6 stars</strong>Users</div>
+        <div class="rega-proof-item">Built for<strong>Focus</strong>sessions</div>
+        <div class="rega-proof-item">Made for<strong>JEE</strong>prep</div>
       </div>
     </div>
   `;
@@ -8288,14 +8290,24 @@ function renderOnboardingStep() {
       <div class="rega-avatar" aria-label="Rega"></div>
     </div>
   `;
+  if (step.kind === 'goal') return `
+    <div class="rega-scene">
+      ${regaHeader(step.bubble)}
+      <div class="rega-options">
+        ${onboardingChoice('reason', 'focus', '🎯', 'Start studying faster', 'Give me one clear next action.')}
+        ${onboardingChoice('reason', 'accountability', '✅', 'Stay consistent', 'Help me keep a daily rhythm.')}
+        ${onboardingChoice('reason', 'analysis', '📊', 'Find weak areas', 'Show what needs repair first.')}
+      </div>
+    </div>
+  `;
   if (step.kind === 'distractions') return `
     <div class="rega-scene">
       ${regaHeader(step.bubble)}
       <div class="rega-options">
-        ${onboardingChoice('distractions', 'reels', '🙏', 'Scrolling reels & shorts', '', true)}
-        ${onboardingChoice('distractions', 'notifications', '🔔', 'Distractions from notifications', '', true)}
-        ${onboardingChoice('distractions', 'texting', '📱', 'Texting on my phone', '', true)}
-        ${onboardingChoice('distractions', 'games', '🎮', 'Games', '', true)}
+        ${onboardingChoice('distractions', 'reels', '▶', 'Reels and shorts', '', true)}
+        ${onboardingChoice('distractions', 'notifications', '!', 'Notifications', '', true)}
+        ${onboardingChoice('distractions', 'texting', 'Aa', 'Chats and texting', '', true)}
+        ${onboardingChoice('distractions', 'games', '◎', 'Games', '', true)}
       </div>
     </div>
   `;
@@ -8350,13 +8362,24 @@ function renderOnboardingStep() {
     <div class="rega-scene">
       ${regaHeader(step.bubble)}
       <div class="rega-options">
-        ${onboardingChoice('exam', 'mains1', '', 'IIT JEE', 'JEE Main S1 2027')}
-        ${onboardingChoice('exam', 'advanced', '', 'NEET', 'Use this as your high-focus exam mode')}
-        ${onboardingChoice('exam', 'mains2', '', 'Class 12', 'Board + entrance preparation')}
-        ${onboardingChoice('exam', 'class11', '', 'Class 11', 'Build fundamentals early')}
-        ${onboardingChoice('exam', 'class10', '', 'Class 10', 'School focus plan')}
-        ${onboardingChoice('exam', 'upsc', '', 'UPSC', 'Long-term consistency mode')}
+        ${onboardingChoice('exam', 'mains1', 'J', 'JEE Main 2027', 'January attempt plan')}
+        ${onboardingChoice('exam', 'mains2', 'J', 'JEE Main April', 'Second attempt plan')}
+        ${onboardingChoice('exam', 'advanced', 'A', 'JEE Advanced', 'Deep revision and mocks')}
+        ${onboardingChoice('exam', 'school', '12', 'School + entrance', 'Balanced boards and JEE')}
       </div>
+    </div>
+  `;
+  if (step.kind === 'planReady') return `
+    <div class="rega-scene">
+      <div class="setup-preview">
+        <div>
+          <div style="font-size:42px">${timeSlotMeta().icon}</div>
+          <strong>Your first study plan is ready.</strong>
+          <span>${escapeHtml(timeSlotMeta().time)} · ${escapeHtml(examGroupName())}</span>
+        </div>
+      </div>
+      <div class="rega-feature-title">StudyMeter will open with one priority task, one focus block, and a simple dashboard.</div>
+      <div class="rega-note">You can edit everything later.</div>
     </div>
   `;
   if (step.kind === 'groupPromo') return `
@@ -8437,7 +8460,7 @@ function groupChoice(title, members, icon) {
 }
 
 function examGroupName() {
-  const names = { mains1: 'IIT JEE', mains2: 'Class 12', advanced: 'NEET', class11: 'Class 11', class10: 'Class 10', upsc: 'UPSC' };
+  const names = { mains1: 'JEE Main', mains2: 'JEE Main April', advanced: 'JEE Advanced', school: 'School + entrance', class11: 'Class 11', class10: 'Class 10', upsc: 'UPSC' };
   return names[onboardingState.exam] || 'IIT JEE';
 }
 
@@ -8493,6 +8516,7 @@ function finishOnboarding() {
     distractions: ensureArray(onboardingState.distractions),
     timeSlot: onboardingState.timeSlot,
     examPrep: onboardingState.examPrep,
+    examPath: onboardingState.exam,
     group: onboardingState.group
   };
   store.settings.goals = {
@@ -8519,23 +8543,40 @@ function addOnboardingStarterTasks() {
   const today = localDateKey();
   const openTitles = new Set((store.tasks || []).filter(task => !task.done).map(task => String(task.title).toLowerCase()));
   const subjectName = labelize(onboardingState.weakSubject);
-  const focusMinutes = onboardingState.focusStyle === 'deep' ? 90 : 50;
+  const focusMinutes = onboardingState.reason === 'focus' ? 25 : onboardingState.focusStyle === 'deep' ? 90 : 50;
+  const studyWindow = timeSlotMeta();
+  const blockerLabels = {
+    reels: 'reels and shorts',
+    notifications: 'notifications',
+    texting: 'chats and texting',
+    games: 'games'
+  };
+  const blockers = ensureArray(onboardingState.distractions).map(item => blockerLabels[item]).filter(Boolean);
+  const blockerNote = blockers.length ? ` Keep ${blockers.join(', ')} away during this block.` : '';
   const tasks = [
     {
-      title: `Start ${subjectName} weak-area block`,
-      subject: subjectName,
+      title: `Protect ${studyWindow.title.toLowerCase()} focus block`,
+      subject: 'Mixed',
       due: today,
       priority: 'high',
       minutes: focusMinutes,
-      notes: `Created from onboarding. Open the ${subjectName} syllabus and attack one high-weight chapter.`
+      notes: `Created from onboarding for ${studyWindow.time}.${blockerNote} Start with one clean ${focusMinutes}-minute session.`
     },
     {
-      title: `Solve ${Number(onboardingState.questions)} mixed questions`,
+      title: `Repair one ${subjectName} weak area`,
+      subject: subjectName,
+      due: today,
+      priority: onboardingState.reason === 'analysis' ? 'high' : 'medium',
+      minutes: 45,
+      notes: `Open the ${subjectName} syllabus and finish one small repair block.`
+    },
+    {
+      title: `Solve 30 mixed questions`,
       subject: 'Mixed',
       due: today,
       priority: 'medium',
-      minutes: Math.max(30, Math.round(Number(onboardingState.questions) * 1.5)),
-      notes: 'Use this as your daily question target baseline.'
+      minutes: 45,
+      notes: 'A small first target is easier to start and easier to repeat tomorrow.'
     },
     {
       title: "Log today's study session",
