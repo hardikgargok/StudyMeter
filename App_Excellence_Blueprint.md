@@ -244,6 +244,12 @@ Optimize: simple mode turns Planner into "Today's Plan", hides filters/generator
 Benchmark: matched Todoist's Today-first flow and Things-style focus on the immediate list.
 Reflect: next friction is whether Study Log can be reduced to a fast save flow after focus ends.
 
+### Loop 11
+Audit: Study Log used record-keeping language like "Log Study Session" and an empty state that told users to click a specific old label.
+Optimize: renamed the page to "Log Study", simplified the modal to "Log today", changed the primary button to "Save log", and rewrote the empty state around the post-focus habit.
+Benchmark: matched Strava-style habit logging: save the completed effort quickly, then review history later.
+Reflect: next friction is Test Log, where analysis copy still feels heavy for first-time students.
+
 ## Next Engineering Priorities
 1. Make next-action recommendations more specific from onboarding choices.
 2. Pin the selected study time on the dashboard.
@@ -253,3 +259,4 @@ Reflect: next friction is whether Study Log can be reduced to a fast save flow a
 6. Watch first-session behavior: if students do not tap "Start 25 min", the dashboard copy still needs simplification.
 7. Simplify Planner into "Today", "Upcoming", and "Done" after validating the new Focus start path.
 8. Reduce Study Log to a fast post-focus save screen in simple mode.
+9. Make Test Log feel like "repair mistakes" instead of a data-entry spreadsheet.

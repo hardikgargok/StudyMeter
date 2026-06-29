@@ -6539,10 +6539,10 @@
   <div class="page" id="page-study-log">
     <div class="page-header">
       <div>
-        <div class="page-title">Study Log</div>
-        <div class="page-subtitle">Day-by-day study sessions</div>
+        <div class="page-title">Log Study</div>
+        <div class="page-subtitle">Save what you finished so the next plan becomes smarter.</div>
       </div>
-      <button class="btn-primary" onclick="openLogModal()">+ Log Session</button>
+      <button class="btn-primary" onclick="openLogModal()">Log today</button>
     </div>
 
     <div class="stat-grid" style="margin-bottom:24px">
@@ -7363,7 +7363,7 @@
 <!-- ── LOG SESSION MODAL ── -->
 <div class="modal-overlay" id="log-modal">
   <div class="modal">
-    <div class="modal-title">Log Study Session</div>
+    <div class="modal-title">Log today</div>
     <div class="detail-grid">
       <div class="detail-field">
         <label>Date</label>
@@ -7399,7 +7399,7 @@
     </div>
     <div class="modal-footer">
       <button class="btn-sm" onclick="closeLogModal()">Cancel</button>
-      <button class="btn-primary" onclick="saveLogEntry()">Save Session</button>
+      <button class="btn-primary" onclick="saveLogEntry()">Save log</button>
     </div>
   </div>
 </div>
@@ -10233,7 +10233,7 @@ function renderStudyLog() {
 
   const list = document.getElementById('study-log-entries');
   if (!logs.length) {
-    list.innerHTML = '<div style="color:var(--text3);font-size:13px;text-align:center;padding:32px 0">No sessions logged yet. Start by clicking "+ Log Session"</div>';
+    list.innerHTML = '<div class="empty-state"><div class="empty-icon">+</div><div>No study saved yet. Tap Log today after your first focus block.</div></div>';
     return;
   }
 
@@ -10243,7 +10243,7 @@ function renderStudyLog() {
       <div>
         <div style="display:flex;align-items:center;gap:10px">
           <div style="width:8px;height:8px;border-radius:50%;background:${subjColor[l.subject]};flex-shrink:0"></div>
-          <div class="chapter-name">${l.date} · ${l.subject}</div>
+          <div class="chapter-name">${l.date} - ${l.subject}</div>
         </div>
         <div class="chapter-meta" style="margin-top:6px">
           <span>${l.hours}h studied</span>
