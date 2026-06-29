@@ -184,6 +184,110 @@
   .login-btn:hover { opacity: 0.9; transform: translateY(-1px); }
   .login-btn:active { transform: translateY(0); }
 
+  #login-screen {
+    background:
+      linear-gradient(180deg, rgba(0,0,0,.08), rgba(0,0,0,.42)),
+      url("https://images.unsplash.com/photo-1483347756197-71ef80e95f73?auto=format&fit=crop&w=900&q=80") center/cover;
+  }
+
+  .login-box {
+    min-height: min(720px, 100vh);
+    width: min(100vw, 390px);
+    max-width: 100vw;
+    border: 0;
+    border-radius: 0;
+    padding: 24px 24px 18px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    background: linear-gradient(180deg, rgba(0,0,0,.06), rgba(0,18,8,.18) 36%, rgba(0,0,0,.76));
+    box-shadow: none;
+  }
+
+  .login-box::before,
+  .login-box::after { display: none; }
+
+  .login-logo {
+    position: absolute;
+    top: 56px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 9px;
+    color: #8ee65f;
+    background: none;
+    -webkit-text-fill-color: currentColor;
+    font-size: 25px;
+    font-weight: 650;
+    letter-spacing: 0;
+  }
+
+  .login-logo::before {
+    content: '';
+    width: 34px;
+    height: 34px;
+    display: inline-block;
+    background: url("studymeter-icon.svg") center/contain no-repeat;
+  }
+
+  .login-tagline {
+    order: -1;
+    margin: 0 auto auto;
+    padding-top: min(32vh, 210px);
+    max-width: 270px;
+    color: #fff;
+    text-align: center;
+    font-size: 27px;
+    line-height: 1.18;
+    font-weight: 900;
+    letter-spacing: 0;
+  }
+
+  .login-tagline::before {
+    content: '#1';
+    display: block;
+    color: #7be95d;
+    font-size: 32px;
+    line-height: 1;
+    margin-bottom: 9px;
+  }
+
+  .login-field {
+    margin-top: 24px;
+  }
+
+  .login-field label {
+    color: rgba(255,255,255,.82);
+    text-align: center;
+  }
+
+  .login-input {
+    min-height: 48px;
+    border: 0;
+    border-radius: 999px;
+    background: rgba(255,255,255,.94);
+    color: #071108;
+    text-align: center;
+  }
+
+  .login-btn {
+    min-height: 52px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    background: #fffefa;
+    color: #060807;
+    font-weight: 800;
+    line-height: 1;
+    box-shadow: none;
+    transform: none;
+  }
+
+  .login-btn:hover { opacity: 1; transform: translateY(-1px); }
+
   .login-users-list {
     margin-top: 20px;
     border-top: 0.5px solid var(--border);
@@ -3042,6 +3146,551 @@
     to { transform: translateY(110vh) rotate(420deg); }
   }
 
+  .onboarding-overlay {
+    background:
+      linear-gradient(180deg, #101010, #050a04 64%, #001704);
+    color: #fff;
+  }
+
+  .onboarding-overlay::before {
+    background:
+      radial-gradient(circle at 50% 54%, rgba(89,255,80,.13), transparent 34%),
+      linear-gradient(180deg, rgba(0,0,0,.55), rgba(0,0,0,.12) 30%, rgba(0,0,0,.62));
+  }
+
+  .onboarding-shell {
+    min-height: 100dvh;
+    width: min(390px, 100%);
+    padding: 0;
+    display: block;
+  }
+
+  .onboarding-hero {
+    display: none;
+  }
+
+  .onboarding-card {
+    min-height: 100dvh;
+    border: 0;
+    border-radius: 0;
+    padding: 28px 22px 18px;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(180deg, #101010, #061006 58%, #001906);
+    box-shadow: none;
+    backdrop-filter: none;
+  }
+
+  .onboarding-card::before { display: none; }
+
+  .onboarding-top {
+    height: 26px;
+    align-items: center;
+    margin: 0 0 22px;
+  }
+
+  .onboarding-step-label {
+    min-width: 0;
+    padding: 0;
+    color: transparent;
+    background: none;
+    font-size: 0;
+  }
+
+  .onboarding-dots {
+    width: 100%;
+    height: 5px;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 0;
+    border-radius: 999px;
+    overflow: hidden;
+    background: rgba(255,255,255,.2);
+  }
+
+  .onboarding-dot {
+    width: auto;
+    height: 5px;
+    border-radius: 0;
+    background: transparent;
+  }
+
+  .onboarding-dot.done,
+  .onboarding-dot.active {
+    background: #fff;
+    box-shadow: none;
+  }
+
+  #onboarding-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .rega-scene {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .rega-centered {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding-bottom: 68px;
+  }
+
+  .rega-logo {
+    margin: 26px auto 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: #8fe65b;
+    font-size: 25px;
+    font-weight: 750;
+  }
+
+  .rega-logo::before {
+    content: '';
+    width: 34px;
+    height: 34px;
+    background: url("studymeter-icon.svg") center/contain no-repeat;
+  }
+
+  .rega-hero-rank {
+    margin-top: auto;
+    color: #79e85a;
+    font-size: 31px;
+    font-weight: 950;
+    line-height: 1;
+  }
+
+  .rega-hero-title {
+    max-width: 285px;
+    margin: 0 auto;
+    color: #fff;
+    font-size: 27px;
+    font-weight: 950;
+    line-height: 1.18;
+    letter-spacing: 0;
+  }
+
+  .rega-proof {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-top: auto;
+    color: #fff;
+  }
+
+  .rega-proof-item {
+    text-align: center;
+    font-size: 10px;
+    line-height: 1.08;
+  }
+
+  .rega-proof-item strong {
+    display: block;
+    font-size: 18px;
+    line-height: 1;
+  }
+
+  .rega-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .rega-avatar {
+    position: relative;
+    flex: 0 0 auto;
+    width: 62px;
+    height: 62px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,.28);
+    background:
+      radial-gradient(circle at 36% 38%, #f5ffd6 0 5px, transparent 6px),
+      radial-gradient(circle at 64% 38%, #f5ffd6 0 5px, transparent 6px),
+      radial-gradient(circle at 38% 40%, #111 0 2px, transparent 3px),
+      radial-gradient(circle at 62% 40%, #111 0 2px, transparent 3px),
+      radial-gradient(circle at 50% 65%, #26330f 0 9px, transparent 10px),
+      linear-gradient(180deg, #dfff83 0 28%, #92df43 29% 72%, #ceff94 73%);
+    box-shadow: inset 0 -12px 22px rgba(35,89,17,.35), 0 0 0 7px rgba(255,255,255,.035);
+  }
+
+  .rega-avatar::before {
+    content: '';
+    position: absolute;
+    left: 13px;
+    right: 13px;
+    top: 9px;
+    height: 13px;
+    border-radius: 50% 50% 30% 30%;
+    background: #151c12;
+    transform: rotate(-5deg);
+  }
+
+  .rega-avatar::after {
+    content: '';
+    position: absolute;
+    left: 22px;
+    top: 44px;
+    width: 18px;
+    height: 8px;
+    border-radius: 0 0 12px 12px;
+    border-bottom: 2px solid rgba(28,44,16,.72);
+  }
+
+  .rega-bubble {
+    position: relative;
+    max-width: 240px;
+    padding: 16px 18px;
+    border-radius: 9px;
+    background: linear-gradient(180deg, rgba(42,45,39,.96), rgba(30,34,29,.96));
+    color: #fff;
+    font-size: 13px;
+    line-height: 1.25;
+  }
+
+  .rega-centered .rega-bubble::after,
+  .rega-row .rega-bubble::before {
+    content: '';
+    position: absolute;
+    width: 13px;
+    height: 13px;
+    background: inherit;
+    transform: rotate(45deg);
+  }
+
+  .rega-centered .rega-bubble::after {
+    left: calc(50% - 7px);
+    bottom: -6px;
+  }
+
+  .rega-row .rega-bubble::before {
+    left: -5px;
+    top: 24px;
+  }
+
+  .onboarding-title,
+  .onboarding-copy { display: none; }
+
+  .rega-options {
+    display: grid;
+    gap: 10px;
+    margin-top: 10px;
+  }
+
+  .rega-choice {
+    width: 100%;
+    min-height: 60px;
+    display: grid;
+    grid-template-columns: 30px minmax(0, 1fr) 22px;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid rgba(255,255,255,.05);
+    border-radius: 8px;
+    background: #191919;
+    color: #fff;
+    padding: 12px 15px;
+    text-align: left;
+    font: inherit;
+    cursor: pointer;
+  }
+
+  .rega-choice.active {
+    border-color: #59b33d;
+    background: #10200e;
+    box-shadow: 0 0 0 1px rgba(119,234,91,.45);
+  }
+
+  .rega-choice .choice-icon {
+    width: 30px;
+    height: 30px;
+    margin: 0;
+    border-radius: 0;
+    color: inherit;
+    background: none;
+    font-size: 22px;
+  }
+
+  .rega-choice .choice-title {
+    margin: 0;
+    font-size: 12px;
+    font-weight: 850;
+  }
+
+  .rega-choice .choice-copy {
+    margin-top: 3px;
+    color: rgba(255,255,255,.58);
+    font-size: 11px;
+  }
+
+  .choice-check {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,.62);
+    justify-self: end;
+  }
+
+  .rega-choice.active .choice-check {
+    border-color: #7ded5e;
+    background: radial-gradient(circle, #7ded5e 0 45%, transparent 48%);
+  }
+
+  .phone-preview {
+    position: relative;
+    width: min(245px, 78vw);
+    aspect-ratio: .64;
+    margin: 8px auto 0;
+    border: 5px solid #151817;
+    border-radius: 35px 35px 0 0;
+    overflow: hidden;
+    background:
+      radial-gradient(circle at 50% 30%, rgba(132,246,99,.20), transparent 33%),
+      url("https://images.unsplash.com/photo-1490682143684-14369e18dce8?auto=format&fit=crop&w=640&q=80") center/cover;
+    box-shadow: 0 18px 55px rgba(0,0,0,.5);
+  }
+
+  .timer-orb {
+    position: absolute;
+    inset: 58px 42px auto;
+    aspect-ratio: 1;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: rgba(17,45,27,.88);
+    color: #fff;
+    font-size: 31px;
+    font-weight: 950;
+  }
+
+  .schedule-card-grid {
+    position: absolute;
+    left: -28px;
+    right: -28px;
+    bottom: 28px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 9px;
+  }
+
+  .mini-schedule {
+    min-height: 54px;
+    border-radius: 7px;
+    background: #fff;
+    color: #0f130f;
+    padding: 8px;
+    font-size: 10px;
+    font-weight: 850;
+  }
+
+  .rega-feature-title {
+    margin: 18px auto 0;
+    max-width: 300px;
+    text-align: center;
+    font-size: 19px;
+    line-height: 1.28;
+    font-weight: 950;
+  }
+
+  .time-card,
+  .group-card,
+  .permission-row {
+    border-radius: 8px;
+    background: #191919;
+    color: #fff;
+  }
+
+  .time-card {
+    min-height: 66px;
+    display: grid;
+    grid-template-columns: 38px 1fr 22px;
+    gap: 12px;
+    align-items: center;
+    border: 1px solid transparent;
+    padding: 12px 16px;
+  }
+
+  .time-card.active {
+    border-color: #68d94a;
+    background: #10200e;
+  }
+
+  .time-icon { font-size: 28px; }
+  .time-title { font-size: 13px; font-weight: 850; }
+  .time-copy { margin-top: 4px; color: rgba(255,255,255,.5); font-size: 12px; }
+
+  .setup-preview {
+    width: min(245px, 82vw);
+    min-height: 330px;
+    margin: 0 auto;
+    border: 5px solid #151817;
+    border-radius: 35px 35px 0 0;
+    display: grid;
+    place-items: center;
+    text-align: center;
+    background: radial-gradient(circle at 50% 36%, rgba(119,234,91,.18), transparent 35%), #142416;
+  }
+
+  .setup-preview strong {
+    display: block;
+    margin: 10px auto 8px;
+    max-width: 185px;
+    font-size: 18px;
+    line-height: 1.2;
+  }
+
+  .orbit-preview {
+    width: min(245px, 82vw);
+    aspect-ratio: .78;
+    margin: 0 auto;
+    border: 5px solid #151817;
+    border-radius: 35px 35px 0 0;
+    display: grid;
+    place-items: center;
+    background: radial-gradient(circle, rgba(116,236,84,.22), rgba(30,55,30,.6) 38%, transparent 39%), #11210f;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .orbit-preview::before {
+    content: '';
+    position: absolute;
+    width: 180px;
+    height: 180px;
+    border: 1px dashed rgba(255,255,255,.25);
+    border-radius: 50%;
+  }
+
+  .orbit-preview span {
+    z-index: 1;
+    font-weight: 850;
+  }
+
+  .group-card {
+    min-height: 64px;
+    display: grid;
+    grid-template-columns: 48px 1fr auto;
+    align-items: center;
+    gap: 12px;
+    padding: 11px;
+  }
+
+  .group-img {
+    width: 42px;
+    height: 42px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: #e8e8e8;
+    font-size: 24px;
+  }
+
+  .group-title { font-size: 12px; font-weight: 850; }
+  .group-members { margin-top: 5px; color: rgba(255,255,255,.48); font-size: 11px; }
+  .join-pill {
+    border: 0;
+    border-radius: 999px;
+    background: #fff;
+    color: #050505;
+    padding: 10px 14px;
+    font-size: 12px;
+    font-weight: 850;
+  }
+
+  .permission-list {
+    display: grid;
+    gap: 16px;
+    margin-top: 28px;
+  }
+
+  .permission-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 14px;
+    align-items: center;
+    background: transparent;
+    border-bottom: 1px solid rgba(255,255,255,.1);
+    border-radius: 0;
+    padding: 0 0 13px;
+  }
+
+  .permission-title { font-size: 13px; font-weight: 850; }
+  .permission-copy { margin-top: 6px; color: rgba(255,255,255,.45); font-size: 11px; }
+  .permission-row.disabled { opacity: .38; }
+
+  .allow-btn {
+    border: 0;
+    border-radius: 999px;
+    background: #fff;
+    color: #050505;
+    padding: 10px 15px;
+    font-size: 12px;
+    font-weight: 850;
+  }
+
+  .permission-help {
+    margin-top: auto;
+    border: 0;
+    border-radius: 999px;
+    background: #10280c;
+    color: #8bec67;
+    padding: 13px 15px;
+    text-align: left;
+    font-size: 11px;
+  }
+
+  .rega-note {
+    width: 100%;
+    margin-top: auto;
+    border-radius: 7px;
+    background: rgba(255,255,255,.1);
+    color: rgba(255,255,255,.72);
+    padding: 11px;
+    text-align: center;
+    font-size: 11px;
+  }
+
+  .onboarding-actions {
+    margin-top: auto;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .onboarding-back,
+  .onboarding-skip {
+    justify-content: center;
+    border: 0;
+    background: transparent;
+    color: #fff;
+    padding: 8px 12px;
+  }
+
+  .onboarding-back { display: none !important; }
+
+  .onboarding-next {
+    min-height: 52px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 999px;
+    background: #fffefa;
+    color: #040604;
+    box-shadow: none;
+    transform: none;
+  }
+
+  .onboarding-next:disabled {
+    background: #3a3a3a;
+    color: rgba(255,255,255,.45);
+    cursor: not-allowed;
+  }
+
   .customize-hero {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(260px, .38fr);
@@ -4739,6 +5388,111 @@
     .launch-needle { animation: launchNeedle 1.75s ease .75s forwards !important; }
     .launch-title { animation: launchTitleIn 1.25s ease 2.15s forwards !important; }
   }
+
+  #login-screen .login-box {
+    min-height: min(720px, 100vh);
+    width: min(100vw, 390px);
+    max-width: 100vw;
+    padding: 24px 24px 18px;
+    border: 0;
+    border-radius: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    background: linear-gradient(180deg, rgba(0,0,0,.06), rgba(0,18,8,.18) 36%, rgba(0,0,0,.76));
+    box-shadow: none;
+  }
+
+  #login-screen .login-box::before,
+  #login-screen .login-box::after { display: none; }
+
+  #login-screen .login-logo {
+    position: absolute;
+    top: 56px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 9px;
+    color: #8ee65f;
+    background: none;
+    -webkit-text-fill-color: currentColor;
+    font-size: 25px;
+    font-weight: 650;
+  }
+
+  #login-screen .login-logo::before {
+    content: '';
+    width: 34px;
+    height: 34px;
+    display: inline-block;
+    background: url("studymeter-icon.svg") center/contain no-repeat;
+  }
+
+  #login-screen .login-tagline {
+    order: -1;
+    margin: 0 auto auto;
+    padding-top: min(32vh, 210px);
+    max-width: 270px;
+    color: #fff;
+    text-align: center;
+    font-size: 27px;
+    line-height: 1.18;
+    font-weight: 900;
+  }
+
+  #login-screen .login-tagline::before {
+    content: '#1';
+    display: block;
+    color: #7be95d;
+    font-size: 32px;
+    line-height: 1;
+    margin-bottom: 9px;
+  }
+
+  #login-screen .login-input {
+    min-height: 48px;
+    border: 0;
+    border-radius: 999px;
+    background: rgba(255,255,255,.94);
+    color: #071108;
+    text-align: center;
+  }
+
+  #login-screen .login-btn {
+    min-height: 52px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    border-radius: 999px;
+    background: #fffefa;
+    color: #060807;
+    font-weight: 800;
+    line-height: 1;
+    box-shadow: none;
+  }
+
+  #onboarding-overlay .onboarding-shell {
+    min-height: 100dvh;
+    width: min(390px, 100%);
+    padding: 0;
+    display: block;
+  }
+
+  #onboarding-overlay .onboarding-hero { display: none; }
+
+  #onboarding-overlay .onboarding-card {
+    min-height: 100dvh;
+    border: 0;
+    border-radius: 0;
+    padding: 28px 22px 18px;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(180deg, #101010, #061006 58%, #001906);
+    box-shadow: none;
+  }
 </style>
 </head>
 <body>
@@ -4804,14 +5558,14 @@
 <div id="login-screen">
   <div class="login-box">
     <div class="login-logo">StudyMeter</div>
-    <div class="login-tagline">Track your study time, build streaks, review weak chapters, and keep JEE preparation beautifully measurable.</div>
+    <div class="login-tagline">Study App for students to focus</div>
 
     <div class="login-field">
       <label>Your name / username</label>
-      <input class="login-input" type="text" id="login-name" placeholder="Enter your name to begin…" maxlength="30"
+      <input class="login-input" type="text" id="login-name" placeholder="Enter your name to begin..." maxlength="30"
         onkeydown="if(event.key==='Enter') doLogin()">
     </div>
-    <button class="login-btn" onclick="doLogin()">Start tracking now →</button>
+    <button class="login-btn" onclick="doLogin()">Get Started</button>
 
     <div class="login-users-list" id="existing-users-section" style="display:none">
       <div class="login-users-label">Continue as</div>
@@ -7090,39 +7844,67 @@ function bindOnboardingControls() {
     if (!choice) return;
     const group = choice.getAttribute('data-onboarding-choice');
     const value = choice.getAttribute('data-value');
+    if (choice.hasAttribute('data-multi')) {
+      const values = new Set(ensureArray(onboardingState[group]));
+      values.has(value) ? values.delete(value) : values.add(value);
+      onboardingState[group] = [...values];
+      choice.classList.toggle('active', values.has(value));
+      return;
+    }
     onboardingState[group] = value;
     document.querySelectorAll(`[data-onboarding-choice="${group}"]`).forEach(item => item.classList.toggle('active', item === choice));
+    if (choice.hasAttribute('data-auto-next')) window.setTimeout(nextOnboardingStep, 120);
   });
 }
 
 const ONBOARDING_STEPS = [
   {
-    art: 'GO',
-    heroTitle: 'Welcome to StudyMeter.',
-    heroCopy: 'Build a preparation dashboard that knows your exam, target, and study rhythm.',
-    title: 'Personalize your experience',
-    copy: 'Tell StudyMeter what kind of support you want most right now.'
+    kind: 'welcome',
+    title: 'StudyMeter',
+    next: 'Get Started'
   },
   {
-    art: 'JEE',
-    heroTitle: 'Choose your exam path.',
-    heroCopy: 'Your countdown, planning pressure, and recommendations will follow this attempt.',
-    title: 'Exam and appearance',
-    copy: 'Pick the JEE attempt you are preparing for and choose the look you prefer.'
+    kind: 'rega',
+    bubble: "Hi, I'm Rega. I'll help you stay focused on your studies!"
   },
   {
-    art: '6H',
-    heroTitle: 'Set your daily rhythm.',
-    heroCopy: 'A realistic target makes the dashboard useful from day one.',
-    title: 'Daily targets',
-    copy: 'Set the minimum study pace StudyMeter should hold you accountable to.'
+    kind: 'rega',
+    bubble: "Let's answer a few questions before we focus!"
   },
   {
-    art: 'WIN',
-    heroTitle: 'Your setup is ready.',
-    heroCopy: 'StudyMeter will create a first-day launch plan so you can start immediately.',
-    title: 'Launch plan',
-    copy: 'Review your setup and create your starter tasks.'
+    kind: 'distractions',
+    bubble: "What's your biggest distraction when you're trying to focus?"
+  },
+  {
+    kind: 'schedulePromo',
+    next: 'Schedule now!'
+  },
+  {
+    kind: 'time',
+    bubble: 'When do you study?'
+  },
+  {
+    kind: 'timeConfirm'
+  },
+  {
+    kind: 'examQuestion',
+    bubble: 'Are you preparing for any exams?'
+  },
+  {
+    kind: 'examSelect',
+    bubble: 'Which exam are you preparing for?'
+  },
+  {
+    kind: 'groupPromo'
+  },
+  {
+    kind: 'groups',
+    bubble: 'Join any of these IIT JEE groups'
+  },
+  {
+    kind: 'permissions',
+    bubble: 'Almost there, allow these permissions to focus alongside 4227 people now!',
+    next: 'Start StudyMeter'
   }
 ];
 
@@ -7131,11 +7913,15 @@ function getDefaultOnboardingState() {
     name: currentUser || '',
     reason: store.settings?.onboarding?.reason || 'accountability',
     exam: store.settings?.exam || currentExam || 'mains1',
-    theme: store.settings?.theme || localStorage.getItem(THEME_KEY) || 'light',
+    theme: 'dark',
     hours: store.settings?.goals?.hours || 6,
     questions: store.settings?.goals?.questions || 60,
     weakSubject: store.settings?.onboarding?.weakSubject || 'physics',
-    focusStyle: store.settings?.onboarding?.focusStyle || 'balanced'
+    focusStyle: store.settings?.onboarding?.focusStyle || 'balanced',
+    distractions: store.settings?.onboarding?.distractions || ['reels', 'notifications', 'texting', 'games'],
+    timeSlot: store.settings?.onboarding?.timeSlot || 'morning',
+    examPrep: store.settings?.onboarding?.examPrep || '',
+    group: store.settings?.onboarding?.group || ''
   };
 }
 
@@ -7160,106 +7946,203 @@ function closeOnboarding(markDone = false) {
 
 function renderOnboarding() {
   const step = ONBOARDING_STEPS[onboardingStep];
-  document.getElementById('onboarding-art').textContent = step.art;
-  document.getElementById('onboarding-hero-title').textContent = step.heroTitle;
-  document.getElementById('onboarding-hero-copy').textContent = step.heroCopy;
+  document.getElementById('onboarding-art').textContent = 'SM';
+  document.getElementById('onboarding-hero-title').textContent = 'StudyMeter';
+  document.getElementById('onboarding-hero-copy').textContent = 'Focus setup';
   document.getElementById('onboarding-step-label').textContent = `Step ${onboardingStep + 1} / ${ONBOARDING_STEPS.length}`;
   document.getElementById('onboarding-dots').innerHTML = ONBOARDING_STEPS.map((_, index) =>
     `<span class="onboarding-dot ${index < onboardingStep ? 'done' : index === onboardingStep ? 'active' : ''}"></span>`
   ).join('');
   document.getElementById('onboarding-content').innerHTML = `
-    <h3 class="onboarding-title">${escapeHtml(step.title)}</h3>
-    <p class="onboarding-copy">${escapeHtml(step.copy)}</p>
+    <h3 class="onboarding-title">${escapeHtml(step.title || '')}</h3>
+    <p class="onboarding-copy">${escapeHtml(step.bubble || '')}</p>
     ${renderOnboardingStep()}
   `;
   document.getElementById('onboarding-back').style.display = onboardingStep === 0 ? 'none' : 'inline-flex';
-  document.getElementById('onboarding-skip').style.display = onboardingStep === ONBOARDING_STEPS.length - 1 ? 'none' : 'inline-flex';
-  document.getElementById('onboarding-next').textContent = onboardingStep === ONBOARDING_STEPS.length - 1 ? 'Get started' : 'Continue';
+  document.getElementById('onboarding-skip').style.display = onboardingStep === 10 ? 'inline-flex' : 'none';
+  document.getElementById('onboarding-next').textContent = step.next || (onboardingStep === ONBOARDING_STEPS.length - 1 ? 'Start StudyMeter' : 'Continue');
+  document.getElementById('onboarding-next').disabled = isOnboardingNextDisabled();
   syncOnboardingInputs();
 }
 
 function renderOnboardingStep() {
-  if (onboardingStep === 0) {
-    return `
-      <div class="onboarding-field">
-        <label for="onboarding-name">What should StudyMeter call you?</label>
-        <input id="onboarding-name" type="text" maxlength="30" value="${escapeHtml(onboardingState.name)}" placeholder="Your name">
+  const step = ONBOARDING_STEPS[onboardingStep];
+  if (step.kind === 'welcome') return `
+    <div class="rega-scene">
+      <div class="rega-logo">StudyMeter</div>
+      <div class="rega-hero-rank">#1</div>
+      <div class="rega-hero-title">Study App for students to focus</div>
+      <div class="rega-proof">
+        <div class="rega-proof-item">Trusted by<strong>2M</strong>students</div>
+        <div class="rega-proof-item">Rated<strong>4.6 stars</strong>Users</div>
       </div>
-      <div class="onboarding-grid">
-        ${onboardingChoice('reason', 'motivation', 'XP', 'Motivation', 'Keep streaks, medals, and visible momentum in front.')}
-        ${onboardingChoice('reason', 'accountability', 'DO', 'Accountability', 'Get daily targets, reminders, and honest next actions.')}
-        ${onboardingChoice('reason', 'analysis', 'IQ', 'Analysis', 'Focus on mocks, weak chapters, and progress patterns.')}
-      </div>
-    `;
-  }
-  if (onboardingStep === 1) {
-    return `
-      <div class="onboarding-mini-grid">
-        <div class="onboarding-field">
-          <label for="onboarding-exam">Primary exam attempt</label>
-          <select id="onboarding-exam">
-            <option value="mains1">JEE Main S1 2027</option>
-            <option value="mains2">JEE Main S2 2027</option>
-            <option value="advanced">JEE Advanced 2027</option>
-          </select>
-        </div>
-        <div class="onboarding-field">
-          <label for="onboarding-theme">Appearance</label>
-          <select id="onboarding-theme">
-            <option value="light">Light / white</option>
-            <option value="dark">Dark</option>
-          </select>
-        </div>
-      </div>
-      <div class="onboarding-grid two">
-        ${onboardingChoice('focusStyle', 'balanced', '50-10', 'Balanced sessions', 'A steady mix of study, revision, and breaks.')}
-        ${onboardingChoice('focusStyle', 'deep', '90', 'Deep work blocks', 'Longer sessions for chapters, mocks, and hard problem sets.')}
-      </div>
-    `;
-  }
-  if (onboardingStep === 2) {
-    return `
-      <div class="onboarding-mini-grid">
-        <div class="onboarding-field">
-          <label for="onboarding-hours">Daily study goal (hours)</label>
-          <input id="onboarding-hours" type="number" min="0.5" max="16" step="0.5" value="${Number(onboardingState.hours)}">
-        </div>
-        <div class="onboarding-field">
-          <label for="onboarding-questions">Daily question goal</label>
-          <input id="onboarding-questions" type="number" min="5" max="500" step="5" value="${Number(onboardingState.questions)}">
-        </div>
-      </div>
-      <div class="onboarding-field">
-        <label>Which subject needs the most attention first?</label>
-      </div>
-      <div class="onboarding-grid">
-        ${onboardingChoice('weakSubject', 'physics', 'Ph', 'Physics', 'Mechanics, electricity, optics, and modern physics.')}
-        ${onboardingChoice('weakSubject', 'chemistry', 'Ch', 'Chemistry', 'Physical, organic, inorganic, and reactions.')}
-        ${onboardingChoice('weakSubject', 'mathematics', 'Ma', 'Mathematics', 'Algebra, calculus, coordinate geometry, and vectors.')}
-      </div>
-    `;
-  }
-  const examNames = { mains1: 'JEE Main S1 2027', mains2: 'JEE Main S2 2027', advanced: 'JEE Advanced 2027' };
-  return `
-    <div class="onboarding-summary">
-      <div class="summary-row"><span>Primary reason</span><span>${escapeHtml(labelize(onboardingState.reason))}</span></div>
-      <div class="summary-row"><span>Exam</span><span>${escapeHtml(examNames[onboardingState.exam] || 'JEE Main S1 2027')}</span></div>
-      <div class="summary-row"><span>Appearance</span><span>${onboardingState.theme === 'dark' ? 'Dark' : 'Light'}</span></div>
-      <div class="summary-row"><span>Daily pace</span><span>${Number(onboardingState.hours)}h / ${Number(onboardingState.questions)} Qs</span></div>
-      <div class="summary-row"><span>First weak subject</span><span>${escapeHtml(labelize(onboardingState.weakSubject))}</span></div>
     </div>
-    <p class="onboarding-copy">When you continue, StudyMeter will save these settings and create a few useful starter tasks for today.</p>
+  `;
+  if (step.kind === 'rega') return `
+    <div class="rega-scene rega-centered">
+      <div class="rega-bubble">${escapeHtml(step.bubble)}</div>
+      <div class="rega-avatar" aria-label="Rega"></div>
+    </div>
+  `;
+  if (step.kind === 'distractions') return `
+    <div class="rega-scene">
+      ${regaHeader(step.bubble)}
+      <div class="rega-options">
+        ${onboardingChoice('distractions', 'reels', '🙏', 'Scrolling reels & shorts', '', true)}
+        ${onboardingChoice('distractions', 'notifications', '🔔', 'Distractions from notifications', '', true)}
+        ${onboardingChoice('distractions', 'texting', '📱', 'Texting on my phone', '', true)}
+        ${onboardingChoice('distractions', 'games', '🎮', 'Games', '', true)}
+      </div>
+    </div>
+  `;
+  if (step.kind === 'schedulePromo') return `
+    <div class="rega-scene">
+      <div class="phone-preview">
+        <div class="timer-orb">25:00</div>
+        <div class="schedule-card-grid">
+          <div class="mini-schedule">☀️ Afternoon<br><small>2:00 PM - 4:00 PM</small></div>
+          <div class="mini-schedule">🌥️ Evening<br><small>6:00 PM - 8:00 PM</small></div>
+          <div class="mini-schedule">🧪 Chemistry<br><small>11:00 PM - 7:00 PM</small></div>
+          <div class="mini-schedule">📚 Physics<br><small>8:00 AM - 10:00 AM</small></div>
+        </div>
+      </div>
+      <div class="rega-feature-title">Schedule focus sessions to beat procrastination and stay consistent</div>
+    </div>
+  `;
+  if (step.kind === 'time') return `
+    <div class="rega-scene">
+      ${regaHeader(step.bubble)}
+      <div class="rega-options">
+        ${timeChoice('morning', '🌤️', 'Morning', '6AM - 8AM')}
+        ${timeChoice('afternoon', '☀️', 'Afternoon', '2PM - 4PM')}
+        ${timeChoice('evening', '🌥️', 'Evening', '6PM - 8PM')}
+        ${timeChoice('night', '🌙', 'Night', '8PM - 10PM')}
+      </div>
+      <div class="rega-note">You can edit the time later</div>
+    </div>
+  `;
+  if (step.kind === 'timeConfirm') return `
+    <div class="rega-scene">
+      <div class="setup-preview">
+        <div>
+          <div style="font-size:42px">${timeSlotMeta().icon}</div>
+          <strong>${escapeHtml(timeSlotMeta().title)} Study set up!</strong>
+          <span>${escapeHtml(timeSlotMeta().time)}</span>
+        </div>
+      </div>
+      <div class="rega-note">You can edit the time later</div>
+    </div>
+  `;
+  if (step.kind === 'examQuestion') return `
+    <div class="rega-scene">
+      ${regaHeader(step.bubble)}
+      <div class="rega-options">
+        ${onboardingChoice('examPrep', 'yes', '', 'Yes', '', false, true)}
+        ${onboardingChoice('examPrep', 'no', '', 'No', '', false, true)}
+      </div>
+    </div>
+  `;
+  if (step.kind === 'examSelect') return `
+    <div class="rega-scene">
+      ${regaHeader(step.bubble)}
+      <div class="rega-options">
+        ${onboardingChoice('exam', 'mains1', '', 'IIT JEE', 'JEE Main S1 2027')}
+        ${onboardingChoice('exam', 'advanced', '', 'NEET', 'Use this as your high-focus exam mode')}
+        ${onboardingChoice('exam', 'mains2', '', 'Class 12', 'Board + entrance preparation')}
+        ${onboardingChoice('exam', 'class11', '', 'Class 11', 'Build fundamentals early')}
+        ${onboardingChoice('exam', 'class10', '', 'Class 10', 'School focus plan')}
+        ${onboardingChoice('exam', 'upsc', '', 'UPSC', 'Long-term consistency mode')}
+      </div>
+    </div>
+  `;
+  if (step.kind === 'groupPromo') return `
+    <div class="rega-scene">
+      <div class="orbit-preview"><span>${escapeHtml(examGroupName())}</span></div>
+      <div class="rega-feature-title">Join a <span style="color:#7ded5e">${escapeHtml(examGroupName())} Focus Group</span> to study together and stay accountable</div>
+    </div>
+  `;
+  if (step.kind === 'groups') return `
+    <div class="rega-scene">
+      ${regaHeader(step.bubble)}
+      <div class="rega-options">
+        ${groupChoice('100 Hours Challenge 🏆📚', '791 members', '🏫')}
+        ${groupChoice('IITians’ Hub 💞', '3.8k+ members', '⌛')}
+        ${groupChoice('Prayas 1.0 2026 JEE Drop...', '2.5k+ members', '📖')}
+      </div>
+    </div>
+  `;
+  return `
+    <div class="rega-scene">
+      ${regaHeader(step.bubble)}
+      <div class="permission-list">
+        <div class="permission-row"><div><div class="permission-title">Usage permission</div><div class="permission-copy">This allows us to track your app usage.</div></div><button class="allow-btn" type="button">Allow</button></div>
+        <div class="permission-row disabled"><div><div class="permission-title">Allow Notifications</div></div></div>
+        <div class="permission-row disabled"><div><div class="permission-title">Background permission</div></div></div>
+        <div class="permission-row disabled"><div><div class="permission-title">Display over other apps</div></div></div>
+      </div>
+      <button class="permission-help" type="button">? &nbsp; Why should I give this permission? <span style="float:right">›</span></button>
+      <div style="text-align:center;color:rgba(255,255,255,.55);font-size:10px">Trusted by 2M+ students 💗</div>
+    </div>
   `;
 }
 
-function onboardingChoice(group, value, icon, title, copy) {
+function regaHeader(text) {
+  return `<div class="rega-row"><div class="rega-avatar" aria-label="Rega"></div><div class="rega-bubble">${escapeHtml(text)}</div></div>`;
+}
+
+function onboardingChoice(group, value, icon, title, copy = '', multi = false, autoNext = false) {
+  const active = multi ? ensureArray(onboardingState[group]).includes(value) : onboardingState[group] === value;
   return `
-    <button class="onboarding-choice ${onboardingState[group] === value ? 'active' : ''}" type="button" data-onboarding-choice="${group}" data-value="${value}">
+    <button class="rega-choice ${active ? 'active' : ''}" type="button" data-onboarding-choice="${group}" data-value="${value}" ${multi ? 'data-multi="true"' : ''} ${autoNext ? 'data-auto-next="true"' : ''}>
       <span class="choice-icon">${escapeHtml(icon)}</span>
-      <span class="choice-title">${escapeHtml(title)}</span>
-      <span class="choice-copy">${escapeHtml(copy)}</span>
+      <span><span class="choice-title">${escapeHtml(title)}</span>${copy ? `<span class="choice-copy">${escapeHtml(copy)}</span>` : ''}</span>
+      <span class="choice-check"></span>
     </button>
   `;
+}
+
+function timeChoice(value, icon, title, time) {
+  return `
+    <button class="time-card ${onboardingState.timeSlot === value ? 'active' : ''}" type="button" data-onboarding-choice="timeSlot" data-value="${value}">
+      <span class="time-icon">${escapeHtml(icon)}</span>
+      <span><span class="time-title">${escapeHtml(title)}</span><span class="time-copy">${escapeHtml(time)}</span></span>
+      <span class="choice-check"></span>
+    </button>
+  `;
+}
+
+function timeSlotMeta() {
+  const slots = {
+    morning: { icon: '🌤️', title: 'Morning', time: '6AM - 8AM' },
+    afternoon: { icon: '☀️', title: 'Afternoon', time: '2PM - 4PM' },
+    evening: { icon: '🌥️', title: 'Evening', time: '6PM - 8PM' },
+    night: { icon: '🌙', title: 'Night', time: '8PM - 10PM' }
+  };
+  return slots[onboardingState.timeSlot] || slots.morning;
+}
+
+function groupChoice(title, members, icon) {
+  const active = onboardingState.group === title;
+  return `
+    <div class="group-card ${active ? 'active' : ''}">
+      <div class="group-img">${escapeHtml(icon)}</div>
+      <div><div class="group-title">${escapeHtml(title)}</div><div class="group-members">${escapeHtml(members)}</div></div>
+      <button class="join-pill" type="button" data-onboarding-choice="group" data-value="${escapeHtml(title)}">Join</button>
+    </div>
+  `;
+}
+
+function examGroupName() {
+  const names = { mains1: 'IIT JEE', mains2: 'Class 12', advanced: 'NEET', class11: 'Class 11', class10: 'Class 10', upsc: 'UPSC' };
+  return names[onboardingState.exam] || 'IIT JEE';
+}
+
+function isOnboardingNextDisabled() {
+  const kind = ONBOARDING_STEPS[onboardingStep]?.kind;
+  if (kind === 'time') return !onboardingState.timeSlot;
+  if (kind === 'examQuestion') return !onboardingState.examPrep;
+  if (kind === 'examSelect') return !onboardingState.exam;
+  return false;
 }
 
 function labelize(value) {
@@ -7267,34 +8150,11 @@ function labelize(value) {
 }
 
 function syncOnboardingInputs() {
-  const exam = document.getElementById('onboarding-exam');
-  const theme = document.getElementById('onboarding-theme');
-  if (exam) exam.value = onboardingState.exam;
-  if (theme) theme.value = onboardingState.theme;
+  document.getElementById('onboarding-next').disabled = isOnboardingNextDisabled();
 }
 
 function captureOnboardingStep() {
-  const name = document.getElementById('onboarding-name');
-  const exam = document.getElementById('onboarding-exam');
-  const theme = document.getElementById('onboarding-theme');
-  const hours = document.getElementById('onboarding-hours');
-  const questions = document.getElementById('onboarding-questions');
-  if (name) {
-    onboardingState.name = name.value.trim();
-    if (!onboardingState.name) return markInvalid(name, 'Add your name to personalize the app');
-  }
-  if (exam) onboardingState.exam = exam.value;
-  if (theme) onboardingState.theme = theme.value;
-  if (hours) {
-    const value = Number(hours.value);
-    if (value < 0.5 || value > 16) return markInvalid(hours, 'Choose 0.5 to 16 study hours');
-    onboardingState.hours = value;
-  }
-  if (questions) {
-    const value = Number(questions.value);
-    if (value < 5 || value > 500) return markInvalid(questions, 'Choose 5 to 500 questions');
-    onboardingState.questions = value;
-  }
+  if (isOnboardingNextDisabled()) return false;
   return true;
 }
 
@@ -7315,8 +8175,8 @@ function previousOnboardingStep() {
 }
 
 function skipOnboarding() {
-  if (!confirm('Skip setup? You can reopen the Setup Guide from the sidebar anytime.')) return;
-  closeOnboarding(true);
+  onboardingStep++;
+  renderOnboarding();
 }
 
 function finishOnboarding() {
@@ -7325,13 +8185,17 @@ function finishOnboarding() {
   store.settings.onboarding = {
     reason: onboardingState.reason,
     weakSubject: onboardingState.weakSubject,
-    focusStyle: onboardingState.focusStyle
+    focusStyle: onboardingState.focusStyle,
+    distractions: ensureArray(onboardingState.distractions),
+    timeSlot: onboardingState.timeSlot,
+    examPrep: onboardingState.examPrep,
+    group: onboardingState.group
   };
   store.settings.goals = {
     hours: Number(onboardingState.hours),
     questions: Number(onboardingState.questions)
   };
-  currentExam = onboardingState.exam;
+  currentExam = EXAM_DATES[onboardingState.exam] ? onboardingState.exam : 'mains1';
   currentExamDate = EXAM_DATES[currentExam] || EXAM_DATES.mains1;
   store.settings.exam = currentExam;
   const examSelect = document.getElementById('exam-selector');
