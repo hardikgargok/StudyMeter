@@ -5873,6 +5873,21 @@
     display: grid;
     align-content: center;
   }
+
+  body.dashboard-simple #page-planner .planner-boost,
+  body.dashboard-simple #page-planner .planner-filters,
+  body.dashboard-simple #page-planner aside {
+    display: none;
+  }
+
+  body.dashboard-simple #page-planner .planner-layout {
+    grid-template-columns: minmax(0, 760px);
+    justify-content: center;
+  }
+
+  body.dashboard-simple #page-planner .quick-capture {
+    margin-bottom: 16px;
+  }
 </style>
 </head>
 <body>
@@ -6626,10 +6641,10 @@
   <div class="page" id="page-planner">
     <div class="page-header">
       <div>
-        <div class="page-title">Study Planner</div>
-        <div class="page-subtitle">Turn goals into a realistic daily plan and never lose track of revision.</div>
+        <div class="page-title">Today's Plan</div>
+        <div class="page-subtitle">Keep only the tasks you can realistically finish today.</div>
       </div>
-      <button class="btn-primary" onclick="openTaskModal()">+ Add Task</button>
+      <button class="btn-primary" onclick="openTaskModal()">+ Add task</button>
     </div>
     <div class="planner-layout">
       <section>
@@ -6641,7 +6656,7 @@
           <button class="btn-primary" onclick="generateTodaysPlan()">Generate today's plan</button>
         </div>
         <div class="quick-capture">
-          <input id="quick-task-input" type="text" maxlength="120" placeholder="Quick add: what needs to get done?" onkeydown="if(event.key==='Enter') quickAddTask()">
+          <input id="quick-task-input" type="text" maxlength="120" placeholder="Add one task for today..." onkeydown="if(event.key==='Enter') quickAddTask()">
           <button class="btn-primary" onclick="quickAddTask()">Add to today</button>
         </div>
         <div class="planner-filters" id="planner-filters">
@@ -10537,9 +10552,14 @@ function quickAddTask() {
 
 function setTaskFilter(filter, button) {
   taskFilter = filter;
-  document.querySelectorAll('#planner-filters .filter-pill').forEach(item => item.classList.remove('active'));
-  button.classList.add('active');
+  syncTaskFilterButtons(button);
   renderTaskList();
+}
+
+function syncTaskFilterButtons(button = null) {
+  document.querySelectorAll('#planner-filters .filter-pill').forEach(item => {
+    item.classList.toggle('active', button ? item === button : item.dataset.filter === taskFilter);
+  });
 }
 
 function toggleTask(id) {
@@ -10644,6 +10664,8 @@ function updatePlannerBadge() {
 }
 
 function renderPlanner() {
+  if (document.body.classList.contains('dashboard-simple') && taskFilter === 'open') taskFilter = 'today';
+  syncTaskFilterButtons();
   renderTaskList();
   renderGoalProgress();
   renderRevisionQueue();

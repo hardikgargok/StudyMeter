@@ -238,6 +238,12 @@ Optimize: simple mode hides ambience/history on Focus and centers the timer card
 Benchmark: matched Forest and Headspace by keeping the active session screen calm and single-purpose.
 Reflect: next friction is the Planner page, which still exposes generator, filters, targets, and revision queue together.
 
+### Loop 10
+Audit: Planner showed generator, quick capture, five filters, daily targets, and revision queue at once.
+Optimize: simple mode turns Planner into "Today's Plan", hides filters/generator/side panels, and defaults the task list to tasks due today.
+Benchmark: matched Todoist's Today-first flow and Things-style focus on the immediate list.
+Reflect: next friction is whether Study Log can be reduced to a fast save flow after focus ends.
+
 ## Next Engineering Priorities
 1. Make next-action recommendations more specific from onboarding choices.
 2. Pin the selected study time on the dashboard.
@@ -246,3 +252,4 @@ Reflect: next friction is the Planner page, which still exposes generator, filte
 5. Add a small "What's new" update message after GitHub Pages deploys.
 6. Watch first-session behavior: if students do not tap "Start 25 min", the dashboard copy still needs simplification.
 7. Simplify Planner into "Today", "Upcoming", and "Done" after validating the new Focus start path.
+8. Reduce Study Log to a fast post-focus save screen in simple mode.
