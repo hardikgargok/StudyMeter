@@ -448,12 +448,17 @@ Optimize: added a visible Focus completion strip with "Log today" and "Start ano
 Benchmark: matched habit and workout apps that celebrate completion and immediately offer the next useful action.
 Reflect: next friction is making the next-action engine use onboarding choices more aggressively instead of sorting mostly by due date and priority.
 
+### Loop 21
+Audit: the dashboard's next task was still mostly sorted by due date and priority, so onboarding intent did not strongly shape the first recommendation.
+Optimize: added setup-aware task scoring: focus goals favor protected focus tasks, analysis goals favor repair/weak/mistake tasks, and consistency goals favor solve/revise/log daily tasks.
+Benchmark: matched Duolingo-style personalization where the first action reflects the learner's stated goal.
+Reflect: next friction is measuring real first-session behavior so the recommendation rules can be tuned from evidence instead of guesswork.
+
 ## Next Engineering Priorities
-1. Make next-action recommendations more specific from onboarding choices: goal, distraction, time slot, and exam path should change the first dashboard task.
-2. Add a simple first-run analytics checklist: reached dashboard, tapped Start 25 min, logged study, opened Mistake Repair.
-3. Build the six launch screenshots exactly from the Store and Launch Assets section.
-4. Test with 5 students and record: setup completion, first tap choice, dashboard understanding, focus-start willingness, and confusion words they say aloud.
-5. If fewer than 4 of 5 students tap Start 25 min first, simplify the dashboard card again and remove Search from the first action row.
-6. If fewer than 3 of 5 students understand Mistake Repair, rename the button to "Fix test mistakes" and retest.
-7. Keep advanced tools behind full mode unless a student reaches them through Search or an explicit page tap.
-8. Bump the service-worker cache name on every major UI release and verify GitHub Pages serves the new marker before telling APK users the update is live.
+1. Add a simple first-run analytics checklist: reached dashboard, tapped Start 25 min, logged study, opened Mistake Repair.
+2. Build the six launch screenshots exactly from the Store and Launch Assets section.
+3. Test with 5 students and record: setup completion, first tap choice, dashboard understanding, focus-start willingness, and confusion words they say aloud.
+4. If fewer than 4 of 5 students tap Start 25 min first, simplify the dashboard card again and remove Search from the first action row.
+5. If fewer than 3 of 5 students understand Mistake Repair, rename the button to "Fix test mistakes" and retest.
+6. Keep advanced tools behind full mode unless a student reaches them through Search or an explicit page tap.
+7. Bump the service-worker cache name on every major UI release and verify GitHub Pages serves the new marker before telling APK users the update is live.

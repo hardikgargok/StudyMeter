@@ -7534,7 +7534,7 @@ let store = {};
 const USER_REGISTRY_KEY = 'studymeter_users_registry';
 const LAST_USER_KEY = 'studymeter_last_user';
 const THEME_KEY = 'studymeter_theme';
-const APP_RELEASE = 'excellence-v4';
+const APP_RELEASE = 'excellence-v5';
 const USER_COLORS = ['#5b9ef9','#34d399','#fb923c','#a78bfa','#fb7185','#fbbf24','#e879f9','#22d3ee'];
 const subjectSearch = { physics: '', chemistry: '', mathematics: '' };
 let notesSaveTimer = null;
@@ -9012,8 +9012,23 @@ function renderStudentLaunch() {
   const todayTasks = openTasks.filter(task => task.due === today);
   const revisions = getRevisionQueue();
   const studyWindow = timeSlotMeta(store.settings?.onboarding?.timeSlot);
+  const onboarding = store.settings?.onboarding || {};
   const priorityRank = { high: 0, medium: 1, low: 2 };
-  const nextTask = [...overdue, ...todayTasks, ...openTasks].sort((a, b) =>
+  const scoreTaskForSetup = task => {
+    const text = `${task.title || ''} ${task.notes || ''} ${task.subject || ''}`.toLowerCase();
+    let score = 0;
+    if (task.due && task.due < today) score -= 50;
+    if (task.due === today) score -= 35;
+    score += (priorityRank[task.priority || 'medium'] || 1) * 6;
+    score += Math.max(0, Number(task.minutes || 30) - 25) / 20;
+    if (onboarding.reason === 'focus' && /(focus|protect|block|session)/.test(text)) score -= 24;
+    if (onboarding.reason === 'analysis' && /(repair|weak|mistake|mock|test)/.test(text)) score -= 24;
+    if (onboarding.reason === 'accountability' && /(solve|revise|log|daily|question)/.test(text)) score -= 16;
+    if (onboarding.examPath && text.includes(String(onboarding.examPath).replace(/\d/g, '').toLowerCase())) score -= 4;
+    return score;
+  };
+  const nextTask = [...openTasks].sort((a, b) =>
+    scoreTaskForSetup(a) - scoreTaskForSetup(b) ||
     (a.due || '9999').localeCompare(b.due || '9999') ||
     priorityRank[a.priority || 'medium'] - priorityRank[b.priority || 'medium']
   )[0];
