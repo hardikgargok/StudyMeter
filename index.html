@@ -11188,9 +11188,23 @@ function buildCommandItems() {
   }));
 
   const pref = getPersonalization();
+  const simpleMode = store.settings?.dashboardMode !== 'full';
+  const simplePages = new Set(['dashboard', 'planner', 'focus', 'study-log', 'mock-tests', 'test-log']);
+  const simpleActions = new Set([
+    'Log study session',
+    "Generate today's plan",
+    'Add planner task',
+    'Add test repair',
+    'Switch to light mode',
+    'Switch to dark mode',
+    'Export backup'
+  ]);
   return [...actions, ...pages, ...chapters].filter(item => {
     const page = item.page || String(item.action || '').match(/showPage\('([^']+)'\)/)?.[1];
-    return !page || page === 'dashboard' || page === 'personalize' || pref.modules?.[page] !== false;
+    const moduleVisible = !page || page === 'dashboard' || page === 'personalize' || pref.modules?.[page] !== false;
+    if (!moduleVisible) return false;
+    if (!simpleMode) return true;
+    return (page && simplePages.has(page)) || simpleActions.has(item.title);
   });
 }
 

@@ -256,6 +256,12 @@ Optimize: renamed the surface to "Mistake Repair", changed the primary action to
 Benchmark: matched Khan Academy and Todoist by framing errors as actionable repair work instead of passive analytics.
 Reflect: next friction is the command palette, which still exposes too many advanced actions in simple mode.
 
+### Loop 13
+Audit: Command Palette could still expose advanced tools even when the visible app was in simple mode.
+Optimize: simple mode now filters commands to core pages and actions: Dashboard, Today's Plan, Focus, Log Study, Mock Tests, Mistake Repair, plan generation, task add, repair add, theme, and export.
+Benchmark: matched Raycast and Spotlight by keeping search powerful but context-aware.
+Reflect: next friction is copy consistency across nav, command search, and page titles after renaming Test Log.
+
 ## Next Engineering Priorities
 1. Make next-action recommendations more specific from onboarding choices.
 2. Pin the selected study time on the dashboard.
@@ -267,3 +273,4 @@ Reflect: next friction is the command palette, which still exposes too many adva
 8. Reduce Study Log to a fast post-focus save screen in simple mode.
 9. Make Test Log feel like "repair mistakes" instead of a data-entry spreadsheet.
 10. Filter command palette results by simple/full mode so new students do not see every advanced action at once.
+11. Audit every command/search/nav label after future page renames.
